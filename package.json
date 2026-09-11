@@ -1,0 +1,11 @@
+{
+  "name": "groundwork-ideas-prototype",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "build": "node scripts/build.mjs"
+  },
+  "dependencies": {},
+  "devDependencies": {}
+}
