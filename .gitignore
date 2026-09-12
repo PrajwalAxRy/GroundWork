@@ -1,4 +1,7 @@
 node_modules/
 dist/
+dist-*/
 .vite/
 *.tsbuildinfo
+.playwright-mcp/
+current-browser-page.png
