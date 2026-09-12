@@ -41,7 +41,6 @@ function stageMarkup(stage) {
 function cardMarkup(idea) {
   return `
     <article class="idea-card" data-id="${idea.id}">
-      <div class="idea-card__signal" aria-hidden="true"></div>
       <header class="idea-card__header">
         <div>
           ${idea.notice ? `<p class="notice notice--${idea.stages.some(s => s.state === 'failed') ? 'failed' : 'default'}"><span></span>${idea.notice}</p>` : ''}
