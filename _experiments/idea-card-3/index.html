@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="light" />
+    <meta name="theme-color" content="#f1f5f2" />
+    <link
+      rel="icon"
+      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M5 21.5c4.2-2.9 7.7-2.7 11-.4 3.3 2.3 6.8 2.5 11-.4M5 15.8c4.2-2.9 7.7-2.7 11-.4 3.3 2.3 6.8 2.5 11-.4M5 10.1c4.2-2.9 7.7-2.7 11-.4 3.3 2.3 6.8 2.5 11-.4' fill='none' stroke='%231e6a54' stroke-linecap='round' stroke-width='2.1'/%3E%3C/svg%3E"
+    />
+    <meta
+      name="description"
+      content="A development-only Groundwork Your Ideas dashboard prototype."
+    />
+    <title>Your ideas | Groundwork</title>
+    <link rel="stylesheet" href="./styles.css?v=5" />
+    <script type="module" src="./app.js?v=5"></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main-content">Skip to your ideas</a>
+
+    <header class="topbar">
+      <div class="topbar__inner">
+        <a class="brand" href="/ideas" data-action="home" aria-label="Groundwork, go to Your ideas">
+          <svg class="brand__mark" viewBox="0 0 32 32" aria-hidden="true">
+            <path d="M5 21.5c4.2-2.9 7.7-2.7 11-.4 3.3 2.3 6.8 2.5 11-.4" />
+            <path d="M5 15.8c4.2-2.9 7.7-2.7 11-.4 3.3 2.3 6.8 2.5 11-.4" />
+            <path d="M5 10.1c4.2-2.9 7.7-2.7 11-.4 3.3 2.3 6.8 2.5 11-.4" />
+          </svg>
+          <span>Groundwork</span>
+        </a>
+
+        <nav class="account-nav" aria-label="Account">
+          <button class="credits-control" type="button" data-action="credits">
+            <svg viewBox="0 0 20 20" aria-hidden="true">
+              <path d="M10 17.2a7.2 7.2 0 1 0 0-14.4 7.2 7.2 0 0 0 0 14.4Z" />
+              <path d="M10 6.4v7.2M7.7 8.1c.4-1 1.3-1.5 2.5-1.5 1.4 0 2.3.7 2.3 1.7 0 2.5-4.9 1.1-4.9 3.6 0 1 .9 1.7 2.4 1.7 1.2 0 2.1-.5 2.5-1.5" />
+            </svg>
+            <span class="credits-control__label">Credits</span>
+            <strong id="credit-balance">24</strong>
+          </button>
+
+          <div class="profile-shell">
+            <button
+              class="profile-control"
+              type="button"
+              data-action="profile"
+              aria-haspopup="menu"
+              aria-expanded="false"
+            >
+              <span class="profile-control__avatar" aria-hidden="true">PS</span>
+              <span class="profile-control__name">Prajjwal</span>
+              <svg viewBox="0 0 16 16" aria-hidden="true"><path d="m4 6 4 4 4-4" /></svg>
+            </button>
+            <div class="profile-menu" role="menu" hidden>
+              <p>Signed in as Prajjwal</p>
+              <button type="button" role="menuitem" data-action="account">Account</button>
+              <button type="button" role="menuitem" data-action="sign-out">Sign out</button>
+            </div>
+          </div>
+        </nav>
+      </div>
+    </header>
+
+    <main id="main-content" class="page-shell">
+      <section class="page-heading" aria-labelledby="page-title">
+        <div class="page-heading__copy">
+          <h1 id="page-title">Your ideas</h1>
+          <p>Pick up where you left off, or put a new thought to the test.</p>
+        </div>
+        <button
+          class="button button--primary new-idea-button"
+          type="button"
+          data-action="new-idea"
+          aria-controls="new-idea-composer"
+          aria-expanded="false"
+        >
+          <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 4v12M4 10h12" /></svg>
+          New idea
+        </button>
+        <div class="terrain-mask" aria-hidden="true">
+          <svg class="terrain-lines" viewBox="0 0 360 140">
+            <path d="M365 16c-52-9-94 2-121 32-27 31-59 42-96 35-37-8-72 2-104 28" />
+            <path d="M371 42c-47-7-84 3-108 29-27 29-56 39-88 32-43-10-83 1-119 32" />
+            <path d="M376 69c-37-5-68 3-91 24-28 27-57 35-88 26-44-12-86-1-125 33" />
+            <path d="M381 96c-31-3-56 3-76 19-28 23-56 29-84 20-43-14-86-5-126 28" />
+          </svg>
+        </div>
+      </section>
+
+      <section id="new-idea-composer" class="idea-composer" aria-labelledby="composer-title" hidden>
+        <div>
+          <h2 id="composer-title">What are you thinking about building?</h2>
+          <p>A rough sentence is enough. Shape will help with the rest.</p>
+        </div>
+        <form id="new-idea-form">
+          <label class="sr-only" for="idea-thought">Your startup idea</label>
+          <textarea
+            id="idea-thought"
+            name="ideaThought"
+            rows="3"
+            maxlength="320"
+            placeholder="For example, a calmer way for small teams to collect client feedback…"
+            required
+          ></textarea>
+          <div class="composer__footer">
+            <div class="starter-list" aria-label="Example idea starters">
+              <span>Try an example:</span>
+              <button type="button" data-example="A simple way for neighborhood shops to share excess delivery capacity">
+                Local delivery
+              </button>
+              <button type="button" data-example="A tool that helps independent consultants spot scope creep before invoices are disputed">
+                Scope clarity
+              </button>
+            </div>
+            <div class="composer__actions">
+              <button class="button button--quiet" type="button" data-action="cancel-new-idea">Cancel</button>
+              <button class="button button--primary" type="submit" disabled>Start shaping</button>
+            </div>
+          </div>
+        </form>
+      </section>
+
+      <section class="ideas-section" aria-labelledby="ideas-count">
+        <div class="ideas-section__heading">
+          <h2 id="ideas-count">Loading ideas</h2>
+          <p>Most recently updated first</p>
+        </div>
+        <div id="ideas-content" aria-busy="true"></div>
+      </section>
+    </main>
+
+    <div class="toast" role="status" aria-live="polite" aria-atomic="true" hidden>
+      <svg viewBox="0 0 20 20" aria-hidden="true"><path d="m5 10.2 3.1 3L15.2 6" /></svg>
+      <span></span>
+    </div>
+  </body>
+</html>
