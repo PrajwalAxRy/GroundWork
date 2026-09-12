@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#f3f5f0" />
+    <meta name="description" content="Groundwork idea card experiment five" />
+    <title>Your ideas | Groundwork experiment</title>
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 28 28'%3E%3Cpath d='M5 19.5c2.7-3.1 5.7-4.7 9-4.7 3.3 0 6.3 1.6 9 4.7M5 14c2.7-3.1 5.7-4.7 9-4.7 3.3 0 6.3 1.6 9 4.7M5 8.5c2.7-3.1 5.7-4.7 9-4.7 3.3 0 6.3 1.6 9 4.7' fill='none' stroke='%23183b2e' stroke-linecap='round' stroke-width='2'/%3E%3C/svg%3E" />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <a class="skip-link" href="#idea-register">Skip to ideas</a>
+
+    <header class="topbar">
+      <a class="brand" href="#top" aria-label="Groundwork, return to your ideas">
+        <svg viewBox="0 0 28 28" aria-hidden="true"><path d="M5 19.5c2.7-3.1 5.7-4.7 9-4.7 3.3 0 6.3 1.6 9 4.7M5 14c2.7-3.1 5.7-4.7 9-4.7 3.3 0 6.3 1.6 9 4.7M5 8.5c2.7-3.1 5.7-4.7 9-4.7 3.3 0 6.3 1.6 9 4.7" /></svg>
+        <span>Groundwork</span>
+      </a>
+
+      <div class="account-controls">
+        <button class="credits" type="button" data-action="credits" aria-label="18 credits, open credits">
+          <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 2.8 16.4 6v8L10 17.2 3.6 14V6L10 2.8Z" /><path d="m3.8 6.1 6.2 3.2 6.2-3.2M10 9.4v7.4" /></svg>
+          <strong>18</strong><span>credits</span>
+        </button>
+        <div class="profile-shell">
+          <button class="profile" type="button" data-action="profile" aria-haspopup="menu" aria-expanded="false">
+            <span class="avatar" aria-hidden="true">PS</span><span class="profile-name">Prajjwal</span>
+            <svg viewBox="0 0 16 16" aria-hidden="true"><path d="m4.5 6 3.5 3.6L11.5 6" /></svg>
+          </button>
+          <div class="profile-menu" role="menu" hidden>
+            <p>Signed in as Prajjwal</p>
+            <button type="button" role="menuitem" data-action="account">Account</button>
+            <button type="button" role="menuitem" data-action="sign-out">Sign out</button>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main id="top">
+      <section class="masthead" aria-labelledby="page-title">
+        <div>
+          <p class="page-context">Your workspace</p>
+          <h1 id="page-title">Your ideas</h1>
+          <p class="masthead-copy">A clear place to pick up an idea, see what needs a decision, and start a new line of inquiry.</p>
+        </div>
+        <button class="button button--primary" type="button" data-action="new-idea" aria-expanded="false" aria-controls="idea-composer">
+          <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 4v12M4 10h12" /></svg>
+          New idea
+        </button>
+      </section>
+
+      <section class="idea-composer" id="idea-composer" aria-labelledby="composer-heading" hidden>
+        <div class="composer-copy">
+          <p class="page-context">Start with a rough thought</p>
+          <h2 id="composer-heading">What are you thinking about building?</h2>
+          <p>A customer, problem, or small solution is enough to begin.</p>
+        </div>
+        <form id="new-idea-form" novalidate>
+          <label class="sr-only" for="idea-input">Your starting idea</label>
+          <textarea id="idea-input" rows="3" maxlength="320" placeholder="For example, a way for small studios to understand why projects lose momentum…" required></textarea>
+          <p class="input-message" id="idea-message" aria-live="polite"></p>
+          <div class="composer-footer">
+            <div class="prompt-examples" aria-label="Idea starter examples">
+              <span>Try a direction:</span>
+              <button type="button" data-example="A simple way for freelance creatives to record feedback from clients before it gets lost.">Client feedback</button>
+              <button type="button" data-example="A better way for neighborhood shops to coordinate local delivery capacity.">Local delivery</button>
+            </div>
+            <div class="composer-actions">
+              <button class="button button--quiet" type="button" data-action="cancel-new">Cancel</button>
+              <button class="button button--primary" type="submit">Start shaping</button>
+            </div>
+          </div>
+        </form>
+      </section>
+
+      <section class="idea-register" id="idea-register" aria-labelledby="register-heading">
+        <div class="register-heading">
+          <div>
+            <h2 id="register-heading">Idea register</h2>
+            <p>Most recently active first</p>
+          </div>
+          <p class="attention-note"><span aria-hidden="true"></span>Two ideas are ready for your attention</p>
+        </div>
+        <div id="ideas" class="ideas" aria-live="polite"></div>
+      </section>
+    </main>
+
+    <template id="idea-card-template">
+      <article class="idea-card">
+        <header class="idea-card__header">
+          <p class="updated"></p>
+          <div class="idea-menu-shell">
+            <button class="menu-button" type="button" aria-label="Actions for this idea" aria-expanded="false">
+              <svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="4" cy="10" r="1.2" /><circle cx="10" cy="10" r="1.2" /><circle cx="16" cy="10" r="1.2" /></svg>
+            </button>
+            <div class="idea-menu" role="menu" hidden>
+              <button type="button" role="menuitem" data-menu-action="rename">Rename</button>
+              <button type="button" role="menuitem" data-menu-action="delete">Delete</button>
+            </div>
+          </div>
+        </header>
+        <div class="idea-card__body">
+          <div class="idea-copy">
+            <h3></h3>
+            <p class="summary"></p>
+            <p class="verdict" hidden><span>Research verdict</span><strong></strong><em></em></p>
+          </div>
+          <ol class="stage-path" aria-label="Idea stages"></ol>
+        </div>
+      </article>
+    </template>
+
+    <div class="toast" role="status" aria-live="polite" hidden><span></span></div>
+    <script type="module" src="./app.js"></script>
+  </body>
+</html>

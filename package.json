@@ -4,7 +4,8 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "build": "node scripts/build.mjs"
+    "build": "node scripts/build.mjs",
+    "build:idea-card-5": "node scripts/build-idea-card-5.mjs"
   },
   "dependencies": {},
   "devDependencies": {}
