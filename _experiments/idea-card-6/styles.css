@@ -85,7 +85,10 @@ h1 { margin: 0; font-size: clamp(42px, 6vw, 64px); line-height: .98; letter-spac
 .list-heading { display: flex; justify-content: space-between; padding: 0 2px 11px; border-bottom: 1px solid var(--ink); color: var(--muted-ink); font-size: 13px; }
 .list-heading p { margin: 0; color: var(--ink); font-weight: 600; }
 .idea-list { display: grid; gap: 18px; padding-top: 18px; }
-.idea-card { position: relative; overflow: visible; padding: 28px 30px 20px; background: var(--paper); border: 1px solid var(--rules); border-radius: var(--radius); box-shadow: var(--shadow); }
+.idea-card { position: relative; overflow: visible; padding: 28px 30px 20px 38px; background: var(--paper); border: 1px solid var(--rules); border-radius: var(--radius); box-shadow: var(--shadow); }
+.idea-card__signal { position: absolute; top: 19px; bottom: 19px; left: -1px; width: 7px; border-radius: 0 5px 5px 0; background: var(--cobalt); }
+.idea-card:has(.stage--running) .idea-card__signal { background: var(--amber); }
+.idea-card:has(.stage--failed) .idea-card__signal { background: var(--rust); }
 .idea-card__header { display: flex; align-items: flex-start; justify-content: space-between; gap: 20px; }
 .idea-card h2 { margin: 0; font-size: clamp(20px, 3vw, 25px); line-height: 1.23; letter-spacing: -.035em; }
 .brief { max-width: 790px; margin: 13px 0 22px; color: var(--secondary-ink); line-height: 1.55; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
@@ -154,7 +157,8 @@ dialog p { color: var(--secondary-ink); line-height: 1.55; }
   .page-heading .primary { margin-top: 25px; padding: 11px 12px; }
   .page-heading .primary span { display: none; }
   .list-heading span { display: none; }
-  .idea-card { padding: 23px 18px 17px; }
+  .idea-card { padding: 23px 18px 17px 26px; }
+  .idea-card__signal { top: 15px; bottom: 15px; width: 6px; }
   .brief { margin-bottom: 18px; -webkit-line-clamp: 3; }
   .stages { grid-template-columns: 1fr; }
   .stage { min-height: 76px; grid-template-columns: 24px 1fr auto; grid-template-rows: auto; align-items: center; }
