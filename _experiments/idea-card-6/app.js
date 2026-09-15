@@ -23,44 +23,52 @@ const statusIcon = (state) => {
   return icons.arrow
 }
 
-function stageMarkup(stage) {
+function stageMarker(stage, index) {
+  if (stage.state === 'complete') return icons.check
+  if (stage.state === 'locked') return icons.lock
+  if (stage.state === 'running') return icons.spinner
+  if (stage.state === 'failed') return icons.warning
+  return index + 1
+}
+
+function secondaryStageMarkup(stage, index) {
   const disabled = stage.state === 'locked'
   return `
-    <li class="stage stage--${stage.state}">
-      <span class="stage__index" aria-hidden="true">${stage.key === 'shape' ? '1' : stage.key === 'investigate' ? '2' : '3'}</span>
-      <div class="stage__copy">
-        <span class="stage__label">${stage.label}</span>
-        <span class="stage__note">${stage.note}</span>
-      </div>
-      <button class="stage__action" ${disabled ? 'disabled' : ''} data-stage="${stage.key}">
-        ${statusIcon(stage.state)}<span>${stage.action}</span>
-      </button>
-    </li>`
+    <button type="button" class="card-stage card-stage--${stage.state}" ${disabled ? 'disabled' : ''} data-stage="${stage.key}" aria-label="${stage.action}: ${stage.label}">
+      <span class="card-stage__marker" aria-hidden="true">${stageMarker(stage, index)}</span>
+      <span><strong>${stage.label}</strong><small>${stage.action}</small></span>
+    </button>`
+}
+
+function primaryStage(idea) {
+  const priority = ['unread', 'running', 'failed', 'ready', 'active', 'available']
+  return priority.map(state => idea.stages.find(stage => stage.state === state)).find(Boolean) || idea.stages[0]
 }
 
 function cardMarkup(idea) {
+  const focus = primaryStage(idea)
+  const signal = idea.notice || (focus.state === 'active' ? 'Shape in progress' : focus.note)
   return `
-    <article class="idea-card" data-id="${idea.id}">
+    <article class="idea-card idea-card--${focus.state}" data-id="${idea.id}">
       <div class="idea-card__signal" aria-hidden="true"></div>
-      <header class="idea-card__header">
-        <div>
-          ${idea.notice ? `<p class="notice notice--${idea.stages.some(s => s.state === 'failed') ? 'failed' : 'default'}"><span></span>${idea.notice}</p>` : ''}
-          <h2>${idea.title}</h2>
+      <div class="idea-card__body">
+        <p class="notice"><span aria-hidden="true"></span>${signal}</p>
+        <h2>${idea.title}</h2>
+        <p class="brief">${idea.brief}</p>
+      </div>
+      <div class="idea-card__history" aria-label="Other idea stages">
+        ${idea.stages.filter(stage => stage !== focus).map(stage => secondaryStageMarkup(stage, idea.stages.indexOf(stage))).join('')}
+      </div>
+      <button type="button" class="idea-card__focus idea-card__focus--${focus.state}" data-stage="${focus.key}">
+        <span>${focus.note}</span><strong>${focus.action}</strong>${statusIcon(focus.state)}
+      </button>
+      <div class="card-menu-wrap">
+        <button class="icon-button menu-trigger" aria-label="More actions for ${idea.title}" aria-expanded="false">${icons.more}</button>
+        <div class="card-menu" hidden>
+          <button data-action="rename">Rename</button>
+          <button data-action="delete" class="danger">Delete idea</button>
         </div>
-        <div class="card-menu-wrap">
-          <button class="icon-button menu-trigger" aria-label="More actions for ${idea.title}" aria-expanded="false">${icons.more}</button>
-          <div class="card-menu" hidden>
-            <button data-action="rename">Rename</button>
-            <button data-action="delete" class="danger">Delete idea</button>
-          </div>
-        </div>
-      </header>
-      <p class="brief">${idea.brief}</p>
-      ${idea.verdict ? `<div class="verdict"><span>${idea.verdict.label}</span><span>${idea.verdict.confidence}</span></div>` : ''}
-      <ol class="stages" aria-label="Idea stages">
-        ${idea.stages.map(stageMarkup).join('')}
-      </ol>
-      <p class="updated">${idea.updated}</p>
+      </div>
     </article>`
 }
 
@@ -168,7 +176,7 @@ function bindEvents() {
     }
     pendingDelete = null
   })
-  document.querySelectorAll('.stage__action:not(:disabled)').forEach(button => button.addEventListener('click', () => {
+  document.querySelectorAll('[data-stage]:not(:disabled)').forEach(button => button.addEventListener('click', () => {
     showToast(`${button.textContent.trim()} selected.`)
   }))
   document.addEventListener('click', () => document.querySelectorAll('.card-menu').forEach(menu => { menu.hidden = true }), { once: true })

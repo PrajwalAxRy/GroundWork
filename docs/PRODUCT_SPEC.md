@@ -55,9 +55,11 @@ Each card contains:
 
 - Editable Idea title
 - Brief limited to roughly two lines
-- Optional verdict after Investigation
 - Shape, Investigate, and Roadmap controls
+- One emphasized current action, with the other two stages presented as quieter secondary controls
 - Overflow actions for rename and delete
+
+The collapsed dashboard card does not show verdict or last-updated metadata. Those values may remain available in the underlying Idea data for report context and dashboard sorting.
 
 The card itself is not one large click target because it contains distinct stage controls.
 

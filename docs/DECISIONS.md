@@ -97,6 +97,7 @@ This file separates locked product decisions from topics that still need discuss
 - No separate Continue and Earlier Ideas sections.
 - Ideas appear as a single-column stack of wide cards.
 - Cards show title, short Brief, and Shape, Investigate, and Roadmap stage controls.
+- The approved dashboard card direction is **Signal edge** (experiment card 14): a compact horizontal card with a slim semantic status rail, two quiet secondary stage controls, and one emphasized current action. The collapsed card omits verdict and last-updated metadata.
 - The whole card is not one click target.
 - State is never communicated using color alone.
 - New Idea opens an inline idea input.
