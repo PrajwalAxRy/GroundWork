@@ -196,7 +196,6 @@ function glanceCard() {
         <div class="glance-card__meta">${signal()}</div>
         <h3>${idea.title}</h3>
         <p class="brief">${idea.brief}</p>
-        <div class="glance-card__verdict">${icons.check}<strong>${idea.verdict.label}</strong><span>${idea.verdict.confidence}</span></div>
       </div>
       <div class="glance-card__history" aria-label="Other idea stages">
         ${miniStage(idea.stages[0], 0, 'mini-stage--quiet')}
