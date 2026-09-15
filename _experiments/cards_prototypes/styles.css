@@ -238,19 +238,20 @@ main { width: min(1180px, calc(100% - 48px)); margin: 0 auto; padding: 58px 0 11
 .line-card .mini-stage small { font-size: 9px; }
 
 /* 08: Action at a glance */
-.glance-card { min-height: 142px; padding: 18px 58px 18px 20px; display: grid; grid-template-columns: minmax(0, 1fr) 250px 170px; align-items: center; gap: 20px; }
+.glance-card { min-height: 146px; padding: 18px 58px 18px 20px; display: grid; grid-template-columns: minmax(0, 1fr) 280px 170px; align-items: center; gap: 20px; }
 .glance-card > .menu-wrap { position: absolute; top: 13px; right: 15px; }
 .glance-card__body { min-width: 0; }
-.glance-card__meta { margin-bottom: 7px; display: flex; gap: 14px; color: var(--ink-muted); font-size: 11px; }
-.glance-card__meta > span:last-child { margin-left: auto; }
+.glance-card__meta { margin-bottom: 7px; color: var(--ink-muted); font-size: 11px; }
 .glance-card h3 { font-size: 19px; }
 .glance-card .brief { margin-top: 6px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 13px; }
 .glance-card__verdict { margin-top: 8px; display: flex; align-items: center; gap: 6px; color: var(--cobalt); font-size: 10px; }
 .glance-card__verdict svg { width: 13px; flex: none; fill: none; stroke: currentColor; stroke-width: 2; }
 .glance-card__verdict strong { overflow: hidden; font-weight: 650; text-overflow: ellipsis; white-space: nowrap; }
 .glance-card__verdict span { flex: none; color: var(--ink-muted); }
-.glance-card__history { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 2px; }
-.mini-stage--quiet { min-height: 39px; }
+.glance-card__history { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 6px; }
+.mini-stage--quiet { min-height: 52px; padding: 8px 10px; gap: 9px; }
+.mini-stage--quiet .mini-stage__marker { width: 22px; height: 22px; }
+.mini-stage--quiet strong { font-size: 12px; }
 .glance-action { min-height: 82px; padding: 13px 14px; border: 0; border-radius: 8px; position: relative; display: grid; align-content: center; background: var(--pale-cobalt); color: var(--cobalt); text-align: left; cursor: pointer; }
 .glance-action:hover { background: oklch(0.915 0.04 247); }
 .glance-action span { font-size: 10px; }
@@ -342,7 +343,7 @@ main { width: min(1180px, calc(100% - 48px)); margin: 0 auto; padding: 58px 0 11
   .verdict-card__footer { grid-template-columns: 1fr; }
   .stage--roadmap { border-left: 0; border-top: 1px solid var(--line); }
   .line-card { grid-template-columns: 1fr 390px; }
-  .glance-card { grid-template-columns: minmax(0, 1fr) 190px 150px; }
+  .glance-card { grid-template-columns: minmax(0, 1fr) 215px 150px; }
   .ledger-card { grid-template-columns: minmax(0, 1fr) 360px; }
   .ledger-card__verdict { display: none; }
   .index-card { grid-template-columns: 72px minmax(0, 1fr) 270px; }
