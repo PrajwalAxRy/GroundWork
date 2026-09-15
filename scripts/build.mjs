@@ -4,6 +4,13 @@ await rm('dist', { recursive: true, force: true })
 await mkdir('dist', { recursive: true })
 await cp('index.html', 'dist/index.html')
 await cp('src', 'dist/src', { recursive: true })
+await cp('index.html', 'dist/404.html')
+await mkdir('dist/ideas', { recursive: true })
+await cp('index.html', 'dist/ideas/index.html')
+for (const ideaId of ['idea-01', 'idea-02', 'idea-03', 'idea-04', 'idea-05', 'idea-draft']) {
+  await mkdir(`dist/ideas/${ideaId}/shape`, { recursive: true })
+  await cp('index.html', `dist/ideas/${ideaId}/shape/index.html`)
+}
 await mkdir('dist/_experiments/idea-card', { recursive: true })
 await cp('index.html', 'dist/_experiments/idea-card/index.html')
 await mkdir('dist/_experiments/idea-card-2', { recursive: true })

@@ -15,7 +15,7 @@ This is the execution checklist for building the Groundwork website and product 
 
 ## Current Position
 
-The product foundations, initial visual system, production-oriented **Your Ideas** page, and **Shape conversation and Idea Summary experiment** are complete and approved. The next work is integrating the Shape page with typed mock data.
+The product foundations, initial visual system, production-oriented **Your Ideas** page, and complete mock-data **Shape** experience are approved and implemented. The next phase is the production frontend foundation and stack review.
 
 ## Phase 0: Product Foundation
 
@@ -94,15 +94,15 @@ The product foundations, initial visual system, production-oriented **Your Ideas
 
 ### Integration
 
-- [ ] Build the `/ideas/:ideaId/shape` page with typed mock data.
-- [ ] Restore the conversation and draft after reload in the prototype data layer.
-- [ ] Remove the composer and make the transcript read-only for frozen Ideas.
-- [ ] Add page-level navigation back to **Your ideas**.
-- [ ] Verify keyboard navigation, long messages, narrow screens, and reduced motion.
+- [x] Build the `/ideas/:ideaId/shape` page with typed mock data.
+- [x] Restore the conversation and draft after reload in the prototype data layer.
+- [x] Remove the composer and make the transcript read-only for frozen Ideas.
+- [x] Add page-level navigation back to **Your ideas**.
+- [x] Verify keyboard navigation, long messages, narrow screens, and reduced motion.
 
 ### Completion checkpoint
 
-- [ ] A user can shape a mock Idea from the first message through review readiness.
+- [x] A user can shape a mock Idea from the first message through review readiness.
 
 ## Phase 4: Production Frontend Foundation
 
@@ -299,4 +299,4 @@ The product foundations, initial visual system, production-oriented **Your Ideas
 
 ## Immediate Next Action
 
-- [ ] Build `/ideas/:ideaId/shape` from the approved Shape experiment with typed mock data, draft restoration, frozen transcript behavior, and page-level navigation.
+- [ ] Review and select the production frontend stack, then define the routing, component, and data-service architecture for the remaining pages.

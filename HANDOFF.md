@@ -79,9 +79,9 @@ The frontend prototype should be reusable production-oriented code, not a dispos
 
 ## Immediate Next Topic
 
-The initial visual system, dashboard Idea card, and Shape conversation with Current idea summary are approved. The production card uses the **Signal edge** direction from `/_experiments/idea-card-6/`. The approved Shape direction is demonstrated at `/_experiments/shape-summary/`. `DESIGN.md` records both component directions and their responsive behavior.
+The initial visual system, dashboard Idea card, and Shape conversation with Current idea summary are approved and integrated. The production card uses the **Signal edge** direction from `/_experiments/idea-card-6/`. The approved Shape direction is demonstrated at `/_experiments/shape-summary/`. `DESIGN.md` records both component directions and their responsive behavior.
 
-Continue by integrating `/ideas/:ideaId/shape` from the approved experiment using typed mock data. Include draft restoration, the frozen read-only transcript, page-level navigation back to **Your ideas**, and the approved desktop and mobile summary behavior. Do not reopen the visual direction during integration unless a concrete implementation issue requires it.
+Continue with Phase 4 in `BUILD_PLAN.md`: review and select the production frontend stack, define the routing, component, and data-service architecture, and turn the approved tokens and surfaces into reusable production foundations. Preserve the accepted Your Ideas and Shape behavior during that work.
 
 ## Important Prototype Requirements
 
@@ -109,8 +109,8 @@ Consult `docs/DECISIONS.md` for the complete open-decision list.
 
 ## Repository State
 
-This workspace now contains the production-oriented Your Ideas frontend prototype in `src/`, typed mock data in `src/data.js`, the approved Idea-card and Shape-summary experiments, their review screenshots, and `DESIGN.md`. The prototype remains framework-free and does not yet contain the integrated Shape route, remaining product pages, or backend.
+This workspace now contains the integrated Your Ideas and Shape experience in `src/`, a local mock-service boundary with persisted Ideas, conversations, and drafts, deep-linkable prototype routes, approved component experiments, review screenshots, and `DESIGN.md`. The prototype remains framework-free and does not yet contain the remaining product pages or backend.
 
 ## Suggested Prompt for the New Chat
 
-> Read `AGENTS.md` and `HANDOFF.md`, then read every source-of-truth document they reference, including `DESIGN.md`. Do not reopen locked product decisions. Continue from the immediate next topic by integrating `/ideas/:ideaId/shape` from the approved Shape-summary experiment with typed mock data, draft restoration, frozen transcript behavior, and responsive Current idea treatment.
+> Read `AGENTS.md` and `HANDOFF.md`, then read every source-of-truth document they reference, including `DESIGN.md` and `BUILD_PLAN.md`. Do not reopen locked product decisions. Continue with Phase 4 by reviewing the production frontend stack and defining reusable routing, component, token, and data-service foundations without changing the approved Your Ideas or Shape designs.
