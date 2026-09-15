@@ -1,6 +1,6 @@
 # Groundwork Handoff
 
-Last updated: 2026-09-11
+Last updated: 2026-09-16
 
 ## Purpose of This File
 
@@ -63,33 +63,22 @@ These topics should not be reopened unless the user explicitly requests a change
 
 ## Current Delivery Strategy
 
-The recommended sequence is:
+The delivery sequence is:
 
-1. Approve the visual direction.
-2. Create `DESIGN.md` with the accepted visual system.
-3. Build a high-fidelity frontend prototype using typed mock data.
-4. Prototype important components at development-only routes and obtain user approval.
-5. Assemble the complete responsive product journey.
-6. Test happy paths, missing data, failures, locked states, and mobile behavior.
-7. Design and implement the backend against the same frontend data contracts.
+1. Use the approved Signal edge direction and the initial tokens in `DESIGN.md`.
+2. Build the remaining high-fidelity frontend prototype using typed mock data.
+3. Prototype important components at development-only routes and obtain user approval.
+4. Assemble the complete responsive product journey.
+5. Test happy paths, missing data, failures, locked states, and mobile behavior.
+6. Design and implement the backend against the same frontend data contracts.
 
 The frontend prototype should be reusable production-oriented code, not a disposable mockup. The initial backend, AI providers, database, authentication, payments, and background jobs do not need to be selected before prototyping.
 
 ## Immediate Next Topic
 
-Continue with Groundwork's visual direction.
+The initial visual system and dashboard Idea card are approved. The production card uses the **Signal edge** direction from `/_experiments/idea-card-6/`. `DESIGN.md` records the light-first cobalt system, typography, spacing, elevation, state semantics, and responsive card behavior.
 
-The direction proposed at the end of the previous discussion was:
-
-- Light-first
-- Calm modern research workspace
-- Quietly confident
-- Highly readable for long-form analysis
-- Restrained color rather than flashy AI styling
-- Premium through typography, spacing, hierarchy, and interaction quality
-- Subtle survey, terrain, or field-research details used sparingly
-
-This is the recommended starting direction, not a completed visual system. The next discussion should test two or three distinct variations within this direction, approve one, and then create `DESIGN.md`.
+Continue by exploring the next important or uncertain component on a development-only route. Strong candidates are the Shape conversation and floating Idea Summary because they establish the main working experience beyond the dashboard.
 
 ## Important Prototype Requirements
 
@@ -104,7 +93,6 @@ This is the recommended starting direction, not a completed visual system. The n
 
 The following are intentionally open and should not be mistaken for missing documentation:
 
-- Final theme, palette, typography, spacing, elevation, and motion tokens
 - Exact frontend stack and location of the existing landing-page project
 - Exact credit amounts, package prices, and introductory-credit policy
 - Authentication and onboarding timing
@@ -118,8 +106,8 @@ Consult `docs/DECISIONS.md` for the complete open-decision list.
 
 ## Repository State
 
-At the time of this handoff, this workspace contains the product documentation but not the landing-page or product frontend source code. Before implementation, locate the existing code or explicitly scaffold a new frontend here.
+This workspace now contains the production-oriented Your Ideas frontend prototype in `src/`, typed mock data in `src/data.js`, the approved Idea-card experiment, and `DESIGN.md`. The prototype remains framework-free and does not yet contain the remaining product pages or backend.
 
 ## Suggested Prompt for the New Chat
 
-> Read `AGENTS.md` and `HANDOFF.md`, then read every source-of-truth document they reference. Do not reopen locked product decisions. Continue from the immediate next topic: propose two or three strong visual directions for the Groundwork product UI within the agreed quietly confident, light-first research-workspace direction. We want to complete a high-fidelity frontend prototype with mock data before building the backend.
+> Read `AGENTS.md` and `HANDOFF.md`, then read every source-of-truth document they reference, including `DESIGN.md`. Do not reopen locked product decisions. Continue from the immediate next topic by creating a development-only experiment for the Shape conversation and Idea Summary using the approved Groundwork visual system.

@@ -1,6 +1,6 @@
 # Groundwork Page Specifications
 
-Status: Prototype-ready functional specifications. Visual styling is intentionally excluded until `DESIGN.md` is approved.
+Status: Prototype-ready functional specifications. The approved initial visual system is recorded in `DESIGN.md`; page-specific behavior remains in these files.
 
 ## Purpose
 
@@ -126,5 +126,3 @@ The following remain outside these page specifications because their product beh
 - Administration and support tools
 - Real payment-provider screens
 - Final credit quantities and prices
-- Visual design tokens
-

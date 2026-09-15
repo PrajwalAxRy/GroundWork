@@ -26,7 +26,7 @@ The dashboard is the user's home in Groundwork. It lets users create an Idea, un
   - Shape state
   - Investigation state
   - Roadmap state
-  - Optional verdict
+  - Optional verdict retained for report context but not rendered on the collapsed card
   - Last updated time
   - Whether any result is newly ready or unread
 
@@ -63,17 +63,20 @@ Do not create an Idea until the user submits non-empty content.
 
 Use a single-column stack of wide cards.
 
+Use the approved **Signal edge** direction from `/_experiments/idea-card-6/`: a slim semantic state rail, a compact body, two quiet secondary stage controls, and one emphasized current action.
+
 Each card contains:
 
 - Idea title
 - Short Brief, limited to approximately two lines in the collapsed card
-- Optional verdict after Investigation
 - Shape control
 - Investigate control
 - Roadmap control
 - Overflow menu
 
 The whole card is not clickable because the stage controls have different destinations.
+
+Do not render verdict or last-updated metadata on the collapsed card.
 
 ## Stage-Control Behavior
 
@@ -183,4 +186,3 @@ Create mock cards demonstrating:
 - Public sharing
 - Bulk actions
 - Search and filtering in the first prototype
-

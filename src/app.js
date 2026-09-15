@@ -1,90 +1,93 @@
-const initialIdeas = [
-  {
-    id: 'cutlery', title: 'Compostable cutlery kits for small events', updated: 'Edited today',
-    brief: 'Branded, compostable cutlery kits for independent event organisers and caterers who need a simpler way to meet sustainability expectations.',
-    stages: [['shape', 'active', 'Continue shaping'], ['investigate', 'locked', 'Investigation locked', 'Review your idea first'], ['roadmap', 'locked', 'Roadmap locked', 'Complete investigation first']],
-  },
-  {
-    id: 'clinic', title: 'Aftercare check-ins for independent clinics', updated: 'Edited yesterday',
-    brief: 'A lightweight patient follow-up service for clinics that want to surface post-treatment concerns before they become support calls.',
-    stages: [['shape', 'active', 'Review idea', 'Brief ready'], ['investigate', 'locked', 'Investigation locked', 'Confirm the brief first'], ['roadmap', 'locked', 'Roadmap locked', 'Complete investigation first']],
-  },
-  {
-    id: 'procurement', title: 'Procurement brief builder for local councils', updated: 'Researching now',
-    brief: 'A guided tool for turning repeat purchasing needs into more consistent supplier briefs for small local-government teams.',
-    stages: [['shape', 'complete', 'View shaped idea'], ['investigate', 'running', 'View research progress', 'Mapping alternatives'], ['roadmap', 'locked', 'Roadmap locked', 'Research in progress']],
-  },
-  {
-    id: 'tenancy', title: 'Plain-language tenancy renewal assistant', updated: 'Report ready today',
-    brief: 'A renewal companion for independent landlords and tenants navigating practical questions before a tenancy agreement is renewed.',
-    verdict: ['Test the critical assumption', 'Moderate confidence'],
-    stages: [['shape', 'complete', 'View shaped idea'], ['investigate', 'ready', 'Report ready', 'New research'], ['roadmap', 'available', 'Build roadmap', 'Available after you read the report']],
-  },
-  {
-    id: 'fleet', title: 'Service reminders for independent vehicle fleets', updated: 'Investigation reviewed',
-    brief: 'A shared maintenance reminder workflow for small trade fleets that do not have a dedicated operations manager.',
-    verdict: ['Refine before pursuing', 'High confidence'],
-    stages: [['shape', 'complete', 'View shaped idea'], ['investigate', 'complete', 'Open investigation'], ['roadmap', 'available', 'Build roadmap']],
-  },
-  {
-    id: 'subscription', title: 'Ingredient swaps for local meal subscriptions', updated: 'Roadmap completed',
-    brief: 'A service layer for meal-subscription businesses managing late customer changes without creating manual kitchen work.',
-    verdict: ['Worth pursuing', 'Moderate confidence'],
-    stages: [['shape', 'complete', 'View shaped idea'], ['investigate', 'complete', 'Open investigation'], ['roadmap', 'complete', 'Open roadmap', 'Ready to revisit']],
-  },
-  {
-    id: 'repair', title: 'Repair request triage for housing co-ops', updated: 'Research needs attention',
-    brief: 'A request-intake layer for volunteer-run housing co-operatives, designed to make urgent repairs easier to identify and route.',
-    stages: [['shape', 'complete', 'View shaped idea'], ['investigate', 'failed', 'Retry research', 'Credits restored'], ['roadmap', 'locked', 'Roadmap locked', 'Research did not complete']],
-  },
-]
+import { ideas as initialIdeas } from './data.js'
 
-const state = { ideas: structuredClone(initialIdeas), preview: 'populated', composer: false, profile: false, menu: null, editing: null, deleting: null, toast: '' }
+const icons = {
+  mark: `<svg viewBox="0 0 32 32" aria-hidden="true"><path d="M6 25 16 6l10 19h-5l-5-10-5 10H6Z"/><path d="M11 25h10"/></svg>`,
+  credit: `<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8"/><path d="M9 12h6M12 9v6"/></svg>`,
+  profile: `<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="3"/><path d="M6.5 19c.8-3 2.6-4.5 5.5-4.5s4.7 1.5 5.5 4.5"/></svg>`,
+  more: `<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="5" cy="12" r="1.5"/><circle cx="12" cy="12" r="1.5"/><circle cx="19" cy="12" r="1.5"/></svg>`,
+  lock: `<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="6" y="10" width="12" height="9" rx="2"/><path d="M9 10V7a3 3 0 0 1 6 0v3"/></svg>`,
+  check: `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 12 4 4 8-9"/></svg>`,
+  spinner: `<svg class="spinner" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8"/></svg>`,
+  arrow: `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h13M14 7l5 5-5 5"/></svg>`,
+  warning: `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4 3.8 19h16.4L12 4Z"/><path d="M12 9v4M12 16.5v.1"/></svg>`,
+}
+
+const supportedPreviews = new Set(['populated', 'empty', 'loading', 'error'])
+const requestedPreview = new URLSearchParams(window.location.search).get('state')
+const state = {
+  ideas: structuredClone(initialIdeas),
+  preview: supportedPreviews.has(requestedPreview) ? requestedPreview : 'populated',
+  composer: false,
+  profile: false,
+  menu: null,
+  editing: null,
+  deleting: null,
+  toast: '',
+}
+
 const root = document.querySelector('#root')
 const escapeHtml = (value) => String(value).replace(/[&<>'"]/g, (character) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[character]))
 
-function iconFor(status) {
-  if (status === 'complete') return '<span class="mark" aria-hidden="true">✓</span>'
-  if (status === 'locked') return '<span class="mark" aria-hidden="true">⌁</span>'
-  if (status === 'running') return '<span class="progress-dot" aria-label="In progress"></span>'
-  if (status === 'ready') return '<span class="mark" aria-hidden="true">✦</span>'
-  if (status === 'failed') return '<span class="mark" aria-hidden="true">!</span>'
-  if (status === 'available') return '<span class="mark" aria-hidden="true">→</span>'
-  return '<span class="mark" aria-hidden="true">↗</span>'
+function statusIcon(status) {
+  if (status === 'locked') return icons.lock
+  if (status === 'complete') return icons.check
+  if (status === 'running') return icons.spinner
+  if (status === 'failed') return icons.warning
+  return icons.arrow
 }
 
-function stageControl([stage, status, label, detail]) {
-  const disabled = status === 'locked' ? 'disabled aria-disabled="true"' : ''
-  return `<button class="stage-control stage-${status}" ${disabled} data-action="stage" data-label="${escapeHtml(label)}">
-    ${iconFor(status)}
-    <span class="stage-copy"><span>${escapeHtml(label)}</span>${detail ? `<small>${escapeHtml(detail)}</small>` : ''}</span>
+function stageMarker(stage, index) {
+  if (stage.state === 'complete') return icons.check
+  if (stage.state === 'locked') return icons.lock
+  if (stage.state === 'running') return icons.spinner
+  if (stage.state === 'failed') return icons.warning
+  return index + 1
+}
+
+function primaryStage(idea) {
+  const priority = ['unread', 'running', 'failed', 'ready', 'active', 'available']
+  return priority.map((status) => idea.stages.find((stage) => stage.state === status)).find(Boolean) || idea.stages.at(-1)
+}
+
+function secondaryStageMarkup(stage, index, title) {
+  const disabled = stage.state === 'locked'
+  return `<button type="button" class="card-stage card-stage--${stage.state}" ${disabled ? 'disabled aria-disabled="true"' : ''} data-action="stage" data-label="${escapeHtml(stage.action)}" aria-label="${escapeHtml(stage.action)}: ${escapeHtml(stage.label)} for ${title}">
+    <span class="card-stage__marker" aria-hidden="true">${stageMarker(stage, index)}</span>
+    <span><strong>${escapeHtml(stage.label)}</strong><small>${escapeHtml(stage.action)}</small></span>
   </button>`
 }
 
 function card(idea) {
+  const focus = primaryStage(idea)
   const isEditing = state.editing === idea.id
   const isDeleting = state.deleting === idea.id
   const title = escapeHtml(idea.title)
-  const verdict = idea.verdict ? `<div class="verdict" aria-label="Verdict: ${escapeHtml(idea.verdict[0])}, ${escapeHtml(idea.verdict[1])}"><span>Research verdict</span><strong>${escapeHtml(idea.verdict[0])}</strong><em>${escapeHtml(idea.verdict[1])}</em></div>` : ''
-  const editor = `<form class="rename-form" data-form="rename" data-id="${idea.id}"><label for="rename-${idea.id}">Idea title</label><div><input id="rename-${idea.id}" name="title" value="${title}" required><button class="quiet-button" type="button" data-action="cancel-rename">Cancel</button><button class="small-solid" type="submit">Save</button></div></form>`
-  const menu = state.menu === idea.id ? `<div class="card-menu" role="menu"><button role="menuitem" data-action="rename" data-id="${idea.id}">Rename</button><button role="menuitem" class="menu-danger" data-action="ask-delete" data-id="${idea.id}">Delete</button></div>` : ''
-  const confirm = isDeleting ? `<div class="confirm-overlay" role="dialog" aria-modal="true" aria-label="Delete ${title}"><p>This removes the idea, its chat, research report, and roadmap from this prototype.</p><div><button class="quiet-button" data-action="keep-idea">Keep idea</button><button class="delete-button" data-action="delete-idea" data-id="${idea.id}">Delete idea</button></div></div>` : ''
-  return `<article class="idea-card">
-    <div class="field-rule" aria-hidden="true"><span></span></div>
-    <div class="card-main">
-      <div class="idea-meta"><span>${escapeHtml(idea.updated)}</span><div class="card-menu-wrap"><button class="icon-button" aria-label="Actions for ${title}" aria-expanded="${state.menu === idea.id}" data-action="menu" data-id="${idea.id}">•••</button>${menu}</div></div>
+  const signal = escapeHtml(idea.notice || (focus.state === 'active' ? 'Shape in progress' : focus.note || focus.action))
+  const editor = `<form class="rename-form" data-form="rename" data-id="${idea.id}"><label for="rename-${idea.id}">Idea title</label><div><input id="rename-${idea.id}" name="title" value="${title}" required><button class="text-button" type="button" data-action="cancel-rename">Cancel</button><button class="small-primary" type="submit">Save</button></div></form>`
+  const menu = state.menu === idea.id ? `<div class="card-menu" role="menu"><button role="menuitem" data-action="rename" data-id="${idea.id}">Rename</button><button role="menuitem" class="danger" data-action="ask-delete" data-id="${idea.id}">Delete idea</button></div>` : ''
+  const confirm = isDeleting ? `<div class="confirm-overlay" role="dialog" aria-modal="true" aria-label="Delete ${title}"><p><strong>Delete this idea?</strong> This removes its Shape conversation, investigation report, and roadmap from this prototype.</p><div><button class="text-button" data-action="keep-idea">Keep idea</button><button class="delete-button" data-action="delete-idea" data-id="${idea.id}">Delete idea</button></div></div>` : ''
+
+  return `<article class="idea-card idea-card--${focus.state}" data-id="${idea.id}">
+    <div class="idea-card__signal" aria-hidden="true"></div>
+    <div class="idea-card__body">
+      <p class="notice"><span aria-hidden="true"></span>${signal}</p>
       ${isEditing ? editor : `<h2>${title}</h2>`}
-      <p class="idea-brief">${escapeHtml(idea.brief)}</p>${verdict}
-      <div class="stage-controls" aria-label="Stages for ${title}">${idea.stages.map(stageControl).join('')}</div>
+      <p class="brief">${escapeHtml(idea.brief)}</p>
+    </div>
+    <div class="idea-card__history" aria-label="Other stages for ${title}">
+      ${idea.stages.filter((stage) => stage !== focus).map((stage) => secondaryStageMarkup(stage, idea.stages.indexOf(stage), title)).join('')}
+    </div>
+    <button type="button" class="idea-card__focus idea-card__focus--${focus.state}" data-action="stage" data-label="${escapeHtml(focus.action)}" aria-label="${escapeHtml(focus.action)}: ${escapeHtml(focus.label)} for ${title}">
+      <span>${escapeHtml(focus.note || focus.label)}</span><strong>${escapeHtml(focus.action)}</strong>${statusIcon(focus.state)}
+    </button>
+    <div class="card-menu-wrap">
+      <button class="icon-button" aria-label="More actions for ${title}" aria-expanded="${state.menu === idea.id}" data-action="menu" data-id="${idea.id}">${icons.more}</button>${menu}
     </div>${confirm}
   </article>`
 }
 
 function composer() {
-  return `<section class="composer" aria-labelledby="composer-title"><div class="composer-head"><p class="section-kicker">Start with a thought, not a plan</p><h2 id="composer-title">What are you thinking about building?</h2><p>A customer, a problem, or a rough solution is enough to begin shaping an idea.</p></div>
-    <form data-form="composer"><label class="sr-only" for="idea-input">Your initial idea</label><textarea id="idea-input" name="idea" placeholder="For example: a way for freelance tutors to…" rows="3" required></textarea><div class="composer-actions"><button class="solid-button" type="submit">Start shaping <span aria-hidden="true">↗</span></button><button class="quiet-button" type="button" data-action="cancel-composer">Cancel</button></div></form>
-    <div class="idea-starters" aria-label="Idea starters"><span>Try a starting point:</span><button type="button" data-action="starter" data-value="A simple way for independent cafés to reduce food waste at the end of each day.">Independent cafés</button><button type="button" data-action="starter" data-value="A lightweight service that helps landlords manage recurring repairs.">Landlords</button></div>
-  </section>`
+  return `<section class="composer" aria-labelledby="composer-title"><div><h2 id="composer-title">What are you thinking about building?</h2><p>A sentence or a rough problem is enough to begin.</p></div><form data-form="composer"><label class="sr-only" for="idea-input">Your initial idea</label><textarea id="idea-input" name="idea" rows="3" placeholder="I keep noticing that…" required></textarea><div class="composer__actions"><button class="text-button" type="button" data-action="cancel-composer">Cancel</button><button class="primary" type="submit">Start shaping</button></div></form><div class="idea-starters" aria-label="Idea starters"><span>Try a starting point:</span><button type="button" data-action="starter" data-value="A simple way for independent cafés to reduce food waste at the end of each day.">Independent cafés</button><button type="button" data-action="starter" data-value="A lightweight service that helps landlords manage recurring repairs.">Landlords</button></div></section>`
 }
 
 function loading() {
@@ -92,30 +95,46 @@ function loading() {
 }
 
 function empty() {
-  return `<section class="empty-state"><span class="empty-symbol" aria-hidden="true">+</span><h2>Your ideas start as rough notes.</h2><p>Bring a customer problem, a small irritation, or the beginning of a solution. Groundwork will help you make it researchable.</p><button class="solid-button" data-action="empty-start">Start your first idea <span aria-hidden="true">↗</span></button></section>`
+  return `<section class="empty-state"><span class="empty-symbol" aria-hidden="true">+</span><h2>Your ideas start as rough notes.</h2><p>Bring a customer problem, a small irritation, or the beginning of a solution. Groundwork will help you make it researchable.</p><button class="primary" data-action="empty-start">Start your first idea</button></section>`
 }
 
 function error() {
   return `<section class="error-state" role="alert"><span aria-hidden="true">!</span><div><h2>Your ideas could not load.</h2><p>Your saved ideas have not changed. Try loading them again.</p></div><button class="outline-button" data-action="retry">Try again</button></section>`
 }
 
-function app() {
-  const list = state.preview === 'loading' ? loading() : state.preview === 'empty' ? empty() : state.preview === 'error' ? error() : `<section class="idea-list" aria-label="Your ideas">${state.ideas.map(card).join('')}</section>`
+function appMarkup() {
+  const list = state.preview === 'loading' ? loading() : state.preview === 'empty' ? empty() : state.preview === 'error' ? error() : `<div class="list-heading"><p>${state.ideas.length} ideas</p><span>Most recently updated</span></div><section class="idea-list" aria-label="Your ideas">${state.ideas.map(card).join('')}</section>`
   const profile = state.profile ? '<div class="profile-menu"><strong>Priya Singh</strong><button data-action="profile-settings">Account settings</button><button data-action="sign-out">Sign out</button></div>' : ''
-  return `<div class="app-shell"><header class="topbar"><a class="brand" href="/ideas" aria-label="Groundwork, return to your ideas"><span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i></span><span>Groundwork</span></a><div class="topbar-actions"><button class="credit-button" data-action="credits" aria-label="15 credits, open credits"><span aria-hidden="true">◇</span><b>15</b><em>credits</em></button><div class="profile-wrap"><button class="profile-button" data-action="profile" aria-expanded="${state.profile}" aria-label="PS, open profile menu"><span>PS</span><i aria-hidden="true">⌄</i></button>${profile}</div></div></header>
-  <main><section class="page-intro"><div><p class="section-kicker">Your workspace</p><h1>Your ideas</h1><p class="intro-copy">Give an early idea some shape, then investigate it when the questions are worth paying to answer.</p></div><button class="solid-button" data-action="new-idea">New idea <span aria-hidden="true">+</span></button></section>
-  <nav class="preview-switcher" aria-label="Experiment preview state"><span>Experiment state</span>${['populated', 'empty', 'loading', 'error'].map((option) => `<button class="${state.preview === option ? 'selected' : ''}" data-action="preview" data-state="${option}">${option}</button>`).join('')}</nav>${state.composer ? composer() : ''}${list}</main>${state.toast ? `<div class="toast" role="status">${escapeHtml(state.toast)}</div>` : ''}</div>`
+  return `<div class="app-shell"><header class="topbar"><a class="brand" href="/ideas" aria-label="Groundwork, return to your ideas">${icons.mark}<span>Groundwork</span></a><nav aria-label="Account"><button class="credits" data-action="credits" aria-label="18 credits, open credits">${icons.credit}<span><strong>18</strong> credits</span></button><div class="profile-wrap"><button class="profile" data-action="profile" aria-expanded="${state.profile}" aria-label="Open profile menu">${icons.profile}</button>${profile}</div></nav></header><main><section class="page-heading"><div><p class="kicker">Your working set</p><h1>Your ideas</h1><p class="intro">Pick up where you left off, or give a new thought room to become specific.</p></div><button class="primary" data-action="new-idea">New idea <span aria-hidden="true">＋</span></button></section>${state.composer ? composer() : ''}${list}</main>${state.toast ? `<div class="toast" role="status" aria-live="polite">${escapeHtml(state.toast)}</div>` : ''}</div>`
 }
 
-function render() { root.innerHTML = app() }
-function notify(message) { state.toast = message; render(); window.setTimeout(() => { if (state.toast === message) { state.toast = ''; render() } }, 3300) }
+function render() {
+  root.innerHTML = appMarkup()
+}
+
+function notify(message) {
+  state.toast = message
+  render()
+  window.setTimeout(() => {
+    if (state.toast === message) {
+      state.toast = ''
+      render()
+    }
+  }, 3000)
+}
 
 root.addEventListener('click', (event) => {
   const target = event.target.closest('[data-action]')
-  if (!target) return
-  const { action, id, label, state: nextState, value } = target.dataset
-  if (action === 'new-idea') { state.preview = 'populated'; state.composer = true; render() }
-  if (action === 'preview') { state.preview = nextState; state.composer = false; render() }
+  if (!target) {
+    if (state.menu) {
+      state.menu = null
+      render()
+    }
+    return
+  }
+
+  const { action, id, label, value } = target.dataset
+  if (action === 'new-idea') { state.preview = 'populated'; state.composer = true; render(); document.querySelector('#idea-input')?.focus() }
   if (action === 'profile') { state.profile = !state.profile; render() }
   if (action === 'credits') notify('Credits would open general purchase mode')
   if (action === 'profile-settings') notify('Account settings are outside this prototype')
@@ -128,7 +147,7 @@ root.addEventListener('click', (event) => {
   if (action === 'keep-idea') { state.deleting = null; render() }
   if (action === 'delete-idea') { state.ideas = state.ideas.filter((idea) => idea.id !== id); state.deleting = null; notify('Idea removed from this prototype') }
   if (action === 'cancel-composer') { state.composer = false; render() }
-  if (action === 'empty-start') { state.preview = 'populated'; state.composer = true; render() }
+  if (action === 'empty-start') { state.preview = 'populated'; state.composer = true; render(); document.querySelector('#idea-input')?.focus() }
   if (action === 'retry') { state.preview = 'populated'; render() }
   if (action === 'starter') { const input = document.querySelector('#idea-input'); input.value = value; input.focus() }
 })

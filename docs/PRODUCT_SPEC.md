@@ -1,6 +1,6 @@
 # Groundwork Product and UX Specification
 
-Status: Working source of truth for decisions approved through 2026-09-11.
+Status: Working source of truth for decisions approved through 2026-09-16.
 
 This document records the agreed product behavior in sufficient detail that it should not need to be rediscovered in future design or implementation discussions. Open decisions are listed in `docs/DECISIONS.md`.
 
@@ -50,6 +50,8 @@ Do not create an empty Idea before the first message is submitted.
 ### Ideas layout
 
 Ideas appear as a single-column stack of wide entity cards rather than a multi-column tile grid.
+
+The approved production direction is **Signal edge**, demonstrated at `/_experiments/idea-card-6/` and specified in `DESIGN.md`.
 
 Each card contains:
 

@@ -1,6 +1,6 @@
 # Groundwork Decision Log
 
-Last updated: 2026-09-11
+Last updated: 2026-09-16
 
 This file separates locked product decisions from topics that still need discussion. Future work should not reopen locked decisions unless the user explicitly asks to change them.
 
@@ -97,12 +97,20 @@ This file separates locked product decisions from topics that still need discuss
 - No separate Continue and Earlier Ideas sections.
 - Ideas appear as a single-column stack of wide cards.
 - Cards show title, short Brief, and Shape, Investigate, and Roadmap stage controls.
-- The approved dashboard card direction is **Signal edge** (experiment card 14): a compact horizontal card with a slim semantic status rail, two quiet secondary stage controls, and one emphasized current action. The collapsed card omits verdict and last-updated metadata.
+- The approved dashboard card direction is **Signal edge** (`/_experiments/idea-card-6/`, evolved from experiment card 14): a compact horizontal card with a slim semantic status rail, two quiet secondary stage controls, and one emphasized current action. The collapsed card omits verdict and last-updated metadata.
 - The whole card is not one click target.
 - State is never communicated using color alone.
 - New Idea opens an inline idea input.
 - Each modified or re-researched version is treated as a new Idea.
 - The main product does not need to inherit its visual direction from the existing landing page.
+
+### Visual system
+
+- The initial product visual system is the light-first, cool-paper direction documented in `DESIGN.md` and demonstrated by `/_experiments/idea-card-6/`.
+- The palette is restrained: cobalt for primary and ready states, amber for running states, rust for failure or destructive actions, and cool blue-tinted neutrals for the workspace.
+- Manrope is the approved heading and compact-title family. DM Sans is the approved body, label, and control family, with system sans-serif fallbacks.
+- Semantic states always combine color with copy, icons, disabled semantics, or progress indicators.
+- Important unapproved components must continue through development-only experiments before production integration.
 
 ## Superseded or Rejected Directions
 
@@ -154,12 +162,9 @@ This file separates locked product decisions from topics that still need discuss
 
 ### Visual system
 
-- Theme
-- Color strategy and tokens
-- Typography
-- Spacing and density
-- Elevation and borders
-- Motion vocabulary
+- Long-form report composition and responsive section rhythm
+- Shape conversation and floating Idea Summary treatment
+- Verdict, competitor detail, risk visualization, and Roadmap overview treatments
 - Illustration and generated-media usage
 
 ### Trust and safety
