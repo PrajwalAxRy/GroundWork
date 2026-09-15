@@ -34,4 +34,5 @@ export const variants = [
   { id: 'micro', number: '11', name: 'Micro timeline', description: 'Quiet progress in minimal space' },
   { id: 'disclosure', number: '12', name: 'Progressive disclosure', description: 'Details only when requested' },
   { id: 'hybrid', number: '13', name: 'Connected focus', description: 'Card 08 hierarchy with a unified stage rail' },
+  { id: 'signalGlance', number: '14', name: 'Signal edge', description: 'Card 08 with a slim status rail' },
 ]

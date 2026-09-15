@@ -188,10 +188,10 @@ function lineCard() {
     </article>`
 }
 
-function glanceCard() {
+function glanceCard(extraClass = '') {
   const report = idea.stages[1]
   return `
-    <article class="prototype-card glance-card">
+    <article class="prototype-card glance-card ${extraClass}">
       <div class="glance-card__body">
         <div class="glance-card__meta">${signal()}</div>
         <h3>${idea.title}</h3>
@@ -206,6 +206,10 @@ function glanceCard() {
       </button>
       ${menu()}
     </article>`
+}
+
+function signalGlanceCard() {
+  return glanceCard('glance-card--signal-edge')
 }
 
 function hybridStage(stage, index, placement) {
@@ -317,6 +321,7 @@ const renderers = {
   micro: microCard,
   disclosure: disclosureCard,
   hybrid: hybridCard,
+  signalGlance: signalGlanceCard,
 }
 
 function render() {
@@ -327,7 +332,7 @@ function render() {
     </header>
     <main>
       <header class="page-header">
-        <div><h1>Idea card prototypes</h1><p>Thirteen structures, one idea. The later studies explore a lighter, more compact direction.</p></div>
+        <div><h1>Idea card prototypes</h1><p>Fourteen structures, one idea. The later studies explore a lighter, more compact direction.</p></div>
         <div class="page-header__count"><strong>${variants.length}</strong><span>directions</span></div>
       </header>
       <div class="prototype-list">
