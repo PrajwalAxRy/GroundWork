@@ -79,9 +79,9 @@ The frontend prototype should be reusable production-oriented code, not a dispos
 
 ## Immediate Next Topic
 
-The initial visual system, dashboard Idea card, and Shape conversation with Current idea summary are approved and integrated. The production card uses the **Signal edge** direction from `/_experiments/idea-card-6/`. The approved Shape direction is demonstrated at `/_experiments/shape-summary/`. `DESIGN.md` records both component directions and their responsive behavior.
+The initial visual system, dashboard Idea card, and Shape conversation with Current idea summary are approved and integrated on the production frontend foundation. The production card uses the **Signal edge** direction from `/_experiments/idea-card-6/`. The approved Shape direction is demonstrated at `/_experiments/shape-summary/`. `DESIGN.md` records both component directions and their responsive behavior.
 
-Continue with Phase 4 in `BUILD_PLAN.md`: review and select the production frontend stack, define the routing, component, and data-service architecture, and turn the approved tokens and surfaces into reusable production foundations. Preserve the accepted Your Ideas and Shape behavior during that work.
+Continue with Phase 5 in `BUILD_PLAN.md`: build the development-only Confirm Idea experiment from `docs/pages/03-confirm-idea.md`, capture desktop and mobile screenshots, and obtain user approval before integrating the production route.
 
 ## Important Prototype Requirements
 
@@ -96,7 +96,6 @@ Continue with Phase 4 in `BUILD_PLAN.md`: review and select the production front
 
 The following are intentionally open and should not be mistaken for missing documentation:
 
-- Exact frontend stack and location of the existing landing-page project
 - Exact credit amounts, package prices, and introductory-credit policy
 - Authentication and onboarding timing
 - Completion notification channels
@@ -109,8 +108,8 @@ Consult `docs/DECISIONS.md` for the complete open-decision list.
 
 ## Repository State
 
-This workspace now contains the integrated Your Ideas and Shape experience in `src/`, a local mock-service boundary with persisted Ideas, conversations, and drafts, deep-linkable prototype routes, approved component experiments, review screenshots, and `DESIGN.md`. The prototype remains framework-free and does not yet contain the remaining product pages or backend.
+This repository is now the canonical Groundwork application. It uses a Next.js 16 App Router, React 19, strict TypeScript, Tailwind CSS 4, Radix primitives, Zod contracts, Biome, and Vitest. The copied marketing surface, integrated Your Ideas and Shape experiences, local mock-service boundary, persisted Ideas/conversations/drafts, and approved experiment routes all live here. `ARCHITECTURE.md` defines the production frontend boundaries. The sibling landing-page folder remains an untouched reference and is not the application workspace.
 
 ## Suggested Prompt for the New Chat
 
-> Read `AGENTS.md` and `HANDOFF.md`, then read every source-of-truth document they reference, including `DESIGN.md` and `BUILD_PLAN.md`. Do not reopen locked product decisions. Continue with Phase 4 by reviewing the production frontend stack and defining reusable routing, component, token, and data-service foundations without changing the approved Your Ideas or Shape designs.
+> Read `AGENTS.md` and `HANDOFF.md`, then read every source-of-truth document they reference, including `DESIGN.md` and `BUILD_PLAN.md`. Do not reopen locked product decisions. Continue with Phase 5 by prototyping the Confirm Idea review experience at a development-only route and obtain approval before production integration.

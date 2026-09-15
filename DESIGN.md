@@ -168,3 +168,9 @@ Target WCAG 2.2 AA. All core interactions must work by keyboard. Icon-only contr
 New page-level components should reuse these tokens and the same control vocabulary. Important or uncertain components still require a development-only experiment route, desktop and mobile screenshots, and user approval before integration. Record approved additions here and in `docs/DECISIONS.md`.
 
 The following remain open for later experiments: long-form report composition, verdict presentation, competitor details, risk visualization, Roadmap overview, and any illustration or generated-media vocabulary.
+
+## Code Ownership and Implementation
+
+The product design system is implemented in `styles/product.css`, reusable controls in `components/ui/product-primitives.tsx`, and the product frame in `components/product/product-shell.tsx`. The marketing surface keeps its separate dark presentation in `styles/obsidian.css`; it does not redefine product semantics.
+
+This repository owns these files and all future design-system changes. The sibling landing-page repository is a read-only reference. `ARCHITECTURE.md` defines the corresponding route, component, and data boundaries.

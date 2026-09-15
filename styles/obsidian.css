@@ -1,0 +1,3388 @@
+/* ============================================================================
+   OBSIDIAN — landing-page component recipes.
+   ----------------------------------------------------------------------------
+   Every rule here reads a token from tokens.css. No colour literal may appear
+   in this file. **Nothing is theme-scoped any more**: A15 deleted Deep Canopy,
+   so Obsidian is the only system and these selectors are global.
+
+   The rule the whole system rests on: sections are separated by a 1px hairline
+   and nothing else. No background bands, no gradients between sections, no
+   shadows anywhere. Elevation is a border. Hierarchy is scale and tracking.
+
+   Every custom property used below is defined on `:root` in tokens.css — an
+   undefined one would silently void its whole declaration, with no error.
+   ============================================================================ */
+
+:root {
+  position: relative;
+  z-index: 0;
+  min-height: 100vh;
+  background: var(--ob-canvas);
+  color: var(--ob-muted);
+  font-family: var(--ob-font);
+  font-size: var(--ob-body);
+  font-weight: var(--ob-weight);
+  line-height: var(--ob-leading-body);
+  letter-spacing: var(--ob-tracking-snug);
+  font-feature-settings: "ss01" on, "cv11" on;
+}
+
+/* `overflow-x: clip` used to live in the block above. A0 moved `data-theme` to
+   <html>, which silently promoted it to the document root — and a clipping
+   root is the classic way for `position: fixed` and `position: sticky` to go
+   strange (pitfalls §5). A4's fixed run header and A9's sticky section index
+   both depend on it not being there.
+   It is not needed: the two elements that actually overflow horizontally clip
+   themselves — `.ob-hero` is `overflow: clip` and `.ob-marquee` is
+   `overflow: hidden`. Measured on every route: `scrollWidth === clientWidth`.
+   If a future section overflows, it clips itself; do not put this back on the
+   root. */
+
+/* The `:focus-visible` and `::selection` overrides that used to sit here are
+   **deleted, not de-scoped.** They existed only to beat globals.css's
+   `@layer base` copies, which hard-coded Deep Canopy's `--accent` (#7FB8E8) —
+   a green focus ring on an obsidian surface. A15 rewrote those base rules onto
+   `--ob-accent`, so these became two rules restating what they were overriding.
+   The remaining risk they were flagged for — losing a class of specificity when
+   the attribute went — is gone with them.
+
+   ------------------------------------------------------------------ */
+
+/* The global grain, moved here from globals.css's `@layer base` when Deep
+   Canopy was deleted. **It belongs with the backdrop, not in a base layer** —
+   it is atmosphere, and §1 is where atmosphere lives.
+
+   The opacity is a literal rather than a token on purpose: C2 closes the token
+   list, and a custom property with exactly one consumer is not earning its
+   place. It read `var(--grain-opacity)`, a Deep Canopy token with no `--ob-*`
+   equivalent, which would have silently voided the whole declaration the moment
+   tokens.css lost its first `:root` block — leaving a fully opaque noise layer
+   over the entire product with no error. */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9999;
+  opacity: 0.035;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='128' height='128'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='128' height='128' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* ============================================================
+   1. Backdrop — the only atmosphere in the system.
+   A single accent bloom behind the hero, drifting slowly. Fixed, so it
+   parallaxes against the page for free as content scrolls over it.
+   ============================================================ */
+
+.ob-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+/* **The blooms are the fallback, the plate is the field.** They stay live and
+   animated at all times — on `define`, which has no plate, they *are* the
+   atmosphere. Where a plate exists it occludes them, so a missing, slow or
+   failed image degrades to the CSS field instead of to a blank rectangle.
+
+   Both need an explicit `z-index`: `::after` is painted after an element's
+   children, so on DOM order alone the second bloom would sit on top of the
+   plate. */
+.ob-backdrop::before,
+.ob-backdrop::after {
+  z-index: 0;
+}
+
+/* The plate carries its own scrim, so the raster underneath stays fully opaque
+   and genuinely covers the blooms. Putting the strength on the image instead —
+   `opacity` on `.ob-backdrop-media` — makes it translucent, which stacks two
+   atmospheres and lifts the whole page above its own hairlines. */
+.ob-backdrop-plate {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+}
+
+.ob-backdrop-media {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+  filter: grayscale(1) contrast(0.95);
+}
+
+/* Painted above the raster because `::after` follows the element's children.
+   Scrimming in `--ob-canvas` keeps this arithmetically identical to the
+   `opacity` treatment it replaces: `1 − opacity` is the scrim's alpha. */
+.ob-backdrop-plate::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--ob-canvas);
+  opacity: 0.78;
+}
+
+.ob-backdrop::before {
+  content: "";
+  position: absolute;
+  top: -30vh;
+  left: 50%;
+  width: 120vw;
+  height: 110vh;
+  transform: translateX(-50%);
+  background: radial-gradient(50% 50% at 50% 50%, var(--ob-accent-wash) 0%, transparent 68%);
+  opacity: 0.85;
+  animation: ob-drift 34s var(--ob-ease) infinite;
+}
+
+/* A second, tighter bloom offset the other way so the field never reads as a
+   symmetrical blob. Counter-rotates on a longer period. */
+.ob-backdrop::after {
+  content: "";
+  position: absolute;
+  top: 8vh;
+  left: 22%;
+  width: 46vw;
+  height: 46vw;
+  border-radius: 50%;
+  background: radial-gradient(50% 50% at 50% 50%, var(--ob-accent-wash) 0%, transparent 70%);
+  opacity: 0.5;
+  filter: blur(40px);
+  animation: ob-drift-alt 52s var(--ob-ease) infinite;
+}
+
+@keyframes ob-drift {
+  0%,
+  100% {
+    transform: translateX(-50%) translateY(0) scale(1);
+  }
+  50% {
+    transform: translateX(-46%) translateY(4vh) scale(1.08);
+  }
+}
+
+@keyframes ob-drift-alt {
+  0%,
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
+  50% {
+    transform: translate(14vw, 6vh) scale(1.18);
+  }
+}
+
+/* Content sits above the backdrop. */
+.ob-layer {
+  position: relative;
+  z-index: 1;
+}
+
+/* ============================================================
+   2. Structure — container, hairline, section rhythm.
+   ============================================================ */
+
+.ob-container {
+  width: 100%;
+  max-width: var(--ob-container);
+  margin-inline: auto;
+  padding-inline: var(--ob-gutter);
+}
+
+/* The single most repeated element in the system. It IS the page structure. */
+.ob-rule {
+  border: 0;
+  border-top: 1px solid var(--ob-hairline);
+  margin: 0;
+}
+
+.ob-rule-v {
+  border: 0;
+  border-left: 1px solid var(--ob-hairline);
+  align-self: stretch;
+}
+
+/* ============================================================
+   3. Typography
+   ============================================================ */
+
+.ob-display {
+  font-family: var(--ob-font);
+  font-size: var(--ob-display);
+  font-weight: var(--ob-weight);
+  line-height: var(--ob-leading-display);
+  letter-spacing: var(--ob-tracking-display);
+  color: var(--ob-text);
+  text-wrap: balance;
+  margin: 0;
+}
+
+.ob-h1 {
+  font-size: var(--ob-h1);
+  font-weight: var(--ob-weight);
+  line-height: var(--ob-leading-tight);
+  letter-spacing: var(--ob-tracking-h1);
+  color: var(--ob-text);
+  text-wrap: balance;
+  margin: 0;
+}
+
+.ob-h2 {
+  font-size: var(--ob-h2);
+  font-weight: var(--ob-weight);
+  line-height: var(--ob-leading-tight);
+  letter-spacing: var(--ob-tracking-h2);
+  color: var(--ob-text);
+  text-wrap: balance;
+  margin: 0;
+}
+
+.ob-h3 {
+  font-size: var(--ob-h3);
+  font-weight: var(--ob-weight);
+  line-height: var(--ob-leading-snug);
+  letter-spacing: var(--ob-tracking-snug);
+  color: var(--ob-text);
+  margin: 0;
+}
+
+.ob-lead {
+  font-size: var(--ob-lead);
+  font-weight: var(--ob-weight);
+  line-height: var(--ob-leading-lead);
+  letter-spacing: var(--ob-tracking-snug);
+  color: var(--ob-muted);
+  margin: 0;
+}
+
+/* The three text-tier steps below `.ob-lead`. They exist as classes so a
+   component can name a size without reaching for a Tailwind `text-[15px]`
+   escape — six of those were the reason 15px got into the system at all, and
+   Tailwind is layout-only here. Colour is deliberately absent from `.ob-sub`
+   and down: these compose onto `.ob-body`'s colour or a recipe's own. */
+.ob-sub {
+  font-size: var(--ob-sub);
+  font-weight: var(--ob-weight);
+  line-height: var(--ob-leading-lead);
+  letter-spacing: var(--ob-tracking-snug);
+  color: var(--ob-text);
+  margin: 0;
+}
+
+.ob-body {
+  font-size: var(--ob-body);
+  line-height: var(--ob-leading-body);
+  color: var(--ob-text);
+  margin: 0;
+}
+
+.ob-sm {
+  font-size: var(--ob-sm);
+  line-height: var(--ob-leading-body);
+  letter-spacing: var(--ob-tracking-snug);
+  margin: 0;
+}
+
+.ob-xs {
+  font-size: var(--ob-xs);
+  line-height: var(--ob-leading-body);
+  letter-spacing: var(--ob-tracking-snug);
+  margin: 0;
+}
+
+.ob-body-bright {
+  color: var(--ob-text);
+}
+
+/* Metadata layer — mono, uppercase, wide. Labels, indices, counts, domains. */
+.ob-meta {
+  font-family: var(--ob-font-mono);
+  font-size: var(--ob-meta);
+  font-weight: var(--ob-weight-meta);
+  letter-spacing: var(--ob-tracking-meta);
+  line-height: var(--ob-leading-meta);
+  text-transform: uppercase;
+  color: var(--ob-dim);
+}
+
+.ob-meta-bright {
+  color: var(--ob-muted);
+}
+
+/* One step brighter than `.ob-meta-bright` — the full `--ob-text` white, for
+   meta-layer copy that has to carry real reading (not just a label glance). */
+.ob-meta-solid {
+  color: var(--ob-text);
+}
+
+.ob-meta-accent {
+  color: var(--ob-accent);
+}
+
+/* Inline emphasis inside body copy. Not blue — blue is verification only. */
+.ob-em {
+  color: var(--ob-text);
+}
+
+/* ============================================================
+   4. Buttons — exactly one filled per viewport.
+   ============================================================ */
+
+.ob-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 13px 24px;
+  font-family: var(--ob-font);
+  font-size: var(--ob-sm);
+  font-weight: var(--ob-weight);
+  letter-spacing: var(--ob-tracking-snug);
+  border-radius: var(--ob-r-pill);
+  border: 1px solid transparent;
+  cursor: pointer;
+  white-space: nowrap;
+  background: transparent;
+  color: var(--ob-text);
+  transition:
+    background var(--ob-base) var(--ob-ease),
+    border-color var(--ob-base) var(--ob-ease),
+    color var(--ob-base) var(--ob-ease),
+    box-shadow var(--ob-base) var(--ob-ease),
+    transform var(--ob-fast) var(--ob-ease);
+}
+
+.ob-btn:active {
+  transform: scale(0.98);
+}
+
+/* `transition: none` on purpose — the button animates box-shadow on hover, and
+   inheriting that here made the focus ring fade in over 320ms, which reads as
+   lag when tabbing. A focus ring should snap. */
+.ob-btn:focus-visible {
+  outline: none;
+  transition: none;
+  box-shadow: 0 0 0 2px var(--ob-canvas), 0 0 0 4px var(--ob-accent);
+}
+
+.ob-btn:disabled {
+  opacity: 0.38;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+/* Primary — the one saturated object on the screen. */
+.ob-btn-primary {
+  background: var(--ob-accent);
+  border-color: var(--ob-accent);
+  color: var(--ob-on-accent);
+}
+
+.ob-btn-primary:hover:not(:disabled) {
+  background: var(--ob-accent-bright);
+  border-color: var(--ob-accent-bright);
+  box-shadow: 0 0 0 4px var(--ob-accent-wash), 0 10px 40px var(--ob-accent-glow);
+}
+
+/* Secondary — ghost outline. Hyperstudio's default action. */
+.ob-btn-ghost {
+  border-color: var(--ob-hairline-strong);
+  color: var(--ob-text);
+}
+
+.ob-btn-ghost:hover:not(:disabled) {
+  border-color: var(--ob-text);
+  background: var(--ob-hover-wash);
+}
+
+/* Bare — text with an arrow, for tertiary placement. */
+.ob-btn-bare {
+  padding-inline: 0;
+  font-size: var(--ob-body);
+  color: var(--ob-text);
+}
+
+.ob-btn-bare:hover:not(:disabled) {
+  color: var(--ob-text);
+}
+
+/* Scoped to the nav shell — "See a finished run" sits next to plain-text
+   nav links at the same brightness now, so it needs the underline to still
+   read as a link rather than a fourth label. */
+.ob-nav-inner .ob-btn-bare {
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+.ob-btn-bare .ob-arrow {
+  transition: transform var(--ob-base) var(--ob-ease);
+}
+
+.ob-btn-bare:hover .ob-arrow {
+  transform: translate(3px, -3px);
+}
+
+/* ============================================================
+   5. Badge / pill — status chips.
+
+   `.ob-badge` / `.ob-badge-tag` lived here and carried the hero eyebrow
+   ("NEW — every excerpt is checked against the page it came from"). The
+   eyebrow was removed from the hero and nothing else used the recipe, so it
+   is gone rather than left as dead CSS. The canonical version survives in
+   `.claude/skills/obsidian-design/assets/recipes.css` if a badge is ever
+   wanted again.
+   ============================================================ */
+
+/* Live dot — the only thing that pulses. */
+.ob-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--ob-accent);
+  flex: none;
+  animation: ob-pulse 2.4s ease-in-out infinite;
+}
+
+@keyframes ob-pulse {
+  0%,
+  100% {
+    opacity: 1;
+    box-shadow: 0 0 0 0 var(--ob-accent-ring);
+  }
+  50% {
+    opacity: 0.55;
+    box-shadow: 0 0 0 5px transparent;
+  }
+}
+
+/* ============================================================
+   6. Navigation — transparent, condenses to a bordered pill on scroll.
+   ============================================================ */
+
+.ob-nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 60;
+  padding-top: 18px;
+  transition: padding-top var(--ob-base) var(--ob-ease);
+}
+
+.ob-nav[data-scrolled="true"] {
+  padding-top: 10px;
+}
+
+.ob-nav-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 32px;
+  width: 100%;
+  max-width: var(--ob-container);
+  margin-inline: auto;
+  padding: 12px var(--ob-gutter);
+  border: 1px solid transparent;
+  border-radius: var(--ob-r-pill);
+  transition: max-width var(--ob-base) var(--ob-ease), padding var(--ob-base) var(--ob-ease),
+    border-color var(--ob-base) var(--ob-ease), background var(--ob-base) var(--ob-ease);
+}
+
+.ob-nav[data-scrolled="true"] .ob-nav-inner {
+  max-width: 940px;
+  padding-inline: 20px;
+  border-color: var(--ob-hairline);
+  background: var(--ob-scrim);
+  backdrop-filter: blur(14px);
+}
+
+/* Scoped to the nav shell so "Start" keeps the larger, brighter nav-link size
+   the header settled on, without resizing `.ob-btn-ghost` everywhere else
+   it's used in the app. */
+.ob-nav-inner .ob-btn-ghost {
+  font-size: var(--ob-body);
+}
+
+/* The nav's account link is permanent. It used to be a `Start` CTA held back
+   until the hero's primary had scrolled away, so only one filled button was
+   ever on screen; as `Sign In` it is not a CTA and has nothing to yield to. */
+
+/* Wordmark. The tracking is a literal and stays one: this is a brand mark
+   being tightened, not a text step. `--ob-tracking-fig` happens to hold the
+   same −0.02em, but it means "figure numeral" and reading it here would say
+   something untrue about what this element is. */
+.ob-wordmark {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-size: var(--ob-sub);
+  letter-spacing: -0.02em;
+  color: var(--ob-text);
+}
+
+/* Chalk, not accent. Blue is spent on verification and the primary action;
+   spending it on the logo too would make it mean nothing. */
+.ob-wordmark-glyph {
+  color: var(--ob-text);
+  flex: none;
+  transition: transform var(--ob-base) var(--ob-ease);
+}
+
+/* Skip link — obsidian-scoped so it doesn't inherit the Deep Canopy chrome. */
+/* z-index 70 clears the run header's 50 and the landing nav's 60. It is the
+   highest thing in the app on purpose: a skip link that lands behind a fixed
+   header is a skip link that does nothing (R19). */
+.ob-skip {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  z-index: 70;
+  padding: 12px 20px;
+  background: var(--ob-accent);
+  color: var(--ob-on-accent);
+  border-radius: 0 0 var(--ob-r-card) 0;
+  font-size: var(--ob-sm);
+}
+
+.ob-skip:focus {
+  left: 0;
+}
+
+.ob-wordmark:hover .ob-wordmark-glyph {
+  transform: rotate(90deg);
+}
+
+/* ============================================================
+   7. Hero
+   ============================================================ */
+
+.ob-hero {
+  position: relative;
+  padding-top: 180px;
+  padding-bottom: 120px;
+  background: var(--ob-void);
+  overflow: clip;
+}
+
+/* Collage — perspective media cards behind and beside the headline. They are
+   atmosphere: heavily darkened so the display type stays dominant. */
+.ob-collage {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  perspective: 1400px;
+  transform-style: preserve-3d;
+}
+
+.ob-collage-card {
+  position: absolute;
+  overflow: hidden;
+  border-radius: var(--ob-r-card);
+  border: 1px solid var(--ob-hairline);
+  will-change: transform;
+}
+
+.ob-collage-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  filter: grayscale(0.35) contrast(1.05);
+}
+
+/* Every card carries its own scrim so the type never fights the photo. */
+.ob-collage-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--ob-void);
+  opacity: 0.62;
+}
+
+/* Vignette that dissolves the collage into the canvas at every edge. */
+.ob-collage-veil {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background: radial-gradient(120% 78% at 50% 46%, transparent 0%, var(--ob-void) 76%),
+    linear-gradient(
+      to bottom,
+      var(--ob-void) 0%,
+      transparent 22%,
+      transparent 58%,
+      var(--ob-void) 96%
+    );
+}
+
+.ob-hero-content {
+  position: relative;
+  z-index: 2;
+}
+
+/* Split hero: claim on the left, product loop on the right. The columns are
+   near-equal but the copy side takes the extra space — the headline is the
+   subject, the loop is the proof. */
+.ob-hero-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
+  align-items: center;
+  gap: 72px;
+}
+
+/* The split drops the headline from display to h1 scale. At 104px these three
+   lines overrun a half-width column and the browser re-breaks them mid-phrase,
+   which is exactly what pre-broken `lines` exist to prevent. */
+.ob-hero-headline {
+  font-size: var(--ob-h1);
+  letter-spacing: var(--ob-tracking-h1);
+  line-height: var(--ob-leading-tight);
+  max-width: 15ch;
+  text-align: left;
+}
+
+.ob-hero-media {
+  width: 100%;
+}
+
+/* Scroll cue at the foot of the hero. */
+.ob-scroll-cue {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  color: var(--ob-dim);
+}
+
+.ob-scroll-cue-track {
+  width: 1px;
+  height: 56px;
+  background: var(--ob-hairline);
+  position: relative;
+  overflow: hidden;
+}
+
+.ob-scroll-cue-track::after {
+  content: "";
+  position: absolute;
+  inset-inline: 0;
+  height: 18px;
+  background: var(--ob-accent);
+  /* **A15 retune: 2.6s → 2400ms.** 2600ms was in the dead zone. It joins the
+     system's one infinite period; three elements now share 2400ms — this cue,
+     the accent `.ob-dot` and the dim `.ob-rest-dot` — and the rule the binary
+     checks is that there is exactly *one* infinite duration, not one user. */
+  animation: ob-cue 2400ms var(--ob-ease) infinite;
+}
+
+@keyframes ob-cue {
+  0% {
+    transform: translateY(-20px);
+    opacity: 0;
+  }
+  35% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(56px);
+    opacity: 0;
+  }
+}
+
+/* ============================================================
+   8. Marquee — the five research dimensions, drifting.
+   ============================================================ */
+
+.ob-marquee {
+  position: relative;
+  overflow: hidden;
+  padding-block: 22px;
+  -webkit-mask-image: linear-gradient(
+    90deg,
+    transparent,
+    var(--ob-text) 12%,
+    var(--ob-text) 88%,
+    transparent
+  );
+  mask-image: linear-gradient(
+    90deg,
+    transparent,
+    var(--ob-text) 12%,
+    var(--ob-text) 88%,
+    transparent
+  );
+}
+
+.ob-marquee-track {
+  display: flex;
+  width: max-content;
+  gap: 0;
+  animation: ob-marquee 46s linear infinite;
+}
+
+.ob-marquee:hover .ob-marquee-track {
+  animation-play-state: paused;
+}
+
+.ob-marquee-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 18px;
+  padding-inline: 18px;
+  white-space: nowrap;
+  font-size: var(--ob-body);
+}
+
+/* Dim, not accent. Blue has three jobs — verification, the primary action, and
+   "you are here". Decoration is not one of them. */
+.ob-marquee-sep {
+  color: var(--ob-dim);
+}
+
+@keyframes ob-marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+/* ============================================================
+   9. Section chrome — numbered head, sticky rail.
+   ============================================================ */
+
+.ob-section {
+  padding-block: var(--ob-section-gap);
+}
+
+.ob-section-tight {
+  padding-block: 120px;
+}
+
+.ob-eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.ob-eyebrow::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: var(--ob-hairline);
+}
+
+/* One step up from bare `.ob-meta` (12px, `--ob-dim`) — every numbered section
+   overline shares this bump (`SectionHead`, `SectionLabel`, the pillar panel
+   header), scoped to the combination so the thousand other `.ob-meta` labels
+   in the app (timestamps, counts, captions) are untouched. */
+.ob-eyebrow.ob-meta {
+  font-size: var(--ob-sm);
+  color: var(--ob-text);
+}
+
+/* ============================================================
+   10. Pillars — sticky-left / scrolling-right scrollytelling.
+   ============================================================ */
+
+.ob-pillar-rail {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.ob-pillar-tick {
+  display: flex;
+  align-items: baseline;
+  gap: 14px;
+  padding: 12px 0 12px 16px;
+  border-left: 1px solid var(--ob-hairline);
+  color: var(--ob-dim);
+  text-align: left;
+  width: 100%;
+  cursor: pointer;
+  background: none;
+  transition: border-color var(--ob-base) var(--ob-ease), color var(--ob-base) var(--ob-ease);
+}
+
+.ob-pillar-tick:hover {
+  color: var(--ob-muted);
+  border-left-color: var(--ob-hairline-strong);
+}
+
+.ob-pillar-tick:focus-visible {
+  outline: none;
+  border-left-color: var(--ob-accent);
+  color: var(--ob-text);
+}
+
+.ob-pillar-tick[data-active="true"] {
+  border-left-color: var(--ob-accent);
+  color: var(--ob-text);
+}
+
+.ob-pillar-tick-label {
+  font-size: var(--ob-h3);
+  letter-spacing: var(--ob-tracking-snug);
+}
+
+.ob-pillar-panel {
+  border-top: 1px solid var(--ob-hairline);
+  padding-top: 36px;
+  transition: opacity var(--ob-base) var(--ob-ease);
+}
+
+.ob-pillar-panel[data-dim="true"] {
+  opacity: 0.42;
+}
+
+/* The one-line consequence under each pillar's body copy. */
+.ob-proof {
+  border-left: 1px solid var(--ob-hairline-strong);
+  padding-left: 20px;
+  color: var(--ob-text);
+}
+
+/* The index numeral on each panel. Chalk, not accent — all three would be blue
+   at once, which would make the rail's active-blue mean nothing. */
+.ob-pillar-index {
+  font-family: var(--ob-font-mono);
+  font-size: var(--ob-xs);
+  font-weight: var(--ob-weight-meta);
+  letter-spacing: var(--ob-tracking-meta);
+  color: var(--ob-text);
+}
+
+/* ============================================================
+   11. Product-fragment cards — code-drawn UI shown inside sections.
+   These are real product surfaces, not screenshots.
+   ============================================================ */
+
+.ob-frag {
+  border: 1px solid var(--ob-hairline);
+  border-radius: var(--ob-r-card);
+  background: var(--ob-surface);
+  overflow: hidden;
+}
+
+.ob-frag-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 11px 16px;
+  border-bottom: 1px solid var(--ob-hairline);
+  background: var(--ob-void);
+}
+
+.ob-frag-body {
+  padding: 20px;
+}
+
+.ob-frag-foot {
+  border-top: 1px solid var(--ob-hairline);
+}
+
+.ob-frag-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  padding-block: 11px;
+}
+
+.ob-frag-row + .ob-frag-row {
+  border-top: 1px solid var(--ob-hairline);
+}
+
+.ob-frag-key {
+  flex: none;
+  width: 132px;
+}
+
+/* Small status chip — VERIFIED / DISCARDED / UNKNOWN inside fragments. */
+.ob-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  flex: none;
+  padding: 3px 8px;
+  border: 1px solid var(--ob-hairline);
+  border-radius: var(--ob-r-tag);
+  font-family: var(--ob-font-mono);
+  font-size: var(--ob-meta-xs);
+  font-weight: var(--ob-weight-meta);
+  letter-spacing: var(--ob-tracking-meta);
+  text-transform: uppercase;
+  color: var(--ob-dim);
+  white-space: nowrap;
+}
+
+.ob-chip-verified {
+  border-color: var(--ob-hairline-accent);
+  color: var(--ob-accent);
+}
+
+/* Chat bubbles inside a fragment. */
+/* Capped by measure, not by percentage: a bubble that stretches to the width of
+   the card reads as a document, not a conversation. */
+.ob-bubble {
+  border: 1px solid var(--ob-hairline);
+  border-radius: var(--ob-r-card);
+  padding: 13px 16px;
+  font-size: var(--ob-sm);
+  line-height: var(--ob-leading-body);
+  max-width: 48ch;
+  width: fit-content;
+}
+
+.ob-bubble-user {
+  margin-left: auto;
+  background: var(--ob-raised);
+  color: var(--ob-text);
+  border-bottom-right-radius: var(--ob-r-tag);
+}
+
+.ob-bubble-ai {
+  margin-right: auto;
+  background: transparent;
+  color: var(--ob-text);
+  border-bottom-left-radius: var(--ob-r-tag);
+}
+
+/* Typing caret — the one blinking thing.
+
+   **A sanctioned exception to the motion binary, allowlisted by name rather
+   than by widening the band.** 1s sits in the dead zone, and that is correct
+   here for the same reason the typewriter's 15ms/char is: a caret blink is not
+   a transition, it is a depiction of a real object, and a hardware cursor
+   blinks at about 1Hz. At 2400ms it reads as broken rather than as typing.
+   Under reduced motion §16 stops it and pins it visible. */
+.ob-caret {
+  display: inline-block;
+  width: 2px;
+  height: 1.05em;
+  vertical-align: text-bottom;
+  margin-left: 2px;
+  background: var(--ob-accent);
+  animation: ob-blink 1s steps(2, start) infinite;
+}
+
+@keyframes ob-blink {
+  to {
+    opacity: 0;
+  }
+}
+
+/* --- Idea Session — pillar 01's Define preview --------------------------- */
+
+/* The pointer is positioned against the CARD, so the card is the containing
+   block. `.ob-frag`'s own `overflow: hidden` then clips it, which is what lets
+   it enter from off-frame for free. */
+.ob-session-card {
+  position: relative;
+}
+
+/* The replay control lives in the 40px card bar, so it cannot carry `.ob-btn`'s
+   13px block padding — that alone would push the bar to 66px and knock pillar
+   01's header out of register with 02 and 03. Negative margin cancels the
+   padding in layout while keeping a ~33px hit target. */
+.ob-session-replay {
+  /* `.ob-btn` is declared after `.ob-meta` at the same specificity, so it wins
+     every property they share — the label was rendering 14px sans, sentence
+     case, next to a 12px uppercase mono `DRAFT`. Re-declared here (later still)
+     so the control actually joins the metadata layer it sits in. One word, not
+     a sentence, so mono is right. */
+  font-family: var(--ob-font-mono);
+  font-size: var(--ob-meta);
+  font-weight: var(--ob-weight-meta);
+  letter-spacing: var(--ob-tracking-meta);
+  text-transform: uppercase;
+  color: var(--ob-dim);
+  /* `line-height: 1` is load-bearing, not tidying. `.ob-btn` inherits the body's
+     1.6, which makes a 12px label a 19px line — taller than the 17px meta line
+     beside it, so the bar grows even once the padding is cancelled. Pinned to 1,
+     the bar is driven by `DEFINE` / `DRAFT` exactly as it is on pillars 02 and
+     03, and the padding survives only as hit area (~36px). */
+  line-height: var(--ob-leading-flat);
+  /* 7px, not more. `.ob-btn:focus-visible` draws its ring as a 4px box-shadow
+     spread, and `.ob-frag` clips to the card — at 10px the button's box was
+     36px tall inside a 39px bar and the ring's top and bottom arcs were cut
+     off. At 7px the box is 30px, the ring lands inside the bar, and the hit
+     area is still 30px. */
+  padding-block: 7px;
+  margin-block: -7px;
+}
+
+.ob-session-replay:hover:not(:disabled) {
+  color: var(--ob-text);
+}
+
+/* The transcript is a FIXED-HEIGHT viewport whose content scrolls up as steps
+   land, not a box that grows. The script is roughly 3× the card's height, so
+   this is what lets a ~14s conversation live in 624×500 with the card's box
+   constant at every point in the cycle — no layout shift by construction. */
+.ob-session-scroll {
+  height: 458px;
+  overflow-y: auto;
+  scroll-behavior: smooth;
+  padding: 18px 20px;
+  /* The top edge fades rather than hard-clipping, so the half-scrolled tail of
+     the earlier exchange reads as "you joined this in progress". Same trick as
+     the marquee: --ob-text is the opaque stop, never a colour literal. */
+  -webkit-mask-image: linear-gradient(180deg, transparent 0, var(--ob-text) 34px);
+  mask-image: linear-gradient(180deg, transparent 0, var(--ob-text) 34px);
+  scrollbar-width: none;
+}
+
+.ob-session-scroll::-webkit-scrollbar {
+  display: none;
+}
+
+/* Anchored to the BOTTOM, not the top. For the first few seconds the script is
+   shorter than the viewport, and a top-aligned flow would open on one greyed
+   line above 280px of nothing — which reads as an empty card, not as a
+   conversation already in progress. Growing upward, the dead space sits above
+   the transcript where the top mask fades it out, and the moment the content
+   exceeds the box it simply scrolls. */
+.ob-session-flow {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  min-height: 100%;
+  gap: 12px;
+}
+
+/* .ob-bubble's 48ch is tuned for section 03's 900px column. At 624 the same cap
+   leaves an assistant line nearly edge to edge, and a bubble that fills its
+   container stops reading as a conversation. */
+.ob-session-bubble {
+  max-width: 42ch;
+  margin-block: 0;
+}
+
+/* The three shapes. A hairline-separated list, not bullets: this is product UI
+   being depicted, and hairlines are how this system makes a list. */
+.ob-session-options {
+  display: flex;
+  flex-direction: column;
+  margin-right: auto;
+  max-width: 52ch;
+  padding-left: 14px;
+  border-left: 1px solid var(--ob-hairline);
+}
+
+.ob-session-option {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  padding-block: 7px;
+  line-height: var(--ob-leading-lead);
+  animation: ob-session-in var(--ob-base) var(--ob-ease) both;
+}
+
+.ob-session-option + .ob-session-option {
+  border-top: 1px solid var(--ob-hairline);
+}
+
+.ob-session-option-letter {
+  flex: none;
+  width: 1ch;
+  font-family: var(--ob-font-mono);
+  font-size: var(--ob-meta-sm);
+  font-weight: var(--ob-weight-meta);
+  letter-spacing: var(--ob-tracking-meta);
+  color: var(--ob-dim);
+}
+
+.ob-session-option-body {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.ob-session-option-lead {
+  font-size: var(--ob-sm);
+  font-weight: var(--ob-weight-meta);
+  letter-spacing: var(--ob-tracking-snug);
+  color: var(--ob-text);
+}
+
+.ob-session-option-rest {
+  font-size: var(--ob-sm);
+  letter-spacing: var(--ob-tracking-snug);
+  color: var(--ob-muted);
+}
+
+/* --- The Investor lens ---------------------------------------------------
+   BLUE'S FOURTH JOB, and the only one. The system's rule is three — primary
+   action, verification, live/active — and this is a deliberate, owner-approved
+   addition, written down here as a named job so nobody later deletes it as an
+   undocumented mistake. The job is: AN OUTSIDE LENS ON THE IDEA.
+
+   The constraint that survives the exception: on /r/[slug]/validate, blue plus
+   a tick means VERIFIED. This is an unverified opinion and must never be
+   mistaken for one. So it gets a left rule and the 12% wash and nothing else —
+   never --ob-hairline-accent as a full border (that is reserved for a verified
+   object), never the solid --ob-accent fill of .btn-primary, and NEVER a
+   checkmark. No new token: --ob-accent and --ob-accent-wash already exist. */
+.ob-session-lens {
+  margin-right: auto;
+  max-width: 52ch;
+  padding: 12px 14px;
+  border-left: 2px solid var(--ob-accent);
+  border-radius: 0 var(--ob-r-tag) var(--ob-r-tag) 0;
+  background: var(--ob-accent-wash);
+  animation: ob-session-in var(--ob-base) var(--ob-ease) both;
+}
+
+.ob-session-lens-label {
+  display: block;
+  color: var(--ob-accent);
+}
+
+.ob-session-lens-text {
+  margin-top: 6px;
+  font-size: var(--ob-sm);
+  line-height: var(--ob-leading-body);
+  letter-spacing: var(--ob-tracking-snug);
+  color: var(--ob-text);
+}
+
+/* The finish. A nudge, not a gate: it names what is open and lets you past. */
+.ob-session-finish {
+  margin-top: 4px;
+  padding-top: 16px;
+  border-top: 1px solid var(--ob-hairline);
+  animation: ob-session-in var(--ob-base) var(--ob-ease) both;
+}
+
+.ob-session-finish-head {
+  font-size: var(--ob-sub);
+  letter-spacing: var(--ob-tracking-snug);
+  color: var(--ob-text);
+}
+
+.ob-session-finish-body {
+  margin-top: 5px;
+  max-width: 52ch;
+  font-size: var(--ob-sm);
+  line-height: var(--ob-leading-body);
+  letter-spacing: var(--ob-tracking-snug);
+  color: var(--ob-muted);
+}
+
+.ob-session-finish-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 14px;
+}
+
+/* Depicted buttons, rendered as spans — a focusable control that does nothing
+   is worse than a picture of one. No hover/focus states for the same reason. */
+.ob-session-cta {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  padding: 7px 15px;
+  border: 1px solid var(--ob-accent);
+  border-radius: var(--ob-r-pill);
+  background: var(--ob-accent);
+  font-size: var(--ob-xs);
+  letter-spacing: var(--ob-tracking-snug);
+  color: var(--ob-on-accent);
+  white-space: nowrap;
+}
+
+.ob-session-cta-quiet {
+  border-color: var(--ob-hairline-strong);
+  background: transparent;
+  color: var(--ob-muted);
+}
+
+/* --- The closing gesture: a pointer presses the CTA ----------------------
+   The whole point of the finish is that there IS a next thing to press, and a
+   depicted button nobody ever touches is a picture of a dead end. So the last
+   beat draws someone pressing it.
+
+   Nothing is dispatched — the CTA is a `<span>`, there is no handler, and the
+   press is entirely drawn. That is deliberate: this is a picture of the app, so
+   the gesture is drawn for the same reason the button is.
+
+   **THE WHOLE CLOSING GESTURE IS A SANCTIONED EXCEPTION TO THE MOTION BINARY,
+   ALLOWLISTED BY NAME HERE** — the same exception `.ob-caret` holds, widened by
+   owner decision on 2026-08-22 when the gesture was slowed and the ripple
+   enlarged. Every duration below (glide 1,150ms · squash 520ms · rings 620ms ·
+   ripple 680ms) sits in the dead zone the binary forbids, and that is the
+   point: none of these is a UI transition. They depict a physical event — a
+   hand arriving, a surface taking a press, and the ripple that comes off it —
+   and physical events at this scale do not resolve in 320ms.
+
+   The rule still binds everywhere else on this surface. If you are adding
+   motion and it is not part of this gesture, it is structural (150–320ms) or
+   ambient (20–50s), with nothing in between. */
+.ob-session-pointer {
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: 2;
+  display: block;
+  pointer-events: none;
+  color: var(--ob-text);
+  /* A real cursor is a light arrow with a dark keyline, which is what keeps it
+     legible crossing from the dark card onto the accent button. */
+  stroke: var(--ob-canvas);
+  fill: var(--ob-text);
+  transform: translate(var(--ob-ptr-x), var(--ob-ptr-y));
+}
+
+.ob-session-pointer[data-phase="travel"] {
+  animation: ob-session-pointer-in var(--ob-ptr-travel) var(--ob-ease) both;
+}
+
+/* Paused rather than left running, so a card scrolled out mid-approach resumes
+   in step with the JS timer instead of finishing the glide in an empty room. */
+.ob-session-pointer[data-paused] {
+  animation-play-state: paused;
+}
+
+/* The cursor visibly clicks. `0%` and `100%` are left off on purpose so they
+   resolve to the element's own `transform`, which is the only place the measured
+   position lives. */
+.ob-session-pointer[data-phase="press"] {
+  animation: ob-session-pointer-click 320ms ease-in-out;
+}
+
+/* Lifts away once the press has landed. No animation here, so the transition
+   is free to run — an `animation ... both` would pin opacity at 1 forever. */
+.ob-session-pointer[data-phase="done"] {
+  opacity: 0;
+  transition: opacity var(--ob-base) var(--ob-ease);
+}
+
+@keyframes ob-session-pointer-click {
+  40% {
+    transform: translate(var(--ob-ptr-x), var(--ob-ptr-y)) scale(0.84);
+  }
+}
+
+@keyframes ob-session-pointer-in {
+  0% {
+    transform: translate(var(--ob-ptr-from-x), var(--ob-ptr-from-y));
+    opacity: 0;
+  }
+  22% {
+    opacity: 1;
+  }
+  100% {
+    transform: translate(var(--ob-ptr-x), var(--ob-ptr-y));
+    opacity: 1;
+  }
+}
+
+/* The button takes the press: a dip, and one ring off the edge. The ring is a
+   BORDER on a pseudo-element, not a `box-shadow` — this system ships exactly
+   one shadow and it is the primary button's hover glow. */
+.ob-session-cta[data-pressed] {
+  /* `ease-in-out` for the same reason the rings are `linear` — this is a squash
+     and release, not a transition arriving. `--ob-ease` reaches each stop almost
+     instantly and the dip/pop reads as two hard steps. */
+  animation: ob-session-press 520ms ease-in-out;
+}
+
+/* Two rings, staggered. `--ob-accent` solid, not `--ob-accent-ring`: the first
+   pass used the ring token (30% alpha) flush at `-1px` and it measured perfectly
+   while being invisible on screen — a 0.8px rendered border at 30%, starting
+   exactly on top of the button's own accent border, fully faded before it
+   cleared the edge.
+
+   **They expand by `inset`, not by `transform: scale`, and that is geometry not
+   taste.** The CTA sits ~20px from the card's left edge inside a scroller that
+   clips both axes, and `scale` grows a ring by a fraction of the button's own
+   152px width — past about 1.25x the left arc is cut off. `inset` grows a fixed
+   number of pixels in every direction, so an 18px ripple needs 18px of headroom
+   instead of 76px, and it reads far larger than the scaled one ever could. */
+.ob-session-cta[data-pressed]::after,
+.ob-session-cta[data-pressed]::before {
+  content: "";
+  position: absolute;
+  border-radius: var(--ob-r-pill);
+  pointer-events: none;
+}
+
+/* **`linear`, not `--ob-ease`, and the difference is the whole effect.**
+   `--ob-ease` is `cubic-bezier(0.16, 1, 0.3, 1)` — a hard ease-out that spends
+   ~90% of its travel in the first third. Right for a UI transition arriving;
+   fatal for a ripple, which it fades to invisible in ~85ms of a 320ms
+   animation. On `linear` with hand-placed stops the ring is legible for its
+   whole life and still decelerates, because the stops do the shaping. The
+   precedent is already here: `.ob-dot`'s pulse is `ease-in-out` and the marquee
+   is `linear` — the system ease is for transitions, not for pulses. */
+.ob-session-cta[data-pressed]::after {
+  border: 2px solid var(--ob-accent);
+  animation: ob-session-ring 620ms linear both;
+}
+
+/* The second ring trails the first by 180ms, so the pair reads as one impact
+   spreading rather than as two outlines. */
+.ob-session-cta[data-pressed]::before {
+  /* `both`, not `forwards` — without a backwards fill the ring has no `inset`
+     during its 90ms delay, collapses to `inset: auto`, and flashes as a 2px dot
+     before it expands. */
+  border: 1px solid var(--ob-accent);
+  animation: ob-session-ring-wide 620ms linear 180ms both;
+}
+
+/* Dip, flash, then a small pop on the way back — the overshoot is what makes it
+   read as a press landing rather than as the button merely shrinking. 1.06 of a
+   152px button is ~4.5px a side against a 10px gap, so it never touches
+   `Keep talking`. */
+@keyframes ob-session-press {
+  0% {
+    transform: scale(1);
+    background-color: var(--ob-accent);
+  }
+  28% {
+    transform: scale(0.88);
+    background-color: var(--ob-accent-bright);
+  }
+  62% {
+    transform: scale(1.08);
+    background-color: var(--ob-accent-bright);
+  }
+  100% {
+    transform: scale(1);
+    background-color: var(--ob-accent);
+  }
+}
+
+/* `-18px` is the ceiling, set by geometry rather than taste: the CTA's left edge
+   sits 20px from the scroller's padding box, which is where the clip happens.
+   Past -20px the left arc is cut. */
+@keyframes ob-session-ring {
+  0% {
+    inset: -2px;
+    opacity: 1;
+  }
+  40% {
+    inset: -11px;
+    opacity: 0.7;
+  }
+  100% {
+    inset: -19px;
+    opacity: 0;
+  }
+}
+
+@keyframes ob-session-ring-wide {
+  0% {
+    inset: -2px;
+    opacity: 0.6;
+  }
+  40% {
+    inset: -10px;
+    opacity: 0.38;
+  }
+  100% {
+    inset: -19px;
+    opacity: 0;
+  }
+}
+
+/* --- The inner ripple ----------------------------------------------------
+   **This is where the size actually comes from, and it exists because the outer
+   rings cannot grow.** They are capped at 19px by geometry, not taste: the CTA
+   sits 20px from `.ob-session-scroll`'s padding box, which is where the clip
+   happens, so anything larger loses its left arc. A ripple that spreads INSIDE
+   the button has no such ceiling — it is clipped by the pill it is filling, so
+   it can cross the whole 152px face.
+
+   It starts at the pointer's contact point (42% / 55%, the same figures
+   `IdeaSession` measures the target with) rather than at the centre, which is
+   what makes it read as coming from the click instead of from the button.
+
+   `--ob-on-accent` is the token; the softness is `opacity` on the element, so
+   no colour value is introduced. */
+.ob-session-cta-ripple {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  border-radius: var(--ob-r-pill);
+  pointer-events: none;
+}
+
+/* `aspect-ratio: 1` with `width: 100%` makes the circle as wide AND tall as the
+   button's width, and percentage margins resolve against the containing block's
+   WIDTH on both axes — so `-50%` centres it on the contact point without a
+   magic pixel number or a `translate`. */
+.ob-session-cta-ripple-dot {
+  position: absolute;
+  left: 42%;
+  top: 55%;
+  width: 100%;
+  aspect-ratio: 1;
+  margin: -50% 0 0 -50%;
+  border-radius: 50%;
+  background: var(--ob-on-accent);
+  animation: ob-session-ripple 680ms linear both;
+}
+
+@keyframes ob-session-ripple {
+  0% {
+    transform: scale(0);
+    opacity: 0.55;
+  }
+  55% {
+    opacity: 0.26;
+  }
+  100% {
+    transform: scale(2.2);
+    opacity: 0;
+  }
+}
+
+@keyframes ob-session-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* ============================================================
+   11b. Validate Field — pillar 02's floating scene.
+
+   **There is no card here, and that is the point.** The first build of this
+   surface was a bordered panel with a title bar and a footer rule; it was
+   rejected for being a box. Nothing below draws a container. Objects float in
+   a lit volume at different depths, overlap, tilt with the pointer, and drift
+   forever on their own periods.
+
+   Three things this block depends on, none of them decorative:
+
+   1. **`.ob-vf-bloom` is the reason the glass is visible at all.** A
+      translucent pane over `#0A0A0B` is a slightly lighter rectangle and
+      nothing more. The three out-of-focus lights are what `backdrop-filter`
+      has to work with. Removing them does not simplify the scene, it deletes
+      the treatment.
+   2. **State and drift live on different elements.** `.ob-vf-*` wrappers carry
+      the entrance/exit transform; `.ob-vf-bob` inside carries the perpetual
+      float. One element cannot do both — the second `transform` wins and the
+      entrance silently stops happening.
+   3. **No `transform-style: preserve-3d` anywhere.** `backdrop-filter`
+      establishes a containing block and flattens its subtree, so a glass pane
+      inside a preserved-3d parent samples the wrong backdrop. Every pane gets
+      its depth from a single transform against `.ob-vf-volume`'s
+      `perspective`, one level deep, which is the configuration that works.
+
+   Blue is ambient light in this scene as well as a state, which is a real
+   departure from the three-jobs rule — see the token group in tokens.css. The
+   moment it touches an object rather than the air (the curve's live head, a
+   `Verified` mark, a verification sheen) it is back to doing one of the three.
+   ============================================================ */
+
+.ob-vf {
+  position: relative;
+  /* Bleeds past the text column on both sides — a scene that stops exactly
+     where the paragraph above it stops is a box with the border turned off.
+
+     **Asymmetric on purpose.** The left overhang runs into the 96px gap between
+     the pinned heading and this column, which always exists. The right one runs
+     into the page gutter, which does not: at 1280 a symmetric 38px pushed the
+     document 8px wide and put a horizontal scrollbar on the whole page. 16px
+     clears every width this site is read at. */
+  width: calc(100% + 54px);
+  margin-left: -38px;
+  height: 496px;
+  isolation: isolate;
+}
+
+/* --- the light ----------------------------------------------------------- */
+
+.ob-vf-bloom {
+  position: absolute;
+  inset: -14% -6%;
+  z-index: 0;
+  opacity: 0;
+  transition: opacity 760ms var(--ob-ease);
+  pointer-events: none;
+}
+
+.ob-vf-bloom[data-lit="true"] {
+  opacity: 1;
+}
+
+.ob-vf-light {
+  position: absolute;
+  border-radius: 50%;
+  /* 78px is not a style choice. Below roughly 60 the lights read as three
+     coloured circles behind glass; above it they read as one lit atmosphere,
+     which is the only way a second hue is defensible in this system. */
+  filter: blur(78px);
+  will-change: transform;
+}
+
+/* Counter-shifted against the pointer, and further than the objects move, so
+   the light sits behind the volume rather than travelling with it. */
+.ob-vf-light-a {
+  left: 46%;
+  top: -10%;
+  width: 38%;
+  height: 50%;
+  background: var(--ob-bloom-accent);
+  transform: translate3d(calc(var(--mx, 0) * -26px), calc(var(--my, 0) * -18px), 0);
+  animation: ob-vf-swim-a 34s ease-in-out infinite alternate;
+}
+
+.ob-vf-light-b {
+  left: 2%;
+  top: 34%;
+  width: 44%;
+  height: 56%;
+  background: var(--ob-bloom-violet);
+  transform: translate3d(calc(var(--mx, 0) * -18px), calc(var(--my, 0) * -12px), 0);
+  animation: ob-vf-swim-b 41s ease-in-out infinite alternate;
+}
+
+.ob-vf-light-c {
+  left: 62%;
+  top: 52%;
+  width: 34%;
+  height: 40%;
+  background: var(--ob-bloom-pale);
+  transform: translate3d(calc(var(--mx, 0) * -12px), calc(var(--my, 0) * -8px), 0);
+  animation: ob-vf-swim-c 29s ease-in-out infinite alternate;
+}
+
+/* The fourth light is aimed, not ambient. It sits behind the one place two
+   panes cross — the first strip through the callout's lower band — so that
+   intersection has a lit surface to refract instead of canvas, and reads as two
+   objects at different depths rather than two rectangles.
+
+   It comes up WITH the strips (`data-focus`), for two reasons: the overlap it
+   lights does not exist until then, and during the competitive field the same
+   pool sits behind three cards of dim grey metadata, which is the exact
+   failure the bloom tokens were measured down to avoid. */
+.ob-vf-light-d {
+  left: 56%;
+  /* Tracks the crossing. Moves whenever `.ob-vf-strip`'s `top` does. */
+  top: 23%;
+  width: 30%;
+  height: 34%;
+  background: var(--ob-bloom-focus);
+  opacity: 0;
+  transition: opacity 700ms var(--ob-ease);
+  transform: translate3d(calc(var(--mx, 0) * -16px), calc(var(--my, 0) * -10px), 0);
+  animation: ob-vf-swim-d 37s ease-in-out infinite alternate;
+}
+
+.ob-vf-bloom[data-focus="true"] .ob-vf-light-d {
+  opacity: 1;
+}
+
+/* The lights move on `translate`/`scale` only, layered under the pointer
+   transform via the composite property so the two never overwrite each other. */
+@keyframes ob-vf-swim-a {
+  from {
+    translate: 0 0;
+    scale: 1;
+  }
+  to {
+    translate: -7% 9%;
+    scale: 1.16;
+  }
+}
+
+@keyframes ob-vf-swim-b {
+  from {
+    translate: 0 0;
+    scale: 1.1;
+  }
+  to {
+    translate: 11% -8%;
+    scale: 0.94;
+  }
+}
+
+@keyframes ob-vf-swim-c {
+  from {
+    translate: 0 0;
+    scale: 0.96;
+  }
+  to {
+    translate: -9% -11%;
+    scale: 1.2;
+  }
+}
+
+/* Shallower than the other three on both axes. This one is holding a position
+   behind a specific 110x46 intersection, so it drifts enough not to look pinned
+   and not so much that the lit patch wanders off the crossing. */
+@keyframes ob-vf-swim-d {
+  from {
+    translate: 0 0;
+    scale: 1.05;
+  }
+  to {
+    translate: 5% -6%;
+    scale: 0.92;
+  }
+}
+
+/* A fine mesh, radially masked so it never reaches an edge and becomes a grid
+   with a boundary. It is texture for the light to sit on, not a chart axis. */
+.ob-vf-mesh {
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(circle at center, var(--ob-grid) 1px, transparent 1px);
+  background-size: 30px 30px;
+  -webkit-mask-image: radial-gradient(ellipse 62% 58% at 46% 44%, #000 0%, transparent 78%);
+  mask-image: radial-gradient(ellipse 62% 58% at 46% 44%, #000 0%, transparent 78%);
+  opacity: 0.7;
+  transform: translate3d(calc(var(--mx, 0) * -8px), calc(var(--my, 0) * -6px), 0);
+}
+
+/* --- the volume ---------------------------------------------------------- */
+
+.ob-vf-volume {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  perspective: 1300px;
+  /* The whole volume tilts toward the pointer. Small on purpose: past about 6°
+     the glass edges catch and it reads as a gimmick rather than as depth. */
+  transform: rotateY(calc(var(--mx, 0) * 4.5deg)) rotateX(calc(var(--my, 0) * -3.4deg));
+  transition: transform 420ms var(--ob-ease);
+}
+
+/* Perpetual float. `--d` phase-shifts and detunes it, and the unit it detunes is
+   the GROUP, not the object: anything that has to stay aligned with something
+   else shares a `--d` and drifts with it rigidly. The three competitor cards are
+   one group; the callout and the four strips that overlap it are another.
+   Per-object phases pulled an aligned row up to 15px out of true and made the
+   callout/strip overlap breathe between 8 and 26px, which reads as jitter rather
+   than as life. The groups still drift against each other, at full amplitude,
+   which is where the life actually comes from. */
+.ob-vf-bob {
+  display: block;
+  animation: ob-vf-bob 19s ease-in-out infinite alternate;
+  animation-duration: calc(17s + var(--d, 0) * 2.3s);
+  animation-delay: calc(var(--d, 0) * -2.9s);
+}
+
+@keyframes ob-vf-bob {
+  from {
+    translate: 0 0;
+    rotate: -0.35deg;
+  }
+  to {
+    translate: 6px -9px;
+    rotate: 0.4deg;
+  }
+}
+
+/* --- glass --------------------------------------------------------------- */
+
+/* The one surface recipe. Everything that floats and holds text is this. */
+.ob-vf-glass {
+  position: relative;
+  border: 1px solid var(--ob-glass-edge);
+  border-radius: var(--ob-r-lg);
+  background: linear-gradient(142deg, var(--ob-glass-hi), var(--ob-glass-lo));
+  /* 15px, not 40. Every one of these recomputes against a backdrop that is
+     itself animating, so the radius is a frame-budget decision as much as a
+     visual one.
+
+     `saturate` stops the blue behind the pane going to mud, and it is also the
+     single biggest lever on how COLOURED the scene reads: it multiplies the
+     bloom rather than adding to it, so 150% made frosted glass look like tinted
+     glass. 120% keeps the hue without the wash. */
+  -webkit-backdrop-filter: blur(15px) saturate(120%);
+  backdrop-filter: blur(15px) saturate(120%);
+  /* The system ships one shadow. This scene ships a second kind — a cast, which
+     is what makes a pane read as floating in front of the light rather than
+     printed on it — plus the inset top edge every real glass surface has. */
+  box-shadow: 0 22px 46px -26px var(--ob-glass-cast), inset 0 1px 0 var(--ob-glass-sheen);
+  overflow: hidden;
+}
+
+/* `--ob-dim` is calibrated against `--ob-canvas`. A glass pane is lighter than
+   the canvas by construction, so every mono label on one loses most of its
+   contrast — `2019`, `TAM`, `EV_04` were all but invisible on the first pass.
+   The metadata layer steps up one level inside glass, and nowhere else. */
+.ob-vf-glass .ob-meta {
+  color: var(--ob-muted);
+}
+
+/* --- the curve ----------------------------------------------------------- */
+
+.ob-vf-curve {
+  position: absolute;
+  left: 26px;
+  top: 6px;
+  width: 66%;
+  opacity: 0;
+  transform: translate3d(0, 14px, -120px);
+  transition: opacity 900ms var(--ob-ease), transform var(--ob-enter) var(--ob-ease), filter
+    var(--ob-enter) var(--ob-ease);
+}
+
+.ob-vf-curve[data-lit="true"] {
+  opacity: 1;
+  transform: none;
+}
+
+/* It does not shrink into a corner when the competitors arrive — it sinks back
+   in z, dims and goes soft, becoming part of the light the panes in front of it
+   are refracting. That is the whole reason the scene gets to keep it. */
+.ob-vf-curve[data-receded="true"] {
+  opacity: 0.8;
+  transform: translate3d(-14px, -6px, -190px);
+  filter: blur(0.5px);
+}
+
+.ob-vf-svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+
+.ob-vf-line {
+  fill: none;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  filter: drop-shadow(0 0 7px var(--ob-accent-glow));
+  /* 760, was 1500. The whole scene was compressed to fit under 6s, and this
+     draw was the single longest transition in it — and one of four that sat
+     outside `motion.md`'s 150–900ms structural band. Shortening it moved it
+     into the band rather than away from it. */
+  transition: stroke-dashoffset 760ms var(--ob-ease);
+}
+
+.ob-vf-curve[data-lit="true"] .ob-vf-line {
+  stroke-dashoffset: 0;
+}
+
+.ob-vf-baseline {
+  fill: none;
+  stroke: var(--ob-hairline-strong);
+  stroke-width: 1;
+  stroke-dasharray: 3 5;
+  opacity: 0;
+  transition: opacity var(--ob-base) var(--ob-ease) 360ms;
+}
+
+/* Dashes, not the near-dots this was (0.013/0.013). `pathLength="1"` on the
+   rails means these are fractions of the rail's own length, so the pattern holds
+   at any width the scene is read at instead of getting finer as the figure grows.
+
+   0.04, not the 0.055 tried first: the rails turn hard where the cone flares, and
+   a dash long enough to span that curvature reads as a scalloped fringe rather
+   than as a dashed line. */
+.ob-vf-cone {
+  fill: none;
+  stroke: var(--ob-cone-edge);
+  stroke-width: 1;
+  stroke-dasharray: 0.04 0.026;
+  opacity: 0.9;
+}
+
+.ob-vf-cone-fill {
+  fill: var(--ob-cone-fill);
+  opacity: 1;
+}
+
+/* The cone's reveal, and the third beat of four. The whole model beat draws in
+   the order a hand would: line (1500ms), head (1420ms, landing as the line
+   reaches it), cone (1620ms + 720ms), then the pane that states the number
+   (`CALLOUT_ENTER_MS` — a JS timer, because that one gates the count-up too).
+   1620 is after the line has finished, so the cone never opens from a line that
+   is not there yet; the four numbers are a chain and moving one moves the rest.
+
+   No opacity transition on the two rules above: the clip is what reveals them,
+   and `scaleX(0)` hides them until it runs. Fading as well would put a ghost of
+   the whole cone on screen before it had drawn. */
+.ob-vf-cone-wiper {
+  transform-box: fill-box;
+  transform-origin: left center;
+  transform: scaleX(0);
+  /* 380 after 820, was 720 after 1620. The delay is keyed to the line's draw:
+     it must start as the stroke reaches the head, so it stays just past the
+     760ms draw. */
+  transition: transform 380ms var(--ob-ease) 820ms;
+}
+
+.ob-vf-curve[data-lit="true"] .ob-vf-cone-wiper {
+  transform: scaleX(1);
+}
+
+.ob-vf-curve[data-lit="true"] .ob-vf-baseline {
+  opacity: 0.85;
+}
+
+.ob-vf-wiper {
+  transform-box: fill-box;
+  transform-origin: left center;
+  transform: scaleX(0);
+  /* Tracks `.ob-vf-line` exactly — the wash is revealed by the same wipe that
+     draws the line, so these two numbers move together or the fill lags the
+     stroke. */
+  transition: transform 760ms var(--ob-ease);
+}
+
+.ob-vf-curve[data-lit="true"] .ob-vf-wiper {
+  transform: scaleX(1);
+}
+
+/* The live head. Percentage-positioned against the plot, so it needs no
+   measurement and survives any edit to the series. Blue on an object: this one
+   is live state, and it is the only solid accent the curve carries. */
+.ob-vf-head {
+  position: absolute;
+  left: var(--hx);
+  top: var(--hy);
+  width: 9px;
+  height: 9px;
+  margin: -4.5px 0 0 -4.5px;
+  border-radius: 50%;
+  background: var(--ob-accent-bright);
+  box-shadow: 0 0 0 4px var(--ob-accent-wash), 0 0 16px 2px var(--ob-accent-glow);
+  opacity: 0;
+  transform: scale(0.3);
+  /* 720, so the head lands as the line reaches it rather than ahead of it. Was
+     1420 against a 1500ms draw; the draw is 760 now and this tracks it. */
+  transition: opacity var(--ob-base) var(--ob-ease) 720ms, transform 300ms var(--ob-ease) 720ms;
+}
+
+.ob-vf-curve[data-lit="true"] .ob-vf-head {
+  opacity: 1;
+  transform: none;
+}
+
+/* --- the callout --------------------------------------------------------- */
+
+.ob-vf-callout {
+  position: absolute;
+  /* No `z-index`: this pane paints in tree order, which puts it BEHIND the
+     conclusion strips. The first strip crosses it and covers its `Payback` row
+     outright — that is the intended reading, not an accident. */
+  /* 26 — the scene's one inset, shared with the curve, the pane row, the strips
+     and the caption. */
+  right: 26px;
+  /* 12, not 2. Every object drifts up to 9px and the scene has no `overflow`
+     clip by design, so a pane parked at the top edge climbs out of the scene
+     and into the paragraph above it. */
+  top: 12px;
+  width: 214px;
+  /* Focus-in, not fade-in. On glass an entrance that resolves out of blur reads
+     as an object arriving in the volume; an opacity ramp reads as a layer being
+     switched on. Every object in this scene enters this way. */
+  opacity: 0;
+  filter: blur(14px);
+  transform: translate3d(28px, -18px, -260px) rotateY(-13deg);
+  /* 520 on the transform rather than `var(--ob-enter)` (900). The token is
+     right for a page reveal and wrong here: this scene now runs four entrances
+     inside 5.85s, and a 900ms arrival is a third of a beat. Scene-local
+     numbers, NOT a retuned token — `--ob-enter` is used across the whole app
+     and nothing else here wants to be faster. */
+  transition: opacity 420ms var(--ob-ease), filter 420ms var(--ob-ease), transform 520ms
+    var(--ob-ease);
+  /* No `transition-delay` here any more. This pane is the LAST of the three
+     things the model beat draws — line, cone, then the number — and its arrival
+     is owned by `CALLOUT_ENTER_MS` in the component, because the same moment has
+     to start the count-up. A delay here would stack on top of that one. */
+}
+
+.ob-vf-callout[data-in="true"] {
+  opacity: 1;
+  filter: none;
+  transform: translate3d(0, 0, 34px) rotateY(-5deg);
+}
+
+.ob-vf-callout .ob-vf-glass {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 13px 16px 14px;
+  gap: 2px;
+  /* No `background` here, deliberately: this is the plain `.ob-vf-glass` recipe,
+     the same surface as every other pane in the scene. A dark veil and a blue
+     light well were both tried on this pane and both changed what it IS. The
+     occlusion the crossing needs belongs on the strip in FRONT of it — see
+     `.ob-vf-strip .ob-vf-glass` — and the blue belongs behind everything, in the
+     bloom. Nothing about the crossing is allowed back onto this rule. */
+}
+
+.ob-vf-num {
+  font-size: var(--ob-fig-md);
+  line-height: var(--ob-leading-flat);
+  letter-spacing: var(--ob-tracking-h2);
+  color: var(--ob-text);
+  font-variant-numeric: tabular-nums;
+  margin-top: 5px;
+}
+
+.ob-vf-num-unit {
+  font-size: 0.56em;
+  color: var(--ob-muted);
+}
+
+.ob-vf-num-per {
+  font-size: 0.34em;
+  color: var(--ob-dim);
+  margin-left: 5px;
+}
+
+.ob-vf-cap {
+  margin-top: 3px;
+}
+
+.ob-vf-hair {
+  display: block;
+  width: 100%;
+  height: 1px;
+  background: var(--ob-glass-edge);
+  margin: 11px 0 9px;
+}
+
+.ob-vf-stats {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  width: 100%;
+}
+
+.ob-vf-stat {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.ob-vf-stat-num {
+  font-size: var(--ob-xs);
+  color: var(--ob-text);
+  font-variant-numeric: tabular-nums;
+}
+
+/* The `.ob-vf-scan*` recipes were here — a 626px glass card at `top: 240px`,
+   the three-pane row's exact footprint as one box, with a blue 0→100% bar. The
+   card is deleted along with its five-second beat; the panes below open the
+   field themselves. */
+
+/* --- the competitors ----------------------------------------------------- */
+
+.ob-vf-pane {
+  position: absolute;
+  /* An aligned row of three: same width, same top, same depth, no rotation.
+     The fan this replaced staggered y by 13px, z by 46px and rotateY by 8deg
+     per card, and it read as three cards dropped on a table rather than three
+     answers to the same question. It was also self-defeating: the volume is
+     `transform-style: flat`, so the DEEPEST card still painted over the one in
+     front of it, and the depth the stagger bought was contradicted by the paint
+     order in the same frame.
+
+     200 on a 213 step — three cards and two 13px gaps inside the scene's 26px
+     inset, the same inset the curve, the strips and the caption sit on. The
+     widest content in any pane needs 151px (Palisade's `Revenue ~$2M at close`
+     row plus this pane's padding), so 200 keeps ~49px of slack against a wrap
+     into the fixed 214px height. */
+  width: 200px;
+  left: calc(26px + var(--i) * 213px);
+  /* One top for all three. The descending stagger existed to dodge the callout,
+     which occupies the upper right; 240 clears the callout's rendered bottom
+     edge (~225) by 15px, which does the same job without breaking the row. */
+  top: 240px;
+  opacity: 0;
+  filter: blur(16px);
+  transform: translate3d(160px, -70px, -520px) rotateY(46deg) rotateZ(5deg);
+  transition: opacity 520ms var(--ob-ease), filter 520ms var(--ob-ease), transform 560ms
+    var(--ob-ease);
+  transition-delay: calc(var(--i) * 120ms);
+}
+
+/* The ENTRANCE keeps all of its depth — each card still swings in from -520px
+   on an arc, 190ms after the one before it. Only the landing is square. */
+.ob-vf-pane[data-in="true"] {
+  opacity: 1;
+  filter: none;
+  transform: translate3d(0, 0, 0);
+}
+
+/* No receded state for a pane. The card row is the last plane to arrive and the
+   scene's final state — nothing lands on top of it to hand off to. The recede
+   that used to live here now belongs to `.ob-vf-strip`, which is what this row
+   lands on. */
+
+.ob-vf-pane .ob-vf-glass {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 12px 14px 13px;
+  gap: 3px;
+  /* The ONLY thing separating the front plane from the rest of the volume: more
+     frost, 24px against the recipe's 15. Same surface colour, same edge, same
+     sheen — a dark tint was tried here and so was a milkier gradient, and both
+     made this row a different material rather than the same glass nearer the
+     light. Three panes at this radius is affordable, and the extra frost is what
+     makes the bloom read as light seen THROUGH glass.
+
+     It carries no occlusion of its own, which is fine: what sits behind it is
+     already defocused at source (`.ob-vf-strip[data-behind]`). */
+  -webkit-backdrop-filter: blur(24px) saturate(120%);
+  backdrop-filter: blur(24px) saturate(120%);
+  /* Measured against the content, not chosen. `.ob-vf-glass` clips, so a pane
+     one line too short silently eats its own last row — at 180 Northline lost
+     its gap line and Palisade lost `Switching` entirely, with no warning. The
+     content measures 212 and the box is border-box, so 214 is the floor; the
+     assertion in `vp` verification is `scrollHeight <= clientHeight`. */
+  height: 214px;
+}
+
+.ob-vf-pane-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.ob-vf-pane-name {
+  font-size: var(--ob-sm);
+  letter-spacing: var(--ob-tracking-snug);
+  color: var(--ob-text);
+}
+
+.ob-vf-pane-price {
+  font-size: var(--ob-xs);
+  color: var(--ob-muted);
+  margin-top: 3px;
+}
+
+.ob-vf-bar {
+  display: block;
+  flex: none;
+  width: 100%;
+  height: 2px;
+  margin-top: 3px;
+  border-radius: 1px;
+  background: var(--ob-glass-edge);
+  overflow: hidden;
+}
+
+.ob-vf-bar > span {
+  display: block;
+  height: 100%;
+  width: var(--w);
+  background: var(--ob-muted);
+}
+
+/* The drill-downs. A dimension, where it landed, and the affordance that says
+   there is more behind it — which is what makes the card read as a row in an
+   analysis product rather than a summary tile. */
+.ob-vf-metrics {
+  display: flex;
+  flex-direction: column;
+  margin-top: 7px;
+}
+
+.ob-vf-metric {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  padding: 5px 0;
+  opacity: 0;
+  transform: translateX(-6px);
+  transition: opacity var(--ob-base) var(--ob-ease), transform var(--ob-base) var(--ob-ease);
+  /* Lands after its own pane has arrived, top to bottom, so the card is read as
+     a card first and a list of findings second. */
+  /* Tracks the pane stagger above it — `--i` must match `.ob-vf-pane`'s step or
+     a card's metrics start arriving before the card does. */
+  transition-delay: calc(var(--i) * 120ms + var(--j) * 80ms + 300ms);
+}
+
+.ob-vf-metric + .ob-vf-metric {
+  border-top: 1px solid var(--ob-glass-edge);
+}
+
+.ob-vf-pane[data-in="true"] .ob-vf-metric {
+  opacity: 1;
+  transform: none;
+}
+
+.ob-vf-metric-label {
+  flex: none;
+}
+
+.ob-vf-metric-value {
+  margin-left: auto;
+  font-size: var(--ob-meta);
+  color: var(--ob-text);
+  white-space: nowrap;
+}
+
+.ob-vf-chev {
+  flex: none;
+  color: var(--ob-dim);
+  align-self: center;
+}
+
+/* The line that survives the dissolve — this is the claim that becomes the
+   conclusion, so it is not a footnote under the price. */
+.ob-vf-pane-gap {
+  font-size: var(--ob-meta);
+  color: var(--ob-text);
+  margin-top: auto;
+  padding-top: 8px;
+  border-top: 1px solid var(--ob-glass-edge);
+}
+
+/* --- the conclusions ----------------------------------------------------- */
+
+.ob-vf-strip {
+  position: absolute;
+  width: 524px;
+  /* One left edge, shared with the pane row above it — card `i` collapses into
+     strip `i`, so the two belong in the same column. The loose stack this
+     replaced offset each strip 15px and rotated it 0.5deg, and gave each its own
+     z: at perspective 1300 that also rendered every strip ~5px narrower than the
+     one above it, so four rows meant to read as one set read as four widths. */
+  left: 26px;
+  /* 180 puts the first strip's top edge in the ~10px of clear space between the
+     callout's `CAC` and `Payback` rows: it covers `Payback` outright and leaves
+     `CAC` whole. Landing mid-row instead would slice a line of type in half,
+     which reads as a bug rather than as one object in front of another.
+
+     Measured, not guessed, and it only holds because the callout and the strips
+     share a `--d` and therefore drift as one: `CAC` ends at y 165 and `Payback`
+     starts at 175 in the frame both objects live in. Re-measure if either moves.
+
+     The step is 64, not 56 — pushing the stack up without opening the rows left
+     a growing band of dead scene above the caption. */
+  top: calc(180px + var(--i) * 64px);
+  opacity: 0;
+  filter: blur(13px);
+  transform: translate3d(0, 26px, -230px) scale(0.93);
+  /* 420/520 and a 110ms step, was 720/900 and 210. Four strips at the old
+     stagger took 1770ms to finish landing, which no longer fits a 1550ms
+     verify beat — and the rows have to resolve INSIDE that beat. */
+  transition: opacity 420ms var(--ob-ease), filter 420ms var(--ob-ease), transform 520ms
+    var(--ob-ease);
+  transition-delay: calc(var(--i) * 110ms + 130ms);
+}
+
+/* Same deal as the panes: the focus-in from -230px keeps its depth, the landing
+   is flat and square so the four strips read as one stack. */
+.ob-vf-strip[data-in="true"] {
+  opacity: 1;
+  filter: none;
+  transform: translate3d(0, 0, 0);
+}
+
+/* A strip that ends up BEHIND the competitive field goes out of focus and drops
+   back in brightness. What it does NOT do is move: no sink in z, no shrink. That
+   combination was tried and it read as "switched off" rather than as behind
+   something, because an object that recedes AND dims AND shrinks has left the
+   scene. Held in place at full size, the same dim reads as depth of field —
+   which is what being behind a pane of glass actually looks like.
+
+   **This is here because `backdrop-filter` cannot do it.** The honest version is
+   the card in front frosting its own backdrop, but Chrome will not sample these
+   siblings into a pane's backdrop at any radius — verified against blur(26px),
+   against removing the strips' own `backdrop-filter`, against removing their
+   transform, and against stopping their drift. The strips stayed sharp through
+   all four. So the defocus is applied at source instead.
+
+   Only the strips the card row actually covers get it; the first one clears the
+   row and stays sharp, because nothing is in front of it to be behind. The
+   component decides which, from geometry — see `FIRST_STRIP_UNDER_FIELD`.
+
+   Must stay AFTER the `[data-in]` rule: equal specificity, and both are true at
+   once. */
+.ob-vf-strip[data-behind="true"] {
+  /* The dial. 0.9 barely read as behind anything — the blur was doing all the
+     work on its own. Below about 0.35 the claims stop being legible as claims
+     and the row turns into texture. */
+  opacity: 0.55;
+  filter: blur(4px);
+  transition-delay: calc(var(--i) * 90ms);
+}
+
+.ob-vf-strip .ob-vf-glass {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 0 14px 0 16px;
+  height: 46px;
+  /* A ramp to opaque across the right edge only — the strip's own glass is far
+     too transparent to hide what it crosses, and `backdrop-filter` will not do
+     it either (see `--ob-glass-veil`). Without this the callout's `Payback` row
+     reads straight through the strip as sharp text lying under the claim.
+
+     The ramp is finished by 78%, which is where the callout's left edge falls on
+     a 524px strip, and it starts at 62%, which is past the end of the longest
+     claim. So it darkens nothing that carries type, and on the three strips that
+     cross nothing it is invisible — they have only canvas behind them. */
+  /* The fill runs left-to-right instead of on the scene's usual 142deg diagonal,
+     and the first third of it is nothing at all: the strip resolves out of bare
+     canvas at its left edge and only becomes a surface where it needs to be one.
+     It has to hold three things and they sit in that order — the tag and the
+     opening of the claim need no backing, the right end has to occlude the
+     callout it crosses, and the `Verified` mark has to sit on something.
+
+     96deg, not 90: a 6deg tilt over a 524x46 strip is invisible as an angle but
+     keeps the fill from reading as a mechanical horizontal wipe against the
+     diagonal every other pane in the scene uses.
+
+     The 1px border still runs the whole way round on purpose. Fading that too
+     costs the strip its shape, and these have to stay readable as cards. */
+  background: linear-gradient(90deg, transparent 62%, var(--ob-glass-veil) 78%),
+    linear-gradient(96deg, transparent 30%, var(--ob-glass-lo) 58%, var(--ob-glass-hi) 100%);
+}
+
+/* Resolved strips carry a lit edge — the glass equivalent of §12's rule, and
+   the same job: the border of a verified object. */
+.ob-vf-strip[data-state] .ob-vf-glass {
+  border-color: var(--ob-glass-edge-lit);
+}
+
+.ob-vf-strip[data-state="verified"] .ob-vf-glass {
+  border-color: var(--ob-hairline-accent);
+}
+
+.ob-vf-tag {
+  flex: none;
+  width: 50px;
+}
+
+.ob-vf-claim {
+  font-size: var(--ob-sm);
+  letter-spacing: var(--ob-tracking-snug);
+  color: var(--ob-text);
+  white-space: nowrap;
+}
+
+.ob-vf-mark {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  flex: none;
+  margin-left: auto;
+  font-family: var(--ob-font-mono);
+  font-size: var(--ob-meta-xs);
+  font-weight: var(--ob-weight-meta);
+  letter-spacing: var(--ob-tracking-meta);
+  text-transform: uppercase;
+  color: var(--ob-dim);
+  opacity: 0;
+  transform: translateY(4px);
+  transition: opacity var(--ob-base) var(--ob-ease), transform var(--ob-base) var(--ob-ease), color
+    var(--ob-base) var(--ob-ease);
+}
+
+.ob-vf-strip[data-state] .ob-vf-mark {
+  opacity: 1;
+  transform: none;
+}
+
+.ob-vf-strip[data-state="verified"] .ob-vf-mark {
+  color: var(--ob-accent-bright);
+}
+
+/* The moment of verification, in this scene's own language: a specular sheen
+   crossing the pane, once. §12 draws a rule under an excerpt; on glass the
+   equivalent gesture is light travelling over a surface. Runs on the resolve,
+   never on a loop — this is a structural beat, not ambient. */
+.ob-vf-sheen {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(104deg, transparent 32%, var(--ob-glass-sheen) 48%, transparent 64%);
+  opacity: 0;
+  transform: translateX(-100%);
+}
+
+.ob-vf-strip[data-state] .ob-vf-sheen {
+  animation: ob-vf-sheen 1100ms var(--ob-ease) both;
+}
+
+@keyframes ob-vf-sheen {
+  0% {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  18% {
+    opacity: 1;
+  }
+  74% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+}
+
+/* --- the caption --------------------------------------------------------- */
+
+/* A floating line, not a footer bar: no top rule, no background, no bar height.
+   It sits at the bottom of the scene the way a plate sits under a figure. */
+.ob-vf-caption {
+  position: absolute;
+  left: 26px;
+  right: 26px;
+  bottom: 0;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  /* One line, always. Wrapped, the caption grows upward into the last strip —
+     and it is the only thing in this scene laid out by flow rather than by
+     absolute position, so it is the only thing that can. */
+  white-space: nowrap;
+}
+
+.ob-vf-footnote {
+  margin-right: auto;
+}
+
+.ob-vf-stage {
+  animation: ob-vf-label var(--ob-base) var(--ob-ease) both;
+}
+
+@keyframes ob-vf-label {
+  from {
+    opacity: 0;
+    transform: translateY(-3px);
+  }
+}
+
+/* The settled counterpart to `.ob-dot`. Same 6px circle, dim and still — the
+   run is over, so there is nothing live left to report. */
+.ob-vf-rest-dot {
+  width: 6px;
+  height: 6px;
+  flex: none;
+  border-radius: 50%;
+  background: var(--ob-dim);
+}
+
+/* `line-height: 1` is load-bearing: `.ob-btn` inherits the body's 1.6, which
+   makes a 12px label a 19px line and pushes the caption row out of alignment
+   with the status dot beside it. */
+.ob-vf-replay {
+  line-height: var(--ob-leading-flat);
+  padding-block: 9px;
+  margin-block: -9px;
+  color: var(--ob-dim);
+}
+
+.ob-vf-replay:hover:not(:disabled) {
+  color: var(--ob-text);
+}
+
+/* ============================================================
+   12. Verified strip — the trust mechanic, compressed.
+   ============================================================ */
+
+/* **This section used to be twice this long and belonged to a whole page
+   section.** `/`'s `02 The mechanic` — a cycling excerpt card, a rule that drew
+   itself under a matched quote, a verdict line and a four-up counter row — was
+   replaced by a banded strip of four static cards below the entry point. Gone
+   with it: `.ob-evidence*`, `.ob-verdict*`, `.ob-cycle-dot*` and `.ob-counter*`,
+   which had exactly one call site each and no app-side use.
+
+   **`.ob-excerpt` and `.ob-verify-rule` below are NOT landing recipes and did
+   not go with them.** Both are load-bearing on `/r/[slug]/*` — the drawer, the
+   finding card and the accordion all render them, and obsidian-app.css §6
+   explicitly says "do not redefine `.ob-verify-rule`, it lives in obsidian.css
+   §12". They stay here, where that comment points. The `.ob-evidence[data-state]`
+   descendant rules that used to drive them are what went; the app drives the
+   same two classes through `.ob-finding[data-state]` and `[data-drawn]` instead. */
+
+.ob-excerpt {
+  font-size: var(--ob-sub);
+  line-height: var(--ob-leading-lead);
+  letter-spacing: var(--ob-tracking-snug);
+  color: var(--ob-text);
+}
+
+/* The rule that draws itself under a matched excerpt — the literal moment of
+   verification. Scales from the left over --ob-enter. Drawn by the app, never
+   by this stylesheet: see the note above. */
+.ob-verify-rule {
+  height: 1px;
+  background: var(--ob-accent);
+  transform-origin: left center;
+  transform: scaleX(0);
+  transition: transform var(--ob-enter) var(--ob-ease);
+}
+
+/* --- the closing band ---------------------------------------------------- */
+
+/* **A background band, and therefore a deliberate deviation from the rule this
+   whole system rests on** — sections are separated by a 1px hairline and
+   nothing else, no alternating surfaces. Asked for by the owner: a strip that
+   reads as a surface laid *on* the page rather than as another section *of* it.
+
+   Three things keep the deviation from becoming the generic-dark-SaaS failure
+   mode the rule exists to prevent:
+
+   - **It is the smallest step available.** `--ob-canvas` (#0a0a0b) to
+     `--ob-surface` (#101012) is two units of lightness. Felt, not seen.
+   - **The hairlines are still the separators.** `border-block` puts one at each
+     edge, so deleting the `background` line would leave the page structurally
+     identical — the tint is decoration on a boundary the rule already drew, not
+     a replacement for one.
+   - **It bands a strip, not a section.** Nothing above or below alternates;
+     this is the only banded element on `/`, and a second one would turn a
+     deliberate exception into a pattern.
+
+   **That third point is now out of date and the pattern is the rule.** §12A
+   bands section 01 in warm paper, at the user's direction, and `/` alternates
+   between slate and paper from there. What survives of the reasoning above is
+   the first two points, which §12A follows exactly: the hairlines still do the
+   separating, and the band carries them on `border-block` so the surface and
+   its two rules are one object. What is dead is the claim of uniqueness — the
+   test a new band has to pass is in §12A, not the flat "there is only one".
+
+   **The surface and the two hairlines moved out of this rule and into `.ob-band`
+   (§12A), which the section also carries alongside `.ob-warm`.** It is the
+   page's second warm band, so it takes the band's `--ob-canvas` ground rather
+   than owning a `--ob-surface` one — two backgrounds on one element with the
+   later rule silently winning is how a band and its hairlines drift apart,
+   which is the exact failure `border-block` exists to prevent. What is left
+   here is the one thing genuinely its own: its rhythm.
+
+   **`.ob-vstrip` → `.ob-closing`, and this rule is nearly all that survives of
+   §12.** The verification section it named is deleted — three rebuilds of the
+   trust argument (cycling excerpt card and counter row, four stat cards, then
+   a source ledger) and then the owner removed it, keeping only the ask at its
+   foot. Deleted with it: `.ob-vstrip-head`, the whole `.ob-ledger-*` family,
+   `.ob-web-*`, `.ob-vstrip-bar` / `-seg` and `.ob-chip-discarded`.
+
+   **96px, back down from the ledger's 120px.** 120 was the tight-pairing value,
+   bought because the section had grown an `--ob-h1` headline and a five-part
+   card and was crowding the pillars above it. There is one panel on the band
+   now, so 96 — the documented floor — is right again: any more air and a
+   single closing ask reads as a section that lost its content, which is
+   precisely what a reader must not notice. */
+.ob-closing {
+  padding-block: 96px;
+}
+
+/* The closing ask — now the only object on the band.
+
+   **It has been three things, and the third is a consequence of the section
+   around it being deleted.** It started as a hairline and nothing else, on the
+   argument that four stat cards above it were already boxed and a fifth box
+   would read as a fifth statistic. It became a *recessed* panel — `--ob-void`,
+   no shadow — when the row above it stopped being four peers: every other
+   object on the band lifted off the sheet and this one was pressed into it,
+   which is what kept it from reading as one more statistic.
+
+   That reasoning is gone with the objects it was reasoning about. There is
+   nothing else on the band, so a recessed panel is not contrasting with
+   anything — it is just the last thing on the page, sunk into the paper. It
+   lifts now: `--ob-surface` at `--ob-lift-2`, the same rank the ledger card
+   held, which makes the page's closing ask the closing band's one object.
+
+   **Not lift 3.** §12C reserves that for the composer, and this is a link back
+   up to that composer — the destination outranks the sign pointing at it.
+
+   **It is centred now, and that is the fourth version.** The two-column form
+   (prose left, button right, `1fr auto`) was inherited from a time when the
+   panel was the *last* of five objects on a busy band and had to read as a
+   footer to them. It is the only object on the band, so it has nothing to align
+   with and no reason to be asymmetric — a lone left-heavy panel on a 1200px
+   sheet reads as the remains of a wider layout, which is exactly what it was.
+   Axial symmetry is what a closing ask wants: one column, one focal point, the
+   button sitting under the sentence that argues for it rather than beside it.
+
+   **The fifth version is not a panel at all, and the name is now the only
+   thing left of one.** The card — `--ob-surface` at `--ob-lift-2`, a hairline,
+   `--ob-r-lg`, 72×64 of padding, 780px wide — is deleted along with the
+   overline, the 44ch lead and the note it was built to hold. What the band
+   carries at the user's direction is a headline, the button, and the four
+   finished runs in a 2×2, so the container's whole job is to centre a stack
+   and cap its width.
+
+   **Why the box had to go rather than just get shorter.** The 2×2 is four
+   `.ob-preview-card`s, each `--ob-surface` at `--ob-lift-1` on paper. Nesting
+   them inside a `--ob-surface` panel at `--ob-lift-2` puts a *brighter,
+   higher* object around four dimmer, lower ones — the frame out-ranking its
+   contents, which inverts the elevation ladder §12C exists to keep straight.
+   Four cards on bare paper read as four things you can open; the same four
+   inside a card read as one thing with a texture. `.ob-band`'s two hairlines
+   are the frame, which is the §12A argument that hairlines do the separating.
+
+   **860px inside a 1200px container.** The panel measured 780 because it was
+   sized to a 44ch line of prose; there is no prose now, and the number that
+   matters is the card. Two columns and a 12px gap inside 860 give each tile
+   ~424px — within a few pixels of the 420px column `.ob-preview-card` was
+   tuned against in §12C, so the titles break where they were measured to
+   break. It also keeps ~170px of bare paper down each side, which is where
+   §12C's tooth is actually visible; under a full-bleed grid it cannot be
+   seen, and this is the last chance on the page to notice the band is paper
+   rather than a beige rectangle. */
+.ob-closing-panel {
+  display: grid;
+  justify-items: center;
+  text-align: center;
+  max-width: 860px;
+  margin-inline: auto;
+}
+
+/* The act. 28px under the headline, down from the 48px it took when it had to
+   clear a three-line lead: the button follows the headline directly now, and
+   the pair is one move rather than two. No `gap` — the note that used to sit
+   under the button is deleted, so there is a single child. */
+.ob-closing-act {
+  margin-top: 28px;
+}
+
+/* Wider than the 24px inline padding `.ob-btn` ships, and only here. The page's
+   other primaries sit inside something — the composer's Start is in a card
+   footer beside a hint, the nav's is in a pill bar — where the base padding is
+   what keeps them proportional to their container. This one is alone on 860px
+   of paper with a headline above it, and at base width it read as a small
+   control dropped into a large space. The block padding is untouched: this is a
+   longer button, not a bigger one, and changing the height would put it on a
+   different rung from every other button on the page. */
+.ob-closing-act .ob-btn {
+  padding-inline: 56px;
+}
+
+/* The four finished runs, as a 2×2 rather than the column `CofounderChat`
+   stacks beside the composer.
+
+   `align-self: stretch` is load-bearing: the parent's `justify-items: center`
+   would otherwise shrink this to its content and the two columns would stop
+   being equal. `text-align: left` puts the cards back on a left edge — the
+   headline and button are centred, the cards are read, and centred card copy
+   at three stacked lines has no stable left edge to return to.
+
+   12px between tiles, matching the 10px of the stack rather than a section
+   gutter: these are four faces of one offer, and air between them would turn
+   the grid into four separate propositions.
+
+   64px above, against 28px between headline and button. The gap is what says
+   the 2×2 is a second, optional move — "or open one of these" — rather than
+   part of the ask. */
+.ob-closing-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-self: stretch;
+  gap: 12px;
+  margin-top: 64px;
+  text-align: left;
+}
+
+/* Equal heights across a row, which the stack never had to ask for. Each card
+   is wrapped in a `ScrollReveal` div, so the grid stretches the *wrapper* and
+   the anchor inside it keeps its content height — measured, the first tile came
+   out 104px against its neighbour's 125 because its title fits on one line.
+   Two tiles side by side at different heights read as one of them having
+   failed to load.
+
+   Making the wrapper a grid container is what fixes it: the card then stretches
+   as the wrapper's own grid item. `height: 100%` on the card was tried first
+   and measured as *not applying* — the wrapper's height comes from grid
+   stretch, not from a specified `height`, so the percentage had nothing to
+   resolve against. */
+.ob-closing-grid > * {
+  display: grid;
+}
+
+/* ============================================================
+   12A. Warm band — the light inversion of a full section.
+
+   Numbered `12A` rather than taking `13`: it belongs beside §12, which is the
+   only other banded object on the page, and renumbering nine sections to say so
+   would cost more than the letter does.
+   ============================================================ */
+
+/* **§12 said a second band would turn a deliberate exception into a pattern.
+   This is that second band, added at the user's direction, and it is a pattern
+   now.** The rule it replaces: `/` alternates between the near-black canvas and
+   warm paper, and a band earns its inversion by being a place the reader *does*
+   something rather than reads about something. Section 01 is the composer — the
+   one surface on the page that takes input — so it is the one that inverts.
+
+   The structure is unchanged from §12, and deliberately so:
+
+   - **`border-block` puts the two hairlines on the band itself**, so the band
+     and the rules that bound it are one object rather than three siblings that
+     drift apart. `app/(site)/page.tsx` dropped the two `<hr className="ob-rule">`
+     that used to sit either side of this section for exactly that reason.
+   - **The hairlines still do the separating.** Delete the `background` line and
+     the page is structurally identical — the paper is a treatment on a boundary
+     the rule already drew, not a replacement for one.
+
+   All of the colour arrives through `.ob-warm` in `styles/tokens.css`, which
+   remaps the `--ob-*` tokens in place. There is not one colour value in this
+   rule: every recipe in this stylesheet already reads those tokens, so the
+   fragment card, the bubbles, the composer, the seed chips and the primary
+   button invert for free.
+
+   **Exactly one override sits below, and it is not a colour.** Anything that
+   needs a hand-written light *colour* would mean a recipe had a value baked
+   into it — that is a bug in the recipe, not a missing rule here. What does not
+   survive the flip is the one place the system expresses state as `opacity`
+   rather than as a token.
+
+   **96px, which is the documented floor for section rhythm and not a number to
+   go under.** This ran at 160px while the section held a transcript, then 120px
+   once that came out. It sits at the floor now for the same reason `.ob-closing`
+   does — a band is short by definition, and the two hairlines are already doing
+   the separating that padding would otherwise have to do. Below 96 two sections
+   start reading as one crowded block, so if this needs to shrink again the
+   space has to come from inside the section, not from here. */
+.ob-band {
+  background: var(--ob-canvas);
+  border-block: 1px solid var(--ob-hairline);
+  padding-block: 96px;
+}
+
+/* `color-scheme` is a keyword, not a colour, so it belongs in the recipe rather
+   than the token file. Without it the `<html>`-level `color-scheme: dark` in
+   globals.css §base leaves the composer's textarea with a dark caret and a dark
+   scrollbar on white paper — the one part of the inversion the token remap
+   cannot reach, because the UA draws it. */
+.ob-warm {
+  color-scheme: light;
+}
+
+/* **`opacity` is a dark-ground idiom and it does not invert.** `.ob-btn:disabled`
+   fades the whole button to 0.38, which on `--ob-canvas` #0a0a0b leaves white
+   label text at roughly 5:1 — dimmed, still readable. Composited over paper the
+   same 0.38 puts white on cream at about 1.5:1, so the disabled Start button
+   loses its label entirely and reads as a smear rather than as a control that
+   is waiting for input. The state has to be said with tokens instead: a flat
+   hairline fill and `--ob-dim` text, which reads as *off* rather than as
+   *faded*, and stays legible.
+
+   Deliberately below AA (3.6:1) and allowed to be — WCAG 1.4.3 exempts an
+   inactive control, and this one is a beat away from becoming active as soon as
+   the reader types a character into the composer above it. */
+.ob-warm .ob-btn-primary:disabled {
+  opacity: 1;
+  background: var(--ob-hairline);
+  border-color: var(--ob-hairline);
+  color: var(--ob-dim);
+}
+
+/* ============================================================
+   12B. Band mount — the slate side of a dark→light boundary.
+
+   **§12A's claim that "the hairlines still do the separating" was false at the
+   band's outer edge, and this rule is what makes it true.** `.ob-band` draws
+   its `border-block` with `var(--ob-hairline)`, but `.ob-warm` sits on the same
+   element, so that resolves to the *warm* stone `#ddd0bc`. Against paper it is
+   near-invisible; against slate it reads as the band being 1px taller. Delete
+   `.ob-band`'s `background` and the boundary does not survive — there was no
+   rule there, only a value cliff from near-black to cream, and the top one
+   landed directly under the marquee with nothing between them.
+
+   The mount is a wrapper *outside* `.ob-warm`, and that placement is the whole
+   trick: every token it reads resolves to the dark system, so the boundary gets
+   a slate hairline without a single new token. **Do not solve this by adding
+   `--ob-slate-*` names that `.ob-warm` declines to remap** — a pseudo-element
+   inherits from its originating element, so a `::before` on the band would
+   still resolve warm, and reaching for a parallel namespace to escape that is
+   the exact drift `tokens.css` §WARM forbids. Move the element instead.
+
+   What it draws, reading downward into the paper: canvas, a slate hairline,
+   24px of slate, the paper edge. The paper reads as mounted on the board rather
+   than as the page being interrupted, and both grounds keep a rule of their own
+   — the band's warm `border-block` stays, redundant and invisible from outside,
+   because it is the *paper's* edge and §12A's one-object structure depends on
+   it.
+
+   **The gradient is the one place this brushes rule 2 (`no gradient
+   transitions`), and it is pointed the other way.** Near-black butted against
+   cream halates: the slate reads washed for roughly 40px approaching the seam,
+   which is why a geometrically razor cut still looked soft. The ramp deepens
+   `--ob-canvas` to `--ob-void` as it *approaches* the paper, so the cut lands
+   harder, not softer. It never touches the paper and never blends the two
+   grounds — a gradient that crossed the boundary would be the thing the rule
+   is actually about.
+
+   24px, not the 8px a tight double-rule would take: at 8px the hairline reads
+   as a second edge of the same object, and the point is that it belongs to the
+   slate. It costs 48px per band on a page whose sections run 96–160px.
+
+   `:last-child` drops the bottom rule because `.ob-footer` already carries
+   `border-top: 1px solid var(--ob-hairline)` — two adjacent hairlines are a
+   2px line, which is the one weight this system has no use for. */
+.ob-band-mount {
+  padding-block: 24px;
+  border-block: 1px solid var(--ob-hairline);
+  background: linear-gradient(180deg, var(--ob-canvas), var(--ob-void)) top / 100% 24px no-repeat,
+    linear-gradient(0deg, var(--ob-canvas), var(--ob-void)) bottom / 100% 24px no-repeat,
+    var(--ob-canvas);
+}
+
+.ob-band-mount:last-child {
+  border-bottom-width: 0;
+}
+
+/* ============================================================
+   12C. Paper — what a warm band is allowed that slate is not.
+
+   §12A got the colour of the inversion right and stopped there, and the two
+   warm bands shipped looking *correct and unfinished*: a cream ground, a
+   near-invisible one-step surface (#fdfaf5 on #f4ede2 is barely a unit of
+   lightness), warm hairlines, and nothing else. On slate that vocabulary is
+   complete, because a 1px #232326 rule on #0A0A0B is a strong line and a
+   surface step reads immediately. Neither is true on paper. The same two
+   devices at the same strengths, inverted, produce a band with no depth, no
+   focal point and no hierarchy beyond type size.
+
+   **This section is the answer, and it is deliberately not a second system.**
+   Three additions, each of which is a thing paper does and slate cannot:
+
+   1. **Cast shadows** (`--ob-lift-1/2/3`). Rule 3 bans shadows because there
+      is no light on near-black to remove. There is light here. The tokens
+      resolve to `none` at `:root`, so the ban is still enforced by the token
+      file rather than by everyone remembering it — and no recipe below needs
+      a `.ob-warm` variant to get its elevation.
+   2. **Tooth** (`.ob-paper`). A 26px dot lattice at 3.5% ink. Under a card it
+      cannot be seen; in a 200px gutter it is the difference between paper and
+      a flat fill.
+   3. **A focal object per band.** Slate carves equal-weight boxes and lets the
+      hairlines rank them. Paper ranks by elevation, so each band now has one
+      object at lift 3 — the composer, and the verified figure — and everything
+      else sits at lift 1.
+
+   What does NOT change, and would be the failure mode if it did: the type
+   scale, the radii, the accent's three jobs, and the hairlines. Every card
+   below still carries its 1px stone border. The shadow is added *underneath*
+   the line work, not instead of it — a card that dropped its border for a
+   shadow would be a different system, which is what §WARM in tokens.css is
+   written to prevent.
+   ============================================================ */
+
+/* The tooth. A single 1px dot per 26px cell, drawn with a two-stop radial so
+   the dot has no antialiased halo, plus a very wide top-centred wash that
+   lifts the middle of the band a fraction — a sheet of paper is never
+   perfectly evenly lit, and that unevenness is most of what separates "paper"
+   from "beige rectangle".
+
+   `background-attachment: fixed` is deliberately NOT used: the lattice has to
+   travel with the band, or it shears against the two hairlines on scroll. */
+.ob-paper {
+  background-image: radial-gradient(circle at 1px 1px, var(--ob-paper-tooth) 1px, transparent 0),
+    radial-gradient(120% 60% at 50% 0%, var(--ob-hover-wash), transparent 70%);
+  background-size: 26px 26px, 100% 100%;
+}
+
+/* --- The start band's two columns ---------------------------------------
+
+   **The composer used to be a 760px column centred in a 1200px container**,
+   with the four run cards in a 2×2 under it at the same width. That left two
+   ~220px gutters of empty paper down the whole band, and the section read as a
+   narrow control sitting on a wide sheet rather than as a designed page.
+
+   Two-up asymmetric instead, which the skill calls the house layout: the thing
+   you *do* on the left at full remaining width, the thing you can *look at* on
+   the right at a fixed 420px. It fills the container, it puts the headline and
+   the composer in one column so they read as one statement, and it turns the
+   four runs from a grid you scan into a list you read down.
+
+   `align-items: start` — the two columns are different heights by design and
+   stretching the shorter one only produces a card with dead space in it. */
+.ob-start-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 420px;
+  align-items: start;
+  gap: 72px;
+}
+
+/* The left column's own rhythm, so the headline/composer pair is one object.
+   32px: closer and the composer crowds the descenders of a 66px headline;
+   further and the pair stops reading as cause and effect. */
+.ob-start-lede {
+  margin-top: 32px;
+}
+
+.ob-start-headline-accent {
+  color: var(--ob-accent);
+}
+
+/* --- Preview runs — four finished briefs beside the composer ------------- */
+
+/* The column header. A mono label with a rule running to the right edge, which
+   is the `.ob-eyebrow` idiom already in §3 — repeated here rather than reused
+   because this one has to align to the top of a card stack rather than to a
+   section. */
+.ob-preview-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* Shape still descends from `design_inspiration/cardReference` — a soft card
+   stacking a label, a title and a clamped description — but it is a row now
+   rather than a tile in a 2×2, and it has weight.
+
+   **The `variant="soft"` fill that §12A translated into a bare one-step
+   surface is a *card* in the reference, and on paper that means a shadow.** The
+   step from `--ob-canvas` to `--ob-surface` is 9 units of lightness on slate
+   and 9 units on paper, but the eye reads a lightness step against a dark
+   ground far more easily than against a bright one — which is why four
+   `#fdfaf5` tiles on `#f4ede2` read as outlines rather than as objects. Lift 1
+   supplies what the step alone cannot. The hairline stays: the shadow is
+   underneath the line work, not instead of it (§12C).
+
+   The `[data-*]` on the whole tile is unchanged — the anchor *is* the card, one
+   tab stop, one focus ring.
+
+   Hover does three things at once, all cheap and all composited: the surface
+   goes to `--ob-raised` (true white here), the shadow steps to 2, and the card
+   rises 2px. `translateY` rather than `scale`: a scaled card resamples its own
+   text for the duration of the transition. */
+.ob-preview-card {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 16px;
+  padding: 16px 16px 16px 18px;
+  border: 1px solid var(--ob-hairline);
+  border-radius: var(--ob-r-card);
+  background: var(--ob-surface);
+  box-shadow: var(--ob-lift-1);
+  transition: border-color var(--ob-base) var(--ob-ease), background var(--ob-base) var(--ob-ease),
+    box-shadow var(--ob-base) var(--ob-ease), transform var(--ob-base) var(--ob-ease);
+}
+
+.ob-preview-card:hover {
+  border-color: var(--ob-hairline-strong);
+  background: var(--ob-raised);
+  box-shadow: var(--ob-lift-2);
+  transform: translateY(-2px);
+}
+
+/* The ring snaps and the card does not move — a focus ring that arrives on a
+   moving target is the reason the skill bans transitions on `:focus-visible`. */
+.ob-preview-card:focus-visible {
+  outline: none;
+  border-color: var(--ob-accent);
+  box-shadow: var(--ob-lift-focus);
+  transition: none;
+}
+
+/* `.ob-preview-mark` — the reference's `*:size-10` glyph tile, a 40px bordered
+   box holding a lucide icon — lived here and is deleted at the user's direction,
+   along with the `mark` field on `PreviewRun` and the icon map that resolved it.
+   The card now opens on the sector line, so that line no longer needs a gap
+   above it separating it from anything. */
+
+/* **Back to `--ob-sub`, and this time it is the right step rather than the
+   timid one.** It held `--ob-sub`, was moved up to `--ob-h3` on the argument
+   that a 370px-wide tile is not "a card title too small for `--ob-h3`", and the
+   card has since stopped being a tile. As a row in a 420px column with a
+   `--ob-fig`-free two-line finding under it, 23px puts every one of the four
+   titles onto two lines and the stack turns into four paragraphs. 18px keeps
+   three of the four on one line, which is what makes the column scannable —
+   the thing the 2×2 was worst at. Same `--ob-leading-snug` throughout. */
+.ob-preview-title {
+  margin-top: 4px;
+  font-size: var(--ob-sub);
+  line-height: var(--ob-leading-snug);
+  letter-spacing: var(--ob-tracking-snug);
+  color: var(--ob-text);
+}
+
+/* `line-clamp: 2` is the reference's own `line-clamp-2`, and it is doing real
+   work rather than being copied: it caps the description at two lines so four
+   cards of unequal copy still present the same silhouette. The findings are
+   written to fit — the clamp is the guarantee, not the plan. */
+.ob-preview-finding {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  overflow: hidden;
+  margin-top: 6px;
+  font-size: var(--ob-sm);
+  line-height: var(--ob-leading-lead);
+  letter-spacing: var(--ob-tracking-snug);
+  color: var(--ob-muted);
+}
+
+/* **The arrow is a 30px disc now, not a bare glyph bottom-right.** As a tile
+   the arrow had to bottom-anchor so four of them landed on one line; as a row
+   it centres in the grid's second column and the alignment is free. The disc
+   is what gives the row a target to point at — four rows of text with a
+   floating chevron read as a list, four rows with a control read as four
+   things you can open.
+
+   It fills with `--ob-accent-wash` on hover, and that is the accent doing job
+   one: the card is an action. It is a wash and a glyph, not a fill and a pill,
+   because the band already has its one primary button 300px to the left. */
+.ob-preview-go {
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  border-radius: var(--ob-r-pill);
+  border: 1px solid var(--ob-hairline);
+  color: var(--ob-dim);
+  transition: border-color var(--ob-fast) var(--ob-ease), color var(--ob-fast) var(--ob-ease),
+    background var(--ob-fast) var(--ob-ease);
+}
+
+.ob-preview-go .ob-arrow {
+  transition: transform var(--ob-base) var(--ob-ease);
+}
+
+.ob-preview-card:hover .ob-preview-go {
+  border-color: var(--ob-hairline-accent);
+  background: var(--ob-accent-wash);
+  color: var(--ob-accent);
+}
+
+.ob-preview-card:hover .ob-arrow {
+  transform: translate(2px, -2px);
+}
+
+/* --- Under construction — the placeholder body on /preview/[slug] -------- */
+
+.ob-underconstruction {
+  max-width: 62ch;
+  padding-block: 200px 240px;
+}
+
+/* ============================================================
+   13. Composer — the live entry point in the chat section.
+   ============================================================ */
+
+/* **The one object on the band at lift 3** (§12C). Everything else on the
+   start band — the four run rows — sits at lift 1, so the composer is
+   unambiguously the thing to use, and the ranking is carried by elevation
+   rather than by making it bigger than it needs to be.
+
+   `--ob-raised` rather than `--ob-surface`: on paper `--ob-raised` is true
+   white, and a white input on a cream sheet is the one place in the system
+   where the surface *should* run to the top of the scale — it is where the
+   reader's own words will go.
+
+   `box-shadow` here composes the lift; `border` is still what draws the edge.
+   Both, always — see §12C. */
+.ob-composer {
+  border: 1px solid var(--ob-hairline);
+  border-radius: var(--ob-r-lg);
+  background: var(--ob-raised);
+  box-shadow: var(--ob-lift-3);
+  transition: border-color var(--ob-base) var(--ob-ease), box-shadow var(--ob-base) var(--ob-ease);
+}
+
+/* The accent ring and the panel's own lift have to arrive in one property, so
+   the warm token pre-composes them; on slate `--ob-lift-focus` is the ring
+   alone and the rule is unchanged from what it always was. */
+.ob-composer:focus-within {
+  border-color: var(--ob-hairline-accent);
+  box-shadow: var(--ob-lift-focus);
+}
+
+/* The keycap hint in the composer's foot.
+
+   **It is present at rest now instead of appearing at 16 characters.** The slot
+   was empty until you were most of a sentence in, which meant the shortcut was
+   revealed to exactly the readers who had already committed to typing. As a
+   drawn keycap it reads as affordance rather than as instruction, so it can sit
+   there from the start; it goes from `--ob-dim` to `--ob-muted` once there is
+   something to submit, which is the same information the old appearance carried
+   without the layout event. */
+.ob-composer-hint {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 10px;
+  border: 1px solid var(--ob-hairline);
+  border-radius: var(--ob-r-tag);
+  background: var(--ob-surface);
+  color: var(--ob-dim);
+  transition: color var(--ob-fast) var(--ob-ease), border-color var(--ob-fast) var(--ob-ease);
+}
+
+.ob-composer-hint[data-armed="true"] {
+  border-color: var(--ob-hairline-strong);
+  color: var(--ob-muted);
+}
+
+.ob-composer textarea {
+  width: 100%;
+  resize: none;
+  background: transparent;
+  border: 0;
+  outline: none;
+  color: var(--ob-text);
+  font-family: var(--ob-font);
+  font-size: var(--ob-sub);
+  line-height: var(--ob-leading-body);
+  letter-spacing: var(--ob-tracking-snug);
+}
+
+.ob-composer textarea::placeholder {
+  color: var(--ob-dim);
+}
+
+/* Seed chips under the composer. */
+.ob-seed {
+  padding: 7px 14px;
+  border: 1px solid var(--ob-hairline);
+  border-radius: var(--ob-r-pill);
+  background: transparent;
+  color: var(--ob-muted);
+  font-size: var(--ob-xs);
+  letter-spacing: var(--ob-tracking-snug);
+  cursor: pointer;
+  transition: border-color var(--ob-fast) var(--ob-ease), color var(--ob-fast) var(--ob-ease),
+    background var(--ob-fast) var(--ob-ease);
+}
+
+.ob-seed:hover {
+  border-color: var(--ob-hairline-strong);
+  color: var(--ob-text);
+  background: var(--ob-hover-wash);
+}
+
+.ob-seed:focus-visible {
+  outline: none;
+  border-color: var(--ob-accent);
+  color: var(--ob-text);
+}
+
+/* ============================================================
+   14. Footer
+   ============================================================ */
+
+.ob-footer {
+  background: var(--ob-void);
+  border-top: 1px solid var(--ob-hairline);
+}
+
+/* Oversized ghost wordmark closing the page. Clipped at the baseline so it
+   reads as a watermark rather than a heading.
+
+   **The one deliberate exception to the type scale**, and it stays literal
+   rather than becoming a token. It is not a text step — nothing else will
+   ever be set at this size, it is stroked rather than filled, and its
+   leading and tracking are both chosen to make the clip land on the
+   baseline. A token here would invite a second consumer, which is exactly
+   what it must not have. Same for the two `em`-relative sizes on
+   `.ob-vf-num-unit` / `.ob-vf-num-per`: those are proportions of their own
+   numeral, not steps.
+
+   **The stroke is `--ob-muted`, two steps up from the `--ob-hairline-strong`
+   it shipped at**, at the user's direction. The old value was a *border* token
+   used as ink: #34343C on `--ob-void` is the dimmest pairing in the system, and
+   the mark was closer to invisible than to a watermark. Body grey would be too
+   loud as a fill at this size — but this is a 1px outline around a 220px
+   letterform, so the ink covers a fraction of the area it encloses and the
+   block still averages out well below the footer's own prose. Brightness here
+   buys legibility of the *shape*, not presence. */
+.ob-footer-mark {
+  font-size: clamp(80px, 15vw, 220px);
+  line-height: 0.78;
+  font-weight: var(--ob-weight);
+  letter-spacing: -0.05em;
+  color: transparent;
+  -webkit-text-stroke: 1px var(--ob-muted);
+  user-select: none;
+  white-space: nowrap;
+}
+
+.ob-footer-link {
+  color: var(--ob-text);
+  font-size: var(--ob-body);
+  transition: color var(--ob-fast) var(--ob-ease);
+}
+
+.ob-footer-link:hover,
+.ob-footer-link:focus-visible {
+  color: var(--ob-text);
+  outline: none;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+/* ============================================================
+   15. Reveal primitives — driven by IntersectionObserver from JS, which sets
+   data-shown on the element. Kept in CSS so the transition is GPU-composited
+   and no per-frame JS runs.
+   ============================================================ */
+
+.ob-reveal {
+  opacity: 0;
+  transform: translateY(22px);
+  filter: blur(8px);
+  transition: opacity var(--ob-enter) var(--ob-ease), transform var(--ob-enter) var(--ob-ease),
+    filter var(--ob-enter) var(--ob-ease);
+  transition-delay: var(--ob-reveal-delay, 0ms);
+}
+
+.ob-reveal[data-shown="true"] {
+  opacity: 1;
+  transform: none;
+  filter: blur(0);
+}
+
+/* Per-word headline mask reveal. Each word rides up out of a clipped line. */
+.ob-word-line {
+  display: block;
+  overflow: hidden;
+  padding-bottom: 0.08em;
+}
+
+.ob-word {
+  display: inline-block;
+  transform: translateY(105%);
+  transition: transform var(--ob-enter) var(--ob-ease);
+  transition-delay: var(--ob-word-delay, 0ms);
+  white-space: pre;
+}
+
+[data-shown="true"] .ob-word {
+  transform: none;
+}
+
+/* "Trust" is the hero's one deliberate exception to "blue means action,
+   verification, live state" — it's doing the verification job a beat early,
+   naming the thing the rest of the page proves. Scoped to the hero headline
+   only; every other `WordReveal` stays plain text. */
+.ob-hero-headline .ob-word-line:last-child .ob-word:last-child {
+  color: var(--ob-accent);
+}
+
+/* ============================================================
+   16. Reduced motion — everything ambient stops, everything structural
+   resolves instantly to its end state. Nothing is left mid-transition.
+   ============================================================ */
+
+@media (max-width: 900px) {
+  .ob-nav-inner {
+    gap: 12px;
+  }
+
+  .ob-nav-inner > div {
+    gap: 10px;
+  }
+
+  .ob-nav-inner .ob-btn-bare {
+    display: none;
+  }
+
+  .ob-hero {
+    padding-top: 128px;
+    padding-bottom: 76px;
+  }
+
+  .ob-hero-grid,
+  .ob-start-grid,
+  .ob-pillars-grid,
+  .ob-footer-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .ob-hero-grid {
+    gap: 44px;
+  }
+
+  .ob-hero-headline {
+    max-width: 12ch;
+    font-size: clamp(3.25rem, 15vw, 5rem);
+  }
+
+  .ob-hero-copy {
+    gap: 24px;
+  }
+
+  .ob-hero-copy .flex.items-center {
+    flex-wrap: wrap;
+  }
+
+  .ob-hero-media {
+    max-width: 680px;
+  }
+
+  .ob-scroll-cue {
+    display: none;
+  }
+
+  .ob-start-grid,
+  .ob-pillars-grid {
+    gap: 64px;
+  }
+
+  .ob-pillars-grid > div {
+    min-width: 0;
+  }
+
+  .ob-pillar-panel {
+    min-width: 0;
+  }
+
+  .ob-vf,
+  .ob-session {
+    max-width: 100%;
+    margin-left: 0;
+    overflow: hidden;
+  }
+
+  .ob-pillars-grid > .relative > .sticky {
+    position: static;
+  }
+
+  .ob-pillar-rail {
+    display: none;
+  }
+
+  .ob-footer-grid {
+    gap: 48px;
+  }
+}
+
+@media (max-width: 560px) {
+  .ob-nav {
+    padding-top: 10px;
+  }
+
+  .ob-nav-inner {
+    padding-inline: 20px;
+  }
+
+  .ob-nav-inner .ob-btn-ghost {
+    padding-inline: 16px;
+    font-size: var(--ob-sm);
+  }
+
+  .ob-hero {
+    padding-top: 116px;
+  }
+
+  .ob-hero-headline {
+    font-size: clamp(3rem, 15vw, 4.25rem);
+  }
+
+  .ob-hero-media {
+    display: none;
+  }
+
+  .ob-band,
+  .ob-section,
+  .ob-closing {
+    padding-block: 72px;
+  }
+
+  .ob-start-grid,
+  .ob-pillars-grid {
+    gap: 48px;
+  }
+
+  .ob-footer-base {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    transition-delay: 0ms !important;
+  }
+
+  .ob-reveal {
+    opacity: 1;
+    transform: none;
+    filter: none;
+  }
+
+  .ob-word {
+    transform: none;
+  }
+
+  .ob-verify-rule {
+    transform: scaleX(1);
+  }
+
+  /* The Idea Session renders every step settled under reduced motion, and the
+     transcript has to already BE at the end — a smooth scroll to get there is
+     motion the blanket above cannot reach, because `scroll-behavior` is not a
+     transition or an animation. */
+  .ob-session-scroll {
+    scroll-behavior: auto;
+  }
+
+  /* The pointer and the replay control are never mounted under reduced motion
+     (the component's `reduced` branch drops both), so there is no end state to
+     pin here. This comment is the record that the omission is deliberate — an
+     absent rule in this block is otherwise indistinguishable from a forgotten
+     one, which is exactly what the completeness diff exists to catch. */
+
+  /* `.ob-verdict` had a rule here and no longer needs one: the class went with
+     the `02 The mechanic` section. **The strip that replaced it needs nothing
+     in this block either**, and that is worth stating rather than leaving as an
+     absence — an omitted end state is otherwise indistinguishable from a
+     forgotten one, which is the one thing the completeness diff has to catch.
+     Its only two moving parts are already covered: `ScrollReveal` resolves
+     through `.ob-reveal` above, and `CountUp` short-circuits to its final value
+     in JS rather than through a transition this blanket could reach. */
+
+  /* The Validate Field renders its LAST stage under reduced motion, so most of
+     §11b resolves through the `[data-lit]`/`[data-in]`/`[data-state]`
+     attributes the component already sets. What the blanket above cannot reach
+     is everything driven by `animation`, and this scene is built on perpetual
+     animation — so the whole float has to be named and stopped here.
+
+     **"Auto-advancing content is motion too", and so is content that never
+     stops.** A drifting scene is precisely what a visitor asking for reduced
+     motion is asking not to have, and `animation-duration: 0.001ms` above only
+     snaps each loop to its END keyframe — leaving every object permanently
+     offset by 6px, -9px and rotated 0.4°, which looks like a bug rather than a
+     resting composition. `animation: none` is the only thing that puts them
+     back where they were designed to sit.
+
+     The pointer tilt needs no rule: the component's `reduced` branch never
+     attaches the listener, so `--mx`/`--my` stay unset and every `var(…, 0)`
+     fallback resolves to zero. The replay control is likewise never mounted. */
+  .ob-vf-bob,
+  .ob-vf-light-a,
+  .ob-vf-light-b,
+  .ob-vf-light-c,
+  .ob-vf-stage,
+  .ob-vf-strip[data-state] .ob-vf-sheen {
+    animation: none;
+  }
+
+  /* The lights keep their painted position but stop swimming; the sheen is the
+     depiction of a verification happening, and nothing is happening any more. */
+  .ob-vf-sheen {
+    display: none;
+  }
+
+  .ob-vf-line {
+    stroke-dashoffset: 0;
+  }
+
+  .ob-vf-wiper {
+    transform: scaleX(1);
+  }
+}

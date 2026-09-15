@@ -1,12 +1,38 @@
 {
-  "name": "groundwork-ideas-prototype",
+  "name": "groundwork",
+  "version": "0.1.0",
   "private": true,
-  "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "build": "node scripts/build.mjs",
-    "build:idea-card-5": "node scripts/build-idea-card-5.mjs"
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit",
+    "lint": "biome check .",
+    "format": "biome format --write ."
   },
-  "dependencies": {},
-  "devDependencies": {}
+  "dependencies": {
+    "@radix-ui/react-collapsible": "^1",
+    "@radix-ui/react-dialog": "^1",
+    "@radix-ui/react-popover": "^1",
+    "@radix-ui/react-tooltip": "^1",
+    "lucide-react": "^0.400.0",
+    "motion": "^12",
+    "next": "16.3.1",
+    "react": "19.2.8",
+    "react-dom": "19.2.8",
+    "zod": "^3"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^1",
+    "@tailwindcss/postcss": "^4",
+    "@testing-library/react": "^16",
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "tailwindcss": "^4",
+    "typescript": "^5",
+    "vitest": "^2"
+  }
 }

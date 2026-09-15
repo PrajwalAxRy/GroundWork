@@ -116,6 +116,15 @@ This file separates locked product decisions from topics that still need discuss
 - Shape field provenance is always explicit in both label and treatment: confirmed, Groundwork inferred, Groundwork suggested, unknown, or needs resolving.
 - **Review idea** remains visible beside the desktop composer and beneath it on mobile. Review readiness and recoverable failures use inline notices rather than modal interruptions.
 
+### Production frontend foundation
+
+- This repository, `startup_validator_GPT`, is the canonical Groundwork application workspace. The sibling `startup_validator` folder remains an untouched reference until the user explicitly changes that arrangement.
+- The production frontend uses Next.js 16 App Router, React 19, strict TypeScript, Tailwind CSS 4, Radix primitives, Lucide icons, Motion, Zod, Biome, and Vitest with Testing Library. Exact installed versions are locked in `package-lock.json`.
+- The existing landing page's visual implementation and necessary media are carried into this repository, but current Groundwork product decisions override any copied legacy wording or behavior.
+- Marketing routes and product routes use separate route groups and visual layers. The product continues to use the approved light-first design rather than inheriting the landing page's dark presentation.
+- Product pages consume typed data through a replaceable `ProductService` boundary. Runtime schemas validate untrusted data before it reaches structured UI.
+- Folder, route, component, service, and validation responsibilities are defined in `ARCHITECTURE.md`.
+
 ## Superseded or Rejected Directions
 
 - Multiple floating cards for answered and unanswered questions in Shape
@@ -189,7 +198,6 @@ This file separates locked product decisions from topics that still need discuss
 ### Delivery
 
 - Final MVP acceptance criteria
-- Technical stack review
 - Design experiment order
 - Implementation sequence
 - Screenshot review and approval checkpoints

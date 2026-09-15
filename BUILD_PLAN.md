@@ -15,7 +15,7 @@ This is the execution checklist for building the Groundwork website and product 
 
 ## Current Position
 
-The product foundations, initial visual system, production-oriented **Your Ideas** page, and complete mock-data **Shape** experience are approved and implemented. The next phase is the production frontend foundation and stack review.
+The product foundations, approved visual system, production frontend foundation, **Your Ideas** page, and complete mock-data **Shape** experience are implemented. The next phase is the Confirm Idea experiment and approval.
 
 ## Phase 0: Product Foundation
 
@@ -106,19 +106,19 @@ The product foundations, initial visual system, production-oriented **Your Ideas
 
 ## Phase 4: Production Frontend Foundation
 
-- [ ] Review and select the production frontend stack.
-- [ ] Define the folder, routing, component, and data-service architecture.
-- [ ] Convert shared design tokens into reusable code-level tokens.
-- [ ] Create reusable button, icon-button, field, menu, status, skeleton, and feedback components.
-- [ ] Define typed Idea, Brief, stage, report, Roadmap, credit, and job contracts.
-- [ ] Add a replaceable mock service boundary for every page.
-- [ ] Add route-level loading and recoverable error handling.
-- [ ] Add automated formatting, linting, type checking, and tests.
-- [ ] Migrate the approved Your Ideas and Shape surfaces without changing their accepted design.
+- [x] Review and select the production frontend stack.
+- [x] Define the folder, routing, component, and data-service architecture.
+- [x] Convert shared design tokens into reusable code-level tokens.
+- [x] Create reusable button, icon-button, field, menu, status, skeleton, and feedback components.
+- [x] Define typed Idea, Brief, stage, report, Roadmap, credit, and job contracts.
+- [x] Add a replaceable mock service boundary for every page.
+- [x] Add route-level loading and recoverable error handling.
+- [x] Add automated formatting, linting, type checking, and tests.
+- [x] Migrate the approved Your Ideas and Shape surfaces without changing their accepted design.
 
 ### Completion checkpoint
 
-- [ ] New pages can be assembled from shared components and typed contracts without duplicating prototype code.
+- [x] New pages can be assembled from shared components and typed contracts without duplicating prototype code.
 
 ## Phase 5: Confirm Idea
 
@@ -299,4 +299,4 @@ The product foundations, initial visual system, production-oriented **Your Ideas
 
 ## Immediate Next Action
 
-- [ ] Review and select the production frontend stack, then define the routing, component, and data-service architecture for the remaining pages.
+- [ ] Build the development-only Confirm Idea experiment, capture desktop and mobile screenshots, and obtain approval before integrating `/ideas/:ideaId/confirm`.
