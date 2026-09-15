@@ -27,4 +27,10 @@ export const variants = [
   { id: 'table', number: '04', name: 'Stage table', description: 'Fast state comparison' },
   { id: 'compact', number: '05', name: 'Compact dossier', description: 'Higher list density' },
   { id: 'verdict', number: '06', name: 'Verdict-led', description: 'Outcome before workflow' },
+  { id: 'line', number: '07', name: 'Single-line record', description: 'Everything on one scanning plane' },
+  { id: 'glance', number: '08', name: 'Action at a glance', description: 'Compact with one obvious move' },
+  { id: 'ledger', number: '09', name: 'Borderless ledger', description: 'Almost no container weight' },
+  { id: 'index', number: '10', name: 'Indexed decision', description: 'Current stage carries the hierarchy' },
+  { id: 'micro', number: '11', name: 'Micro timeline', description: 'Quiet progress in minimal space' },
+  { id: 'disclosure', number: '12', name: 'Progressive disclosure', description: 'Details only when requested' },
 ]

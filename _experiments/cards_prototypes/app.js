@@ -54,6 +54,14 @@ function commonHeading(extra = '') {
     </div>`
 }
 
+function miniStage(stage, index, extra = '') {
+  return `
+    <button type="button" class="mini-stage mini-stage--${stage.state} ${extra}" data-stage-action="${stage.action}" aria-label="${stage.action}: ${stage.label}">
+      <span class="mini-stage__marker">${stage.state === 'complete' ? icons.check : index + 1}</span>
+      <span><strong>${stage.label}</strong><small>${stage.action}</small></span>
+    </button>`
+}
+
 function railCard() {
   return `
     <article class="prototype-card rail-card">
@@ -161,6 +169,107 @@ function verdictCard() {
     </article>`
 }
 
+function lineCard() {
+  return `
+    <article class="prototype-card line-card">
+      <div class="line-card__copy">
+        <div class="line-card__meta">${signal()}<span>Updated ${idea.updated}</span></div>
+        <h3>${idea.title}</h3>
+        <p class="brief">${idea.brief}</p>
+      </div>
+      <div class="line-card__stages" aria-label="Idea stages">
+        ${idea.stages.map((stage, index) => miniStage(stage, index)).join('')}
+      </div>
+      ${menu()}
+    </article>`
+}
+
+function glanceCard() {
+  const report = idea.stages[1]
+  return `
+    <article class="prototype-card glance-card">
+      <div class="glance-card__body">
+        <div class="glance-card__meta">${signal()}<span>Updated ${idea.updated}</span></div>
+        <h3>${idea.title}</h3>
+        <p class="brief">${idea.brief}</p>
+      </div>
+      <div class="glance-card__history" aria-label="Other idea stages">
+        ${miniStage(idea.stages[0], 0, 'mini-stage--quiet')}
+        ${miniStage(idea.stages[2], 2, 'mini-stage--quiet')}
+      </div>
+      <button type="button" class="glance-action" data-stage-action="${report.action}">
+        <span>${report.note}</span><strong>${report.action}</strong>${icons.arrow}
+      </button>
+      ${menu()}
+    </article>`
+}
+
+function ledgerCard() {
+  return `
+    <article class="ledger-card">
+      <div class="ledger-card__state">${signal()}<span>Updated ${idea.updated}</span></div>
+      <div class="ledger-card__copy"><h3>${idea.title}</h3><p class="brief">${idea.brief}</p></div>
+      <div class="ledger-card__verdict"><strong>${idea.verdict.label}</strong><span>${idea.verdict.confidence}</span></div>
+      <div class="ledger-card__stages" aria-label="Idea stages">${idea.stages.map((stage, index) => miniStage(stage, index, 'mini-stage--text')).join('')}</div>
+      ${menu()}
+    </article>`
+}
+
+function indexCard() {
+  const report = idea.stages[1]
+  return `
+    <article class="prototype-card index-card">
+      <div class="index-card__number" aria-hidden="true"><span>2</span><small>of 3</small></div>
+      <div class="index-card__copy">
+        <div>${signal()}<span class="updated">Updated ${idea.updated}</span></div>
+        <h3>${idea.title}</h3>
+        <p class="brief">${idea.brief}</p>
+      </div>
+      <div class="index-card__decision">
+        <span>${report.label} complete</span>
+        <button type="button" data-stage-action="${report.action}">${report.action}${icons.arrow}</button>
+        <div aria-label="Other idea stages">
+          ${miniStage(idea.stages[0], 0, 'mini-stage--dot')}
+          ${miniStage(idea.stages[2], 2, 'mini-stage--dot')}
+        </div>
+      </div>
+      ${menu()}
+    </article>`
+}
+
+function microCard() {
+  return `
+    <article class="prototype-card micro-card">
+      <div class="micro-card__heading">
+        <div>${signal()}<h3>${idea.title}</h3></div>
+        <div class="micro-card__verdict"><strong>${idea.verdict.label}</strong><span>${idea.verdict.confidence}</span></div>
+        ${menu()}
+      </div>
+      <p class="brief">${idea.brief}</p>
+      <div class="micro-track" aria-label="Idea stages">
+        <span class="micro-track__line" aria-hidden="true"></span>
+        ${idea.stages.map((stage, index) => miniStage(stage, index, 'mini-stage--micro')).join('')}
+      </div>
+    </article>`
+}
+
+function disclosureCard() {
+  return `
+    <article class="prototype-card disclosure-card">
+      <div class="disclosure-card__summary">
+        <div>${signal()}<h3>${idea.title}</h3></div>
+        <span class="disclosure-verdict">${idea.verdict.label}</span>
+        <button type="button" class="disclosure-action" data-stage-action="Read report">Read report${icons.arrow}</button>
+        <button type="button" class="details-toggle" data-toggle-details aria-expanded="false">Details <span aria-hidden="true">＋</span></button>
+        ${menu()}
+      </div>
+      <div class="disclosure-card__details" hidden>
+        <p class="brief">${idea.brief}</p>
+        <div aria-label="Other idea stages">${idea.stages.filter((stage) => stage.key !== 'investigate').map((stage, index) => miniStage(stage, index === 0 ? 0 : 2)).join('')}</div>
+      </div>
+    </article>`
+}
+
 const renderers = {
   rail: railCard,
   focus: focusCard,
@@ -168,6 +277,12 @@ const renderers = {
   table: tableCard,
   compact: compactCard,
   verdict: verdictCard,
+  line: lineCard,
+  glance: glanceCard,
+  ledger: ledgerCard,
+  index: indexCard,
+  micro: microCard,
+  disclosure: disclosureCard,
 }
 
 function render() {
@@ -178,11 +293,11 @@ function render() {
     </header>
     <main>
       <header class="page-header">
-        <div><h1>Idea card prototypes</h1><p>Six structures, one idea. Compare how each balances context, progress, and the next decision.</p></div>
-        <div class="page-header__count"><strong>6</strong><span>directions</span></div>
+        <div><h1>Idea card prototypes</h1><p>Twelve structures, one idea. The second set explores a lighter, more compact direction.</p></div>
+        <div class="page-header__count"><strong>${variants.length}</strong><span>directions</span></div>
       </header>
       <div class="prototype-list">
-        ${variants.map((variant) => `
+        ${variants.map((variant, index) => `${index === 6 ? '<div class="collection-break"><span>Compact studies</span><p>Less container, less repetition, faster scanning.</p></div>' : ''}
           <section class="prototype" aria-labelledby="variant-${variant.id}">
             <header class="prototype__label">
               <span>${variant.number}</span>
@@ -227,6 +342,13 @@ function bindEvents() {
   document.querySelectorAll('[data-menu-action]').forEach((button) => button.addEventListener('click', () => {
     showToast(`${button.dataset.menuAction} selected.`)
     closeMenus()
+  }))
+  document.querySelectorAll('[data-toggle-details]').forEach((button) => button.addEventListener('click', () => {
+    const details = button.closest('.disclosure-card').querySelector('.disclosure-card__details')
+    const opening = details.hidden
+    details.hidden = !opening
+    button.setAttribute('aria-expanded', String(opening))
+    button.innerHTML = `${opening ? 'Hide details' : 'Details'} <span aria-hidden="true">${opening ? '−' : '＋'}</span>`
   }))
   document.onclick = () => closeMenus()
   document.onkeydown = (event) => { if (event.key === 'Escape') closeMenus() }
