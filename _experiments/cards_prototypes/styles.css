@@ -227,11 +227,15 @@ main { width: min(1180px, calc(100% - 48px)); margin: 0 auto; padding: 58px 0 11
 .line-card { min-height: 126px; padding: 17px 58px 17px 20px; display: grid; grid-template-columns: minmax(0, 1fr) 450px; align-items: center; gap: 26px; }
 .line-card > .menu-wrap { position: absolute; top: 14px; right: 15px; }
 .line-card__copy { min-width: 0; }
-.line-card__meta { margin-bottom: 7px; display: flex; align-items: center; gap: 15px; color: var(--ink-muted); font-size: 11px; }
+.line-card__meta { margin-bottom: 7px; display: flex; align-items: center; gap: 14px; color: var(--ink-muted); font-size: 11px; }
 .line-card__meta > span:last-child { margin-left: auto; }
+.line-card__verdict { min-width: 0; display: inline-flex; align-items: center; gap: 5px; color: var(--cobalt); }
+.line-card__verdict svg { width: 13px; flex: none; fill: none; stroke: currentColor; stroke-width: 2; }
+.line-card__verdict strong { overflow: hidden; font-size: 10px; font-weight: 650; text-overflow: ellipsis; white-space: nowrap; }
 .line-card h3 { font-size: 19px; }
 .line-card .brief { margin-top: 5px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 13px; }
-.line-card__stages { display: grid; grid-template-columns: repeat(3, 1fr); gap: 3px; }
+.line-card__stages { padding-left: 18px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 3px; border-left: 1px solid var(--line); }
+.line-card .mini-stage small { font-size: 9px; }
 
 /* 08: Action at a glance */
 .glance-card { min-height: 142px; padding: 18px 58px 18px 20px; display: grid; grid-template-columns: minmax(0, 1fr) 250px 170px; align-items: center; gap: 20px; }
@@ -241,7 +245,11 @@ main { width: min(1180px, calc(100% - 48px)); margin: 0 auto; padding: 58px 0 11
 .glance-card__meta > span:last-child { margin-left: auto; }
 .glance-card h3 { font-size: 19px; }
 .glance-card .brief { margin-top: 6px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 13px; }
-.glance-card__history { display: grid; gap: 2px; }
+.glance-card__verdict { margin-top: 8px; display: flex; align-items: center; gap: 6px; color: var(--cobalt); font-size: 10px; }
+.glance-card__verdict svg { width: 13px; flex: none; fill: none; stroke: currentColor; stroke-width: 2; }
+.glance-card__verdict strong { overflow: hidden; font-weight: 650; text-overflow: ellipsis; white-space: nowrap; }
+.glance-card__verdict span { flex: none; color: var(--ink-muted); }
+.glance-card__history { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 2px; }
 .mini-stage--quiet { min-height: 39px; }
 .glance-action { min-height: 82px; padding: 13px 14px; border: 0; border-radius: 8px; position: relative; display: grid; align-content: center; background: var(--pale-cobalt); color: var(--cobalt); text-align: left; cursor: pointer; }
 .glance-action:hover { background: oklch(0.915 0.04 247); }
@@ -388,12 +396,12 @@ main { width: min(1180px, calc(100% - 48px)); margin: 0 auto; padding: 58px 0 11
 
   .collection-break { padding-top: 17px; }
   .line-card { padding: 16px 48px 0 17px; grid-template-columns: 1fr; gap: 14px; }
-  .line-card__stages { margin: 0 -48px 0 -17px; padding: 5px 8px; border-top: 1px solid var(--line); }
+  .line-card__stages { margin: 0 -48px 0 -17px; padding: 5px 8px; border-top: 1px solid var(--line); border-left: 0; }
   .line-card .brief { white-space: normal; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; }
 
   .glance-card { padding: 16px 48px 0 17px; grid-template-columns: 1fr 125px; gap: 12px; }
   .glance-card__body { grid-column: 1 / -1; }
-  .glance-card__history { grid-column: 1; grid-row: 2; }
+  .glance-card__history { grid-column: 1; grid-row: 2; grid-template-columns: 1fr; }
   .glance-action { grid-column: 2; grid-row: 2; min-height: 78px; margin-bottom: 14px; }
   .glance-card .brief { white-space: normal; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; }
 
@@ -427,6 +435,8 @@ main { width: min(1180px, calc(100% - 48px)); margin: 0 auto; padding: 58px 0 11
   .stage__action { max-width: 72px; }
   .compact-card__signal { display: grid; gap: 5px; }
   .verdict-card__header > div:first-child { display: grid; gap: 4px; }
+  .line-card__meta { flex-wrap: wrap; row-gap: 5px; }
+  .line-card__verdict { order: 3; flex-basis: 100%; }
   .mini-stage--micro { grid-template-columns: 20px; justify-content: center; }
   .mini-stage--micro > span:last-child { display: none; }
 }

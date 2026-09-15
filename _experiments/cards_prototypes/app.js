@@ -173,7 +173,11 @@ function lineCard() {
   return `
     <article class="prototype-card line-card">
       <div class="line-card__copy">
-        <div class="line-card__meta">${signal()}<span>Updated ${idea.updated}</span></div>
+        <div class="line-card__meta">
+          ${signal()}
+          <span class="line-card__verdict" title="${idea.verdict.label}">${icons.check}<strong>Test critical assumption</strong></span>
+          <span>Updated ${idea.updated}</span>
+        </div>
         <h3>${idea.title}</h3>
         <p class="brief">${idea.brief}</p>
       </div>
@@ -192,6 +196,7 @@ function glanceCard() {
         <div class="glance-card__meta">${signal()}<span>Updated ${idea.updated}</span></div>
         <h3>${idea.title}</h3>
         <p class="brief">${idea.brief}</p>
+        <div class="glance-card__verdict">${icons.check}<strong>${idea.verdict.label}</strong><span>${idea.verdict.confidence}</span></div>
       </div>
       <div class="glance-card__history" aria-label="Other idea stages">
         ${miniStage(idea.stages[0], 0, 'mini-stage--quiet')}
