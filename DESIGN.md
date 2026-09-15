@@ -110,6 +110,47 @@ The focus selection is deterministic. Prioritize unread, running, failed, ready,
 - Running indicators may rotate. Respect `prefers-reduced-motion` and reduce non-essential animation to effectively zero.
 - Loading pages use skeletons shaped like the final content.
 
+## Shape Conversation and Working Brief
+
+The approved Shape direction is demonstrated at `/_experiments/shape-summary/`. It treats Shape as a focused cofounder workspace, with the conversation as the primary surface and one live **Current idea** summary as supporting context.
+
+### Desktop layout
+
+- Use a wide conversation surface beside a 350-pixel sticky Idea Summary.
+- Keep both surfaces aligned beneath the page title so they read as one workspace.
+- Render Groundwork responses as open, readable prose rather than repeated chat bubbles.
+- Render user messages as quieter pale-cobalt blocks aligned to the right.
+- Keep prose within a comfortable reading measure and preserve generous separation between turns.
+
+### Current idea summary
+
+- Label the panel **Working brief** and **Current idea**.
+- Present the one-sentence Idea, target user, problem, proposed solution, likely business model, and primary uncertainty as a divided list rather than nested cards.
+- Show provenance with explicit text labels: **Confirmed**, **Groundwork inferred**, **Groundwork suggested**, **Unknown**, and **Needs resolving**.
+- Use cobalt only for Groundwork-originated interpretations, neutral ink for confirmed content, quiet neutral treatment for unknowns, and pale amber for conflicts requiring attention.
+- Briefly highlight only the field that changed after a meaningful conversation update. Do not animate the whole panel.
+
+### Composer and transitions
+
+- Use one multiline composer with a compact sending state and clear disabled semantics.
+- Keep **Review idea** as a persistent secondary action beside the composer on desktop and full-width beneath it on mobile.
+- State the no-internet boundary quietly near the send action: **Shape does not search the internet.**
+- Preserve submitted user messages when an assistant response fails and attach retry to the failed response position.
+- Show Review readiness as an inline workspace notice, not a modal.
+
+### Mobile
+
+- Keep the conversation as the primary surface.
+- Replace the desktop side panel with a collapsible **Current idea** panel above the conversation.
+- The collapsed panel shows the number of confirmed details; expanding it reveals the same provenance and field content as desktop.
+- Stack **Review idea** beneath the composer so both actions remain reachable without covering messages.
+
+### Frozen and loading states
+
+- Frozen Ideas show an explicit read-only notice, retain the full transcript, and remove the composer.
+- Loading uses message and summary skeletons that match the final layout.
+- Research deferral appears within the relevant Groundwork response as a saved Investigation question.
+
 ## Content and State Rules
 
 - Use direct action labels such as **Continue shaping**, **Read report**, **Build roadmap**, and **Retry research**.
@@ -126,4 +167,4 @@ Target WCAG 2.2 AA. All core interactions must work by keyboard. Icon-only contr
 
 New page-level components should reuse these tokens and the same control vocabulary. Important or uncertain components still require a development-only experiment route, desktop and mobile screenshots, and user approval before integration. Record approved additions here and in `docs/DECISIONS.md`.
 
-The following remain open for later experiments: long-form report composition, Shape conversation layout, the floating Idea Summary, verdict presentation, competitor details, risk visualization, Roadmap overview, and any illustration or generated-media vocabulary.
+The following remain open for later experiments: long-form report composition, verdict presentation, competitor details, risk visualization, Roadmap overview, and any illustration or generated-media vocabulary.

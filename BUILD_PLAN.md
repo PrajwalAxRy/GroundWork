@@ -15,7 +15,7 @@ This is the execution checklist for building the Groundwork website and product 
 
 ## Current Position
 
-The product foundations, initial visual system, and production-oriented **Your Ideas** page are complete. The next phase is the **Shape conversation and Idea Summary experiment**.
+The product foundations, initial visual system, production-oriented **Your Ideas** page, and **Shape conversation and Idea Summary experiment** are complete and approved. The next work is integrating the Shape page with typed mock data.
 
 ## Phase 0: Product Foundation
 
@@ -89,8 +89,8 @@ The product foundations, initial visual system, and production-oriented **Your I
 - [x] Demonstrate current-fact questions being deferred to Investigation.
 - [x] Demonstrate the **Review idea** transition.
 - [x] Capture desktop and mobile screenshots.
-- [ ] Obtain user approval.
-- [ ] Record accepted additions in `DESIGN.md` and `docs/DECISIONS.md`.
+- [x] Obtain user approval.
+- [x] Record accepted additions in `DESIGN.md` and `docs/DECISIONS.md`.
 
 ### Integration
 
@@ -299,4 +299,4 @@ The product foundations, initial visual system, and production-oriented **Your I
 
 ## Immediate Next Action
 
-- [ ] Build `/_experiments/shape-summary/` with desktop and mobile variants, then present it for approval before integrating the Shape page.
+- [ ] Build `/ideas/:ideaId/shape` from the approved Shape experiment with typed mock data, draft restoration, frozen transcript behavior, and page-level navigation.

@@ -79,9 +79,9 @@ The frontend prototype should be reusable production-oriented code, not a dispos
 
 ## Immediate Next Topic
 
-The initial visual system and dashboard Idea card are approved. The production card uses the **Signal edge** direction from `/_experiments/idea-card-6/`. `DESIGN.md` records the light-first cobalt system, typography, spacing, elevation, state semantics, and responsive card behavior.
+The initial visual system, dashboard Idea card, and Shape conversation with Current idea summary are approved. The production card uses the **Signal edge** direction from `/_experiments/idea-card-6/`. The approved Shape direction is demonstrated at `/_experiments/shape-summary/`. `DESIGN.md` records both component directions and their responsive behavior.
 
-Continue by exploring the next important or uncertain component on a development-only route. Strong candidates are the Shape conversation and floating Idea Summary because they establish the main working experience beyond the dashboard.
+Continue by integrating `/ideas/:ideaId/shape` from the approved experiment using typed mock data. Include draft restoration, the frozen read-only transcript, page-level navigation back to **Your ideas**, and the approved desktop and mobile summary behavior. Do not reopen the visual direction during integration unless a concrete implementation issue requires it.
 
 ## Important Prototype Requirements
 
@@ -109,8 +109,8 @@ Consult `docs/DECISIONS.md` for the complete open-decision list.
 
 ## Repository State
 
-This workspace now contains the production-oriented Your Ideas frontend prototype in `src/`, typed mock data in `src/data.js`, the approved Idea-card experiment, and `DESIGN.md`. The prototype remains framework-free and does not yet contain the remaining product pages or backend.
+This workspace now contains the production-oriented Your Ideas frontend prototype in `src/`, typed mock data in `src/data.js`, the approved Idea-card and Shape-summary experiments, their review screenshots, and `DESIGN.md`. The prototype remains framework-free and does not yet contain the integrated Shape route, remaining product pages, or backend.
 
 ## Suggested Prompt for the New Chat
 
-> Read `AGENTS.md` and `HANDOFF.md`, then read every source-of-truth document they reference, including `DESIGN.md`. Do not reopen locked product decisions. Continue from the immediate next topic by creating a development-only experiment for the Shape conversation and Idea Summary using the approved Groundwork visual system.
+> Read `AGENTS.md` and `HANDOFF.md`, then read every source-of-truth document they reference, including `DESIGN.md`. Do not reopen locked product decisions. Continue from the immediate next topic by integrating `/ideas/:ideaId/shape` from the approved Shape-summary experiment with typed mock data, draft restoration, frozen transcript behavior, and responsive Current idea treatment.

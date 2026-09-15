@@ -111,6 +111,10 @@ This file separates locked product decisions from topics that still need discuss
 - Manrope is the approved heading and compact-title family. DM Sans is the approved body, label, and control family, with system sans-serif fallbacks.
 - Semantic states always combine color with copy, icons, disabled semantics, or progress indicators.
 - Important unapproved components must continue through development-only experiments before production integration.
+- The approved Shape direction is the cofounder workspace demonstrated at `/_experiments/shape-summary/`: open Groundwork prose and quieter right-aligned user messages keep the conversation primary, while one divided **Current idea** panel acts as a live working brief.
+- On desktop, the Current idea panel is sticky beside the conversation. On mobile, it becomes a collapsible panel above the conversation.
+- Shape field provenance is always explicit in both label and treatment: confirmed, Groundwork inferred, Groundwork suggested, unknown, or needs resolving.
+- **Review idea** remains visible beside the desktop composer and beneath it on mobile. Review readiness and recoverable failures use inline notices rather than modal interruptions.
 
 ## Superseded or Rejected Directions
 
@@ -163,7 +167,6 @@ This file separates locked product decisions from topics that still need discuss
 ### Visual system
 
 - Long-form report composition and responsive section rhythm
-- Shape conversation and floating Idea Summary treatment
 - Verdict, competitor detail, risk visualization, and Roadmap overview treatments
 - Illustration and generated-media usage
 
