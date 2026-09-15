@@ -18,6 +18,7 @@ Read in this order:
 4. `docs/AI_BEHAVIOR.md`
 5. `docs/DECISIONS.md`
 6. `docs/pages/README.md` and the relevant page specification for prototype work
+7. `BUILD_PLAN.md` for the current delivery checklist
 
 Do not ask the user to repeat or rediscover decisions recorded in those files.
 
@@ -63,7 +64,9 @@ These topics should not be reopened unless the user explicitly requests a change
 
 ## Current Delivery Strategy
 
-The delivery sequence is:
+The detailed, trackable delivery sequence is maintained in `BUILD_PLAN.md`. Keep its checkboxes current as work is implemented, verified, and approved.
+
+The high-level sequence is:
 
 1. Use the approved Signal edge direction and the initial tokens in `DESIGN.md`.
 2. Build the remaining high-fidelity frontend prototype using typed mock data.
