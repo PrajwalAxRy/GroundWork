@@ -33,4 +33,5 @@ export const variants = [
   { id: 'index', number: '10', name: 'Indexed decision', description: 'Current stage carries the hierarchy' },
   { id: 'micro', number: '11', name: 'Micro timeline', description: 'Quiet progress in minimal space' },
   { id: 'disclosure', number: '12', name: 'Progressive disclosure', description: 'Details only when requested' },
+  { id: 'hybrid', number: '13', name: 'Connected focus', description: 'Card 08 hierarchy with a unified stage rail' },
 ]

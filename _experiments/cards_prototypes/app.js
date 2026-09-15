@@ -208,6 +208,35 @@ function glanceCard() {
     </article>`
 }
 
+function hybridStage(stage, index, placement) {
+  const current = stage.key === 'investigate'
+  return `
+    <button type="button" class="hybrid-stage hybrid-stage--${stage.state} hybrid-stage--${placement}" data-stage-action="${stage.action}">
+      <span class="hybrid-stage__marker">${stage.state === 'complete' ? icons.check : index + 1}</span>
+      <span class="hybrid-stage__copy"><strong>${stage.label}</strong><small>${stage.note}</small></span>
+      <span class="hybrid-stage__action">${stage.action}${current ? icons.arrow : ''}</span>
+    </button>`
+}
+
+function hybridCard() {
+  const [shape, report, roadmap] = idea.stages
+  return `
+    <article class="prototype-card hybrid-card">
+      <span class="hybrid-card__signal" aria-hidden="true"></span>
+      <div class="hybrid-card__body">
+        ${signal()}
+        <h3>${idea.title}</h3>
+        <p class="brief">${idea.brief}</p>
+      </div>
+      <div class="hybrid-card__stages" aria-label="Idea stages">
+        ${hybridStage(shape, 0, 'shape')}
+        ${hybridStage(roadmap, 2, 'roadmap')}
+        ${hybridStage(report, 1, 'current')}
+      </div>
+      ${menu()}
+    </article>`
+}
+
 function ledgerCard() {
   return `
     <article class="ledger-card">
@@ -287,6 +316,7 @@ const renderers = {
   index: indexCard,
   micro: microCard,
   disclosure: disclosureCard,
+  hybrid: hybridCard,
 }
 
 function render() {
@@ -297,7 +327,7 @@ function render() {
     </header>
     <main>
       <header class="page-header">
-        <div><h1>Idea card prototypes</h1><p>Twelve structures, one idea. The second set explores a lighter, more compact direction.</p></div>
+        <div><h1>Idea card prototypes</h1><p>Thirteen structures, one idea. The later studies explore a lighter, more compact direction.</p></div>
         <div class="page-header__count"><strong>${variants.length}</strong><span>directions</span></div>
       </header>
       <div class="prototype-list">
