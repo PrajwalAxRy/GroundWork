@@ -79,16 +79,16 @@ The product foundations, initial visual system, and production-oriented **Your I
 
 ### Experiment
 
-- [ ] Create `/_experiments/shape-summary/`.
-- [ ] Build realistic user and assistant message variants.
-- [ ] Design the composer, sending state, retry state, and preserved-draft behavior.
-- [ ] Design the desktop floating Idea Summary.
-- [ ] Design the mobile summary sheet or focused summary view.
-- [ ] Show confirmed, inferred, suggested, unknown, and conflicting field states.
-- [ ] Demonstrate summary updates without distracting from the conversation.
-- [ ] Demonstrate current-fact questions being deferred to Investigation.
-- [ ] Demonstrate the **Review idea** transition.
-- [ ] Capture desktop and mobile screenshots.
+- [x] Create `/_experiments/shape-summary/`.
+- [x] Build realistic user and assistant message variants.
+- [x] Design the composer, sending state, retry state, and preserved-draft behavior.
+- [x] Design the desktop floating Idea Summary.
+- [x] Design the mobile summary sheet or focused summary view.
+- [x] Show confirmed, inferred, suggested, unknown, and conflicting field states.
+- [x] Demonstrate summary updates without distracting from the conversation.
+- [x] Demonstrate current-fact questions being deferred to Investigation.
+- [x] Demonstrate the **Review idea** transition.
+- [x] Capture desktop and mobile screenshots.
 - [ ] Obtain user approval.
 - [ ] Record accepted additions in `DESIGN.md` and `docs/DECISIONS.md`.
 
