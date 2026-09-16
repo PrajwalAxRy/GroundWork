@@ -46,6 +46,25 @@ const starters = [
   'A product I wish existed',
 ] as const;
 
+const investigationOverview = [
+  {
+    title: 'Customer and demand',
+    detail: 'Who has the problem, and evidence that it matters.',
+  },
+  {
+    title: 'Competition analysis',
+    detail: 'Existing alternatives, competitors, and gaps in the market.',
+  },
+  {
+    title: 'Business reality',
+    detail: 'How it could work, what it takes, and the main risks.',
+  },
+  {
+    title: 'Evidence check',
+    detail: 'Claims and sources checked before the report is assembled.',
+  },
+] as const;
+
 const sampleMessages: Message[] = [
   {
     id: 1,
@@ -501,13 +520,16 @@ export function ShapeConversationExperiment({
                 <span aria-hidden="true">
                   <Search />
                 </span>
-                <h3 id="research-overview-title">What Groundwork will look into</h3>
+                <h3 id="research-overview-title">Your investigation will cover</h3>
               </div>
-              <ul>
-                <li>Whether the problem appears worth solving</li>
-                <li>How people handle it today</li>
-                <li>What it may take to reach early customers</li>
-              </ul>
+              <dl className={styles.researchTopics}>
+                {investigationOverview.map((topic) => (
+                  <div key={topic.title}>
+                    <dt>{topic.title}</dt>
+                    <dd>{topic.detail}</dd>
+                  </div>
+                ))}
+              </dl>
             </section>
 
             <p className={styles.failureProtection}>

@@ -894,12 +894,29 @@
   font: 700 14px var(--font-groundwork-heading), system-ui, sans-serif;
 }
 
-.researchOverview ul {
-  margin: 15px 0 0 38px;
+.researchTopics {
+  margin: 16px 0 0;
   padding: 0;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px 22px;
+}
+
+.researchTopics div {
+  min-width: 0;
+}
+
+.researchTopics dt {
+  color: var(--ink);
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.researchTopics dd {
+  margin: 4px 0 0;
   color: var(--secondary-ink);
   font-size: 14px;
-  line-height: 1.65;
+  line-height: 1.48;
 }
 
 .failureProtection {
@@ -1087,6 +1104,11 @@
 
   .investigationDialog .dialogActions button {
     justify-content: center;
+  }
+
+  .researchTopics {
+    grid-template-columns: 1fr;
+    gap: 12px;
   }
 }
 
