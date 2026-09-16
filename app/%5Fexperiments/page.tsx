@@ -10,6 +10,16 @@ export const metadata: Metadata = {
 
 const experiments = [
   {
+    href: '/_experiments/shape',
+    title: 'Shape workspace',
+    description:
+      'A friendly, conversation-first Shape experience with a focused start state and an in-flow Idea outline.',
+    area: 'Shape',
+    status: 'Prototype for review',
+    approved: false,
+    archived: false,
+  },
+  {
     href: '/_experiments/idea-card-6',
     title: 'Idea card: Signal edge',
     description:

@@ -86,7 +86,7 @@ The product foundations, approved visual system, production frontend foundation,
 ### Future rebuild
 
 - [ ] Reopen Shape visual design from a blank implementation.
-- [ ] Create a new development-only Shape experiment.
+- [x] Create a new development-only Shape experiment at `/_experiments/shape`.
 - [ ] Obtain desktop and mobile approval before production integration.
 - [ ] Rebuild `/idea/shape/:ideaId` from the approved direction.
 - [ ] Restore conversation, draft, frozen-transcript, failure, and research-deferral states.

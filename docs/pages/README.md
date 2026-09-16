@@ -48,6 +48,7 @@ The new-Idea Shape route currently exists as a placeholder. The full Shape exper
 
 Important component explorations should also have development-only routes such as:
 
+- `/_experiments/shape`
 - `/_experiments/idea-card`
 - `/_experiments/verdict-header`
 - `/_experiments/competitor-card`
