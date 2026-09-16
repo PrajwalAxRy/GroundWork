@@ -186,7 +186,7 @@ export function ShapeConversationExperiment({
               {!hasConversation ? (
                 <div className={styles.welcome}>
                   <span className={styles.welcomeIcon} aria-hidden="true">
-                    <Sparkles />
+                    <MessageCircleMore />
                   </span>
                   <h1>Start discussing your idea</h1>
                   <p>
