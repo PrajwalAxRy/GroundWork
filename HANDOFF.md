@@ -81,7 +81,7 @@ The frontend prototype should be reusable production-oriented code, not a dispos
 
 The initial visual system, dashboard Idea card, and Shape conversation with Current idea summary are approved and integrated on the production frontend foundation. The production card uses the **Signal edge** direction from `/_experiments/idea-card-6/`. The approved Shape direction is demonstrated at `/_experiments/shape-summary/`. `DESIGN.md` records both component directions and their responsive behavior.
 
-Continue with Phase 5 in `BUILD_PLAN.md`: build the development-only Confirm Idea experiment from `docs/pages/03-confirm-idea.md`, capture desktop and mobile screenshots, and obtain user approval before integrating the production route.
+Continue with Phase 5 in `BUILD_PLAN.md`: review the completed development-only Confirm Idea experiment at `/_experiments/confirm-idea`, including its desktop and mobile screenshots and alternate preview states. Obtain user approval before integrating the production route.
 
 ## Important Prototype Requirements
 

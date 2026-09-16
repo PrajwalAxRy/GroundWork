@@ -124,12 +124,13 @@ The product foundations, approved visual system, production frontend foundation,
 
 ### Experiment and approval
 
-- [ ] Prototype the frozen Idea Brief review layout.
-- [ ] Prototype editing for fields that are still allowed to change.
-- [ ] Prototype confirmed, uncertain, conflicting, and **Investigate this for me** states.
-- [ ] Prototype incomplete-but-allowed confirmation behavior.
-- [ ] Prototype the Investigation credit confirmation area without inventing final prices.
-- [ ] Capture desktop and mobile screenshots and obtain approval.
+- [x] Prototype the frozen Idea Brief review layout.
+- [x] Prototype editing for fields that are still allowed to change.
+- [x] Prototype confirmed, uncertain, conflicting, and **Investigate this for me** states.
+- [x] Prototype incomplete-but-allowed confirmation behavior.
+- [x] Prototype the Investigation credit confirmation area without inventing final prices.
+- [x] Capture desktop and mobile screenshots.
+- [ ] Obtain user approval.
 - [ ] Update `DESIGN.md` and the decision/specification files if approval changes behavior.
 
 ### Integration
@@ -299,4 +300,4 @@ The product foundations, approved visual system, production frontend foundation,
 
 ## Immediate Next Action
 
-- [ ] Build the development-only Confirm Idea experiment, capture desktop and mobile screenshots, and obtain approval before integrating `/ideas/:ideaId/confirm`.
+- [ ] Review and approve the development-only Confirm Idea experiment before integrating `/ideas/:ideaId/confirm`.
