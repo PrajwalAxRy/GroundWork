@@ -46,11 +46,9 @@ import { Pillars } from '@/components/landing/pillars';
 export default function Home() {
   return (
     <>
-      <div className="ob-hero-stage">
-        <Hero />
-        <hr className="ob-rule" />
-        <DimensionMarquee />
-      </div>
+      <Hero />
+      <hr className="ob-rule" />
+      <DimensionMarquee />
 
       {/* No `<hr>` either side of this one, for the same reason `VerifiedStrip`
           has none: `.ob-band` carries its own `border-block`, so the warm band
@@ -65,7 +63,7 @@ export default function Home() {
           remap, and a hairline drawn in warm stone is invisible against paper.
           That is also why it is here and not in the component: this is where
           the page's alternation is decided, and the mount is part of it. */}
-      <div className="ob-band-mount">
+      <div className="ob-band-mount ob-band-mount-flush-start">
         <CofounderChat />
       </div>
 

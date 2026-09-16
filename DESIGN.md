@@ -175,4 +175,4 @@ The product design system is implemented in `styles/product.css`, reusable contr
 
 This repository owns these files and all future design-system changes. The sibling landing-page repository is a read-only reference. `ARCHITECTURE.md` defines the corresponding route, component, and data boundaries.
 
-On the marketing landing page, the hero, divider, and research-dimension rail form one first-fold stage. When the hero content fits, the rail aligns with the bottom edge of the initial viewport; on shorter screens the stage grows naturally rather than clipping content.
+On the marketing landing page, the dark hero keeps its natural content height. The research-dimension rail closes that dark region and meets the first light band directly, without a dark transition gap. It is intentional for the light section to peek into the initial viewport when space allows.

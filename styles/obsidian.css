@@ -596,20 +596,10 @@ body::before {
    7. Hero
    ============================================================ */
 
-/* Keep the research-dimension rail on the first viewport's bottom edge when
-   the hero content fits. Short screens can still grow naturally. */
-.ob-hero-stage {
-  display: grid;
-  grid-template-rows: minmax(0, 1fr) auto auto;
-  min-height: 100svh;
-  background: var(--ob-void);
-}
-
 .ob-hero {
   position: relative;
-  display: flex;
   padding-top: 180px;
-  padding-bottom: 72px;
+  padding-bottom: 120px;
   background: var(--ob-void);
   overflow: clip;
 }
@@ -669,14 +659,6 @@ body::before {
 .ob-hero-content {
   position: relative;
   z-index: 2;
-  display: flex;
-  flex: 1;
-  flex-direction: column;
-  width: 100%;
-}
-
-.ob-hero-content > :last-child {
-  margin-top: auto;
 }
 
 /* Split hero: claim on the left, product loop on the right. The columns are
@@ -2785,6 +2767,15 @@ body::before {
   background: linear-gradient(180deg, var(--ob-canvas), var(--ob-void)) top / 100% 24px no-repeat,
     linear-gradient(0deg, var(--ob-canvas), var(--ob-void)) bottom / 100% 24px no-repeat,
     var(--ob-canvas);
+}
+
+/* The first paper band meets the research rail directly. Later bands retain
+   the mounted 24px transition on both edges. */
+.ob-band-mount-flush-start {
+  padding-top: 0;
+  border-top-width: 0;
+  background-position: bottom;
+  background-size: 100% 24px;
 }
 
 .ob-band-mount:last-child {

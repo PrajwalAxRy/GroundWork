@@ -124,7 +124,7 @@ This file separates locked product decisions from topics that still need discuss
 - Marketing routes and product routes use separate route groups and visual layers. The product continues to use the approved light-first design rather than inheriting the landing page's dark presentation.
 - Product pages consume typed data through a replaceable `ProductService` boundary. Runtime schemas validate untrusted data before it reaches structured UI.
 - Folder, route, component, service, and validation responsibilities are defined in `ARCHITECTURE.md`.
-- The landing-page research-dimension rail anchors to the bottom of the first viewport when its hero content fits. Short viewports grow naturally instead of clipping the hero.
+- The landing-page dark hero uses its natural content height. Its research-dimension rail directly meets the first light band without a dark transition gap; the light section may appear within the initial viewport.
 
 ## Superseded or Rejected Directions
 
