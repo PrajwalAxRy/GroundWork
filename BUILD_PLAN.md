@@ -94,7 +94,8 @@ The product foundations, approved visual system, production frontend foundation,
 
 ### Completion checkpoint
 
-- [ ] A newly approved Shape experience is implemented and verified.
+- [x] The approved Shape UI is implemented and visually verified.
+- [ ] Service-backed loading and the remaining Shape states are implemented and verified.
 
 ## Phase 4: Production Frontend Foundation
 

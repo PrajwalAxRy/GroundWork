@@ -81,7 +81,7 @@ The frontend prototype should be reusable production-oriented code, not a dispos
 
 The initial visual system and dashboard Idea card are approved and integrated on the production frontend foundation. The production card uses the **Signal edge** direction from `/_experiments/idea-card-6/`.
 
-The Shape direction is approved and integrated at `/idea/shape/new`. It uses the conversation-first workspace from `/_experiments/shape-conversation` and the **Quiet details** treatment selected as card 11 in `/_experiments/shape-conversation_cards`: Working summary stays visible, Captured details is collapsed by default, and Review idea remains in the composer. Existing-Idea loading, frozen transcripts, response failure, and research-deferral states remain to be completed.
+The Shape UI design is approved, integrated, and visually complete at `/idea/shape/new`. Treat this direction as locked unless the user explicitly reopens it. It uses the conversation-first workspace from `/_experiments/shape-conversation` and the **Quiet details** treatment selected as card 11 in `/_experiments/shape-conversation_cards`: Working summary stays visible, Captured details is collapsed by default, and Review idea remains in the composer. Existing-Idea loading, frozen transcripts, response failure, and research-deferral states remain implementation work, not open visual-design questions.
 
 ## Important Prototype Requirements
 

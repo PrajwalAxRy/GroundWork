@@ -112,6 +112,8 @@ The focus selection is deterministic. Prioritize unread, running, failed, ready,
 
 ## Shape
 
+Status: approved, integrated, and visually complete as of 2026-09-16.
+
 The approved Shape direction is the conversation-first workspace from `/_experiments/shape-conversation`, with the **Quiet details** supporting-card treatment selected as card 11 in `/_experiments/shape-conversation_cards`.
 
 - Keep the conversation and persistent composer as the primary surface.

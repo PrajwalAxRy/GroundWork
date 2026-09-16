@@ -23,6 +23,7 @@ This file separates locked product decisions from topics that still need discuss
 - Users can finish early.
 - The supporting Brief updates after meaningful changes, normally every two or three turns.
 - The approved Shape direction is the conversation-first workspace from `/_experiments/shape-conversation`, using the **Quiet details** card treatment (card 11 from `/_experiments/shape-conversation_cards`).
+- The Shape UI design is complete and locked as of 2026-09-16. Do not reopen or replace the visual direction unless the user explicitly requests it.
 - The supporting Brief appears as two embedded cards beside the conversation on desktop and after it on narrower screens: **Working summary** is always visible, while **Captured details** is collapsed by default.
 - The compact Captured details card prioritizes readable labels and values without counts, preview text, status icons, or row dividers. Full provenance remains available in the focused **Review idea** flow.
 - **Review idea** remains inside the main composer rather than in the supporting cards.
