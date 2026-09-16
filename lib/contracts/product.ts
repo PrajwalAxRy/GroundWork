@@ -64,14 +64,62 @@ export const shapeMessageSchema = z.object({
   failed: z.boolean().optional(),
 });
 
-export const shapeSessionSchema = z.object({
-  ideaId: z.string().min(1),
-  frozen: z.boolean(),
-  readiness: z.string().min(1),
-  summary: z.array(summaryFieldSchema),
-  messages: z.array(shapeMessageSchema),
-  openQuestions: z.array(z.string().min(1)),
-});
+export const shapeLifecycleSchema = z.enum(['shaping', 'review_paused', 'frozen']);
+
+const currentShapeSessionSchema = z
+  .object({
+    ideaId: z.string().min(1),
+    lifecycle: shapeLifecycleSchema,
+    acceptedSummary: z.string().min(1).optional(),
+    readiness: z.string().min(1),
+    summary: z.array(summaryFieldSchema),
+    messages: z.array(shapeMessageSchema),
+    openQuestions: z.array(z.string().min(1)),
+  })
+  .superRefine((session, context) => {
+    if (session.lifecycle !== 'shaping' && !session.acceptedSummary) {
+      context.addIssue({
+        code: z.ZodIssueCode.custom,
+        path: ['acceptedSummary'],
+        message: 'Paused and frozen Shape sessions require the accepted summary snapshot.',
+      });
+    }
+
+    if (session.lifecycle === 'shaping' && session.acceptedSummary) {
+      context.addIssue({
+        code: z.ZodIssueCode.custom,
+        path: ['acceptedSummary'],
+        message: 'An editable Shape session cannot retain a stale accepted summary.',
+      });
+    }
+  });
+
+/**
+ * Converts the previous prototype's `frozen` boolean into the explicit
+ * lifecycle state. This keeps already-saved browser sessions readable while
+ * ensuring every newly-written session uses the state machine.
+ */
+export const shapeSessionSchema = z.preprocess((value) => {
+  if (!value || typeof value !== 'object' || 'lifecycle' in value) return value;
+
+  const legacy = value as Record<string, unknown>;
+  const summary = Array.isArray(legacy.summary) ? legacy.summary : [];
+  const ideaSummary = summary.find(
+    (field) =>
+      field &&
+      typeof field === 'object' &&
+      'label' in field &&
+      (field as Record<string, unknown>).label === 'Idea',
+  ) as Record<string, unknown> | undefined;
+  const frozen = legacy.frozen === true;
+
+  return {
+    ...legacy,
+    lifecycle: frozen ? 'frozen' : 'shaping',
+    acceptedSummary:
+      frozen && typeof ideaSummary?.value === 'string' ? ideaSummary.value : undefined,
+  };
+}, currentShapeSessionSchema);
 
 export const ideaBriefSchema = z.object({
   schemaVersion: z.literal(1),
@@ -203,6 +251,7 @@ export type Idea = z.infer<typeof ideaSchema>;
 export type Provenance = z.infer<typeof provenanceSchema>;
 export type SummaryField = z.infer<typeof summaryFieldSchema>;
 export type ShapeMessage = z.infer<typeof shapeMessageSchema>;
+export type ShapeLifecycle = z.infer<typeof shapeLifecycleSchema>;
 export type ShapeSession = z.infer<typeof shapeSessionSchema>;
 export type IdeaBrief = z.infer<typeof ideaBriefSchema>;
 export type InvestigationReport = z.infer<typeof reportSchema>;

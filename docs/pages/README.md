@@ -44,13 +44,14 @@ These routes are recommendations for a clickable prototype and may be adapted to
 | Roadmap Progress | `/idea/roadmap/:ideaId/progress` |
 | Roadmap | `/idea/roadmap/:ideaId` |
 
-The new-Idea Shape route uses the approved conversation-first workspace and Quiet details supporting-card direction. Existing-Idea loading, frozen transcripts, and backend-connected conversation states remain future integration work.
+The new-Idea and existing-Idea Shape routes use the approved conversation-first workspace and Quiet details supporting-card direction. Existing-Idea loading, persisted drafts, frozen transcripts, response retry, and research-deferral behavior are implemented through the replaceable mock product service; real backend and AI connections remain future work.
 
 Important component explorations should also have development-only routes such as:
 
 - `/_experiments/shape`
 - `/_experiments/shape-conversation`
 - `/_experiments/shape-conversation_cards`
+- `/_experiments/shape-states`
 - `/_experiments/idea-card`
 - `/_experiments/verdict-header`
 - `/_experiments/competitor-card`

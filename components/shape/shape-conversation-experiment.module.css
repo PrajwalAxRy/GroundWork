@@ -318,6 +318,80 @@
   padding-right: 18px;
 }
 
+.failedMessage {
+  padding: 16px;
+  border: 1px solid oklch(0.78 0.07 31);
+  border-radius: 12px;
+  background: var(--pale-rust);
+}
+
+.failedMessage .avatar {
+  background: var(--paper);
+  color: var(--rust);
+}
+
+.researchNote {
+  width: fit-content;
+  margin-top: 10px;
+  padding: 6px 9px;
+  border-radius: 7px;
+  background: var(--pale-cobalt);
+  color: var(--cobalt-hover);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  font-weight: 650;
+}
+
+.researchNote svg,
+.retryButton svg {
+  width: 14px;
+  height: 14px;
+}
+
+.retryButton {
+  min-height: 34px;
+  margin-top: 12px;
+  padding: 0 11px;
+  border: 1px solid oklch(0.65 0.08 31);
+  border-radius: 8px;
+  background: var(--paper);
+  color: var(--rust);
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font: 700 12px inherit;
+  cursor: pointer;
+}
+
+.retryButton:disabled {
+  cursor: wait;
+  opacity: 0.65;
+}
+
+.inlineError {
+  width: min(760px, calc(100% - 36px));
+  margin: 0 auto 2px;
+  padding: 10px 12px;
+  border: 1px solid oklch(0.78 0.07 31);
+  border-radius: 9px;
+  background: var(--pale-rust);
+  color: var(--rust);
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  font-size: 13px;
+  line-height: 1.45;
+}
+
+.inlineError svg {
+  width: 16px;
+  height: 16px;
+  margin-top: 1px;
+  flex: 0 0 auto;
+}
+
 .composerArea {
   position: sticky;
   bottom: 0;
@@ -500,6 +574,13 @@
   border-radius: 8px;
   font: 700 13px inherit;
   cursor: pointer;
+}
+
+.continueButton:disabled,
+.startInvestigationButton:disabled,
+.dialogActions button:disabled {
+  cursor: wait;
+  opacity: 0.62;
 }
 
 .continueButton {
@@ -828,6 +909,27 @@
   gap: 10px;
 }
 
+.dialogError {
+  margin: 0 0 18px;
+  padding: 10px 12px;
+  border: 1px solid oklch(0.78 0.07 31);
+  border-radius: 8px;
+  background: var(--pale-rust);
+  color: var(--rust);
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  font-size: 13px;
+  line-height: 1.45;
+}
+
+.dialogError svg {
+  width: 16px;
+  height: 16px;
+  margin-top: 1px;
+  flex: 0 0 auto;
+}
+
 .dialogActions button {
   min-height: 40px;
   padding: 0 16px;
@@ -954,6 +1056,97 @@
 @keyframes fadeIn {
   from {
     opacity: 0;
+  }
+}
+
+.routeState {
+  min-height: calc(100dvh - 68px);
+  padding: 80px 24px;
+  background: var(--paper);
+  color: var(--ink);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.routeStateIcon {
+  width: 48px;
+  height: 48px;
+  margin-bottom: 18px;
+  border-radius: 13px;
+  background: var(--pale-cobalt);
+  color: var(--cobalt);
+  display: grid;
+  place-items: center;
+}
+
+.routeStateIcon svg {
+  width: 22px;
+  height: 22px;
+}
+
+.routeState h1 {
+  margin: 0;
+  font: 700 clamp(25px, 3vw, 34px) / 1.15 var(--font-groundwork-heading), system-ui, sans-serif;
+  letter-spacing: -0.035em;
+}
+
+.routeState p {
+  max-width: 480px;
+  margin: 13px 0 0;
+  color: var(--secondary-ink);
+  font-size: 15px;
+  line-height: 1.65;
+}
+
+.routeStateSkeleton {
+  width: min(520px, 90vw);
+  height: 12px;
+  margin-top: 28px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--soft), var(--rules), var(--soft));
+  background-size: 220% 100%;
+  animation: loadingSweep 1.3s ease-in-out infinite;
+}
+
+.routeStateActions {
+  margin-top: 26px;
+  display: flex;
+  gap: 10px;
+}
+
+.routeStateActions a,
+.routeStateActions button {
+  min-height: 40px;
+  padding: 0 14px;
+  border: 1px solid var(--rules);
+  border-radius: 8px;
+  background: var(--paper);
+  color: var(--secondary-ink);
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  text-decoration: none;
+  font: 700 13px inherit;
+  cursor: pointer;
+}
+
+.routeStateActions button {
+  border-color: var(--cobalt);
+  background: var(--cobalt);
+  color: var(--paper);
+}
+
+.routeStateActions svg {
+  width: 16px;
+  height: 16px;
+}
+
+@keyframes loadingSweep {
+  to {
+    background-position: -120% 0;
   }
 }
 
@@ -1114,7 +1307,8 @@
 
 @media (prefers-reduced-motion: reduce) {
   .chevron,
-  .dialogOverlay {
+  .dialogOverlay,
+  .routeStateSkeleton {
     animation: none;
     transition: none;
   }

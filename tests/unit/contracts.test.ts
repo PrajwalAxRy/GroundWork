@@ -18,6 +18,20 @@ describe('product contracts', () => {
     expect(shapeSessions.map((shape) => shapeSessionSchema.parse(shape))).toHaveLength(2);
   });
 
+  it('migrates the previous frozen Shape format', () => {
+    const migrated = shapeSessionSchema.parse({
+      ideaId: 'idea-legacy',
+      frozen: true,
+      readiness: 'Idea frozen',
+      summary: [{ label: 'Idea', value: 'A saved summary', provenance: 'confirmed' }],
+      messages: [{ id: 'message-1', role: 'user', body: 'A saved thought' }],
+      openQuestions: [],
+    });
+
+    expect(migrated.lifecycle).toBe('frozen');
+    expect(migrated.acceptedSummary).toBe('A saved summary');
+  });
+
   it('rejects unknown frontend report blocks', () => {
     const result = roadmapSchema.safeParse({ schemaVersion: 1 });
     expect(result.success).toBe(false);

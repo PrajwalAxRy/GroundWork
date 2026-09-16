@@ -47,13 +47,15 @@ Feature components may compose shared primitives, but shared primitives must not
 | --- | --- |
 | `/` | Groundwork marketing page and new-Idea entry |
 | `/ideas` | Your Ideas dashboard |
+| `/idea/shape/new` | Collect the first thought, create the Idea, and continue on its stable route |
+| `/idea/shape/[ideaId]` | Load and operate the service-backed Shape conversation for an existing Idea |
 | `/credits` | Intentional placeholder until commercial decisions are locked |
 | `/preview/[slug]` | Marketing media preview |
 | `/_experiments/*` | Development-only review surfaces; never a production product path |
 
 Future Idea-stage routes follow `docs/pages/README.md` and live under `app/(product)/idea/<stage>/[ideaId]/`. The `/ideas` collection route remains the dashboard.
 
-The Shape production route and its experiment are intentionally absent. Its contracts, fixtures, and service methods remain available for a future from-scratch rebuild.
+Shape uses a thin dynamic route, a client controller that owns service interaction, and a shared approved workspace view. Its persisted lifecycle is `shaping`, `review_paused`, or `frozen`; accepting the summary stores an immutable snapshot, resuming clears that approval, and successful Investigation start performs the permanent freeze.
 
 ## Data and trust boundaries
 

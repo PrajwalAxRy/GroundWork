@@ -1,6 +1,7 @@
 'use client';
 
 import { Button, IconButton, Menu } from '@/components/ui/product-primitives';
+import { PROTOTYPE_INITIAL_CREDITS } from '@/lib/config/prototype-commercial';
 import { Coins, UserRound } from 'lucide-react';
 import Link from 'next/link';
 import type { ReactNode } from 'react';
@@ -16,7 +17,7 @@ export function GroundworkMark() {
 
 export function ProductShell({
   children,
-  credits = 18,
+  credits = PROTOTYPE_INITIAL_CREDITS,
 }: { children: ReactNode; credits?: number }) {
   return (
     <div className="gw-product">

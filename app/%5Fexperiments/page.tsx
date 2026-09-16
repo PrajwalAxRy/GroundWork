@@ -40,6 +40,16 @@ const experiments = [
     archived: false,
   },
   {
+    href: '/_experiments/shape-states',
+    title: 'Shape: response states',
+    description:
+      'A focused verification route for assistant-response failure, preserved user input, and retry recovery.',
+    area: 'Shape states',
+    status: 'Verification fixture',
+    approved: false,
+    archived: false,
+  },
+  {
     href: '/_experiments/idea-card-6',
     title: 'Idea card: Signal edge',
     description:

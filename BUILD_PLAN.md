@@ -15,7 +15,7 @@ This is the execution checklist for building the Groundwork website and product 
 
 ## Current Position
 
-The product foundations, approved visual system, production frontend foundation, **Your Ideas** page, and approved Shape conversation direction are implemented with typed mock behavior. Existing-Idea loading and the remaining Shape states still require integration.
+The product foundations, approved visual system, production frontend foundation, **Your Ideas** page, and complete service-backed Shape prototype are implemented with typed mock behavior. Investigation Progress is the next component-design and implementation topic while final commercial credit decisions remain open.
 
 ## Phase 0: Product Foundation
 
@@ -89,13 +89,13 @@ The product foundations, approved visual system, production frontend foundation,
 - [x] Create a new development-only Shape experiment at `/_experiments/shape`.
 - [x] Obtain desktop and mobile approval before production integration.
 - [x] Rebuild `/idea/shape/new` from the approved direction.
-- [ ] Rebuild `/idea/shape/:ideaId` with service-backed Idea loading.
-- [ ] Restore conversation, draft, frozen-transcript, failure, and research-deferral states.
+- [x] Rebuild `/idea/shape/:ideaId` with service-backed Idea loading.
+- [x] Restore conversation, draft, frozen-transcript, failure, and research-deferral states.
 
 ### Completion checkpoint
 
 - [x] The approved Shape UI is implemented and visually verified.
-- [ ] Service-backed loading and the remaining Shape states are implemented and verified.
+- [x] Service-backed loading and the remaining Shape states are implemented and verified.
 
 ## Phase 4: Production Frontend Foundation
 
@@ -133,11 +133,11 @@ The product foundations, approved visual system, production frontend foundation,
 ### Integration
 
 - [x] Integrate the approved lightweight review modal into production Shape.
-- [ ] Persist the accepted-summary state through the product service.
-- [ ] Preserve the conversation and accepted summary when confirmation fails.
+- [x] Persist the accepted-summary state through the product service.
+- [x] Preserve the conversation and accepted summary when confirmation fails.
 - [x] Integrate the approved paused-review handoff card into production Shape.
 - [x] Integrate the paid Investigation confirmation modal into production Shape using typed mock values.
-- [ ] Prevent duplicate paid-action submissions.
+- [x] Prevent duplicate paid-action submissions.
 - [x] Distinguish the reversible paused-review state from permanent Brief freezing when Investigation starts.
 
 ### Completion checkpoint
@@ -300,4 +300,4 @@ The product foundations, approved visual system, production frontend foundation,
 
 ## Immediate Next Action
 
-- [ ] Complete existing-Idea loading and the draft, frozen-transcript, failure, and research-deferral Shape states.
+- [ ] Begin the Investigation Progress experiment with genuine stages, reserved-credit messaging, ready, and failed outcomes.

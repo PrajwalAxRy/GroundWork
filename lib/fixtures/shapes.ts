@@ -62,7 +62,7 @@ const clinicMessages: ShapeMessage[] = [
 export const shapeSessions: ShapeSession[] = [
   {
     ideaId: 'idea-01',
-    frozen: false,
+    lifecycle: 'shaping',
     readiness: 'Ready when you are',
     summary: clinicSummary,
     messages: clinicMessages,
@@ -70,7 +70,7 @@ export const shapeSessions: ShapeSession[] = [
   },
   {
     ideaId: 'idea-02',
-    frozen: false,
+    lifecycle: 'shaping',
     readiness: 'Ready for review',
     summary: [
       {
@@ -130,6 +130,43 @@ export const shapeSessions: ShapeSession[] = [
     openQuestions: [],
   },
 ];
+
+export const shapeResponseFailureSession: ShapeSession = {
+  ideaId: 'shape-response-failure',
+  lifecycle: 'shaping',
+  readiness: 'Response needs retry',
+  summary: [
+    {
+      label: 'Idea',
+      value: 'A shared rota that helps volunteer-run kitchens fill last-minute staffing gaps.',
+      provenance: 'confirmed',
+    },
+    {
+      label: 'Target user',
+      value: 'Coordinators at volunteer-run community kitchens.',
+      provenance: 'confirmed',
+    },
+    {
+      label: 'Problem',
+      value: 'Last-minute cancellations are handled through scattered group chats.',
+      provenance: 'inferred',
+    },
+  ],
+  messages: [
+    {
+      id: 'failure-user-1',
+      role: 'user',
+      body: 'The coordinators spend hours finding replacements when a volunteer cancels.',
+    },
+    {
+      id: 'failure-assistant-1',
+      role: 'assistant',
+      body: 'Groundwork could not respond. Your message is saved, and you can retry without retyping it.',
+      failed: true,
+    },
+  ],
+  openQuestions: [],
+};
 
 export const provenanceCopy = {
   confirmed: 'Confirmed',

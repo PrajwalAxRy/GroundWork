@@ -14,6 +14,7 @@
       "design_inspiration",
       ".claude",
       "_experiments",
+      "public/_experiment-archive",
       "artifacts",
       "dist",
       "src",

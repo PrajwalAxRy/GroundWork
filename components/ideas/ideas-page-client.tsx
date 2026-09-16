@@ -9,6 +9,7 @@ import {
   Menu,
   TextField,
 } from '@/components/ui/product-primitives';
+import { PROTOTYPE_INITIAL_CREDITS } from '@/lib/config/prototype-commercial';
 import type { Idea, Stage, StageState } from '@/lib/contracts/product';
 import { mockProductService } from '@/lib/services/product-service';
 import {
@@ -28,9 +29,9 @@ const actionPriority: StageState[] = [
   'unread',
   'running',
   'failed',
+  'available',
   'ready',
   'active',
-  'available',
 ];
 
 function primaryStage(idea: Idea): Stage {
@@ -64,6 +65,7 @@ export function IdeasPageClient({ initialPreview = 'populated' }: { initialPrevi
   const [editing, setEditing] = useState<string | null>(null);
   const [deleting, setDeleting] = useState<Idea | null>(null);
   const [feedback, setFeedback] = useState('');
+  const [credits, setCredits] = useState(PROTOTYPE_INITIAL_CREDITS);
 
   useEffect(() => {
     if (initialPreview === 'loading') return;
@@ -71,23 +73,29 @@ export function IdeasPageClient({ initialPreview = 'populated' }: { initialPrevi
       setPreview('error');
       return;
     }
-    void mockProductService.listIdeas().then((loaded) => {
-      setIdeas(loaded);
-      setPreview(initialPreview === 'empty' ? 'empty' : 'populated');
-    });
+    void Promise.all([mockProductService.listIdeas(), mockProductService.getCreditBalance()]).then(
+      ([loadedIdeas, loadedBalance]) => {
+        setIdeas(loadedIdeas);
+        setCredits(loadedBalance.available);
+        setPreview(initialPreview === 'empty' ? 'empty' : 'populated');
+      },
+    );
   }, [initialPreview]);
 
   async function retryLoad() {
-    setIdeas(await mockProductService.listIdeas());
+    const [loadedIdeas, loadedBalance] = await Promise.all([
+      mockProductService.listIdeas(),
+      mockProductService.getCreditBalance(),
+    ]);
+    setIdeas(loadedIdeas);
+    setCredits(loadedBalance.available);
     setPreview('populated');
   }
 
   function openStage(idea: Idea, stage: Stage) {
     if (stage.state === 'locked') return;
     if (stage.key === 'shape') {
-      setFeedback(
-        `Shape for “${idea.title}” is unavailable while that page is rebuilt from scratch.`,
-      );
+      router.push(`/idea/shape/${idea.id}`);
       return;
     }
     setFeedback(`${stage.action} will connect when its page is built in the next prototype phase.`);
@@ -199,7 +207,7 @@ export function IdeasPageClient({ initialPreview = 'populated' }: { initialPrevi
   }
 
   return (
-    <ProductShell>
+    <ProductShell credits={credits}>
       <main className="ideas-page">
         <section className="page-heading">
           <div>
