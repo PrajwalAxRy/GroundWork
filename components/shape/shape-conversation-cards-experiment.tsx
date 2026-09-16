@@ -11,7 +11,6 @@ import {
   Layers3,
   ListChecks,
   PanelRight,
-  Rows3,
   Sparkles,
   StickyNote,
 } from 'lucide-react';
@@ -206,7 +205,6 @@ function CardPair({ variant }: { variant: Variant }) {
 function ConceptIcon({ id }: { id: ConceptVariant['id'] }) {
   if (id === 'memo') return <StickyNote aria-hidden="true" />;
   if (id === 'sidepeek') return <PanelRight aria-hidden="true" />;
-  if (id === 'blocks') return <Rows3 aria-hidden="true" />;
   if (id === 'ledger') return <BookOpenText aria-hidden="true" />;
   return <Layers3 aria-hidden="true" />;
 }
