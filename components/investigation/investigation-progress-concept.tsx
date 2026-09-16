@@ -134,7 +134,10 @@ export function InvestigationProgressConcept() {
             ) : null}
           </section>
 
-          <section className={styles.progressSurface} aria-label="Investigation progress concept">
+          <section
+            className={`${styles.progressSurface} ${styles[preview]}`}
+            aria-label="Investigation progress concept"
+          >
             <div className={styles.progressMain}>
               <div className={styles.sectionHeading}>
                 <div>
@@ -176,48 +179,25 @@ export function InvestigationProgressConcept() {
               </ol>
             </div>
 
-            <aside className={styles.contextRail}>
-              <section>
-                <div className={styles.railHeading}>
-                  <Search aria-hidden="true" />
-                  <h2>Activity</h2>
-                </div>
-                <dl className={styles.activityList}>
-                  <div>
-                    <dt>Sources reviewed</dt>
-                    <dd>{preview === 'ready' ? '42' : preview === 'failed' ? '8' : '18'}</dd>
-                  </div>
-                  <div>
-                    <dt>Sources kept</dt>
-                    <dd>{preview === 'ready' ? '21' : preview === 'failed' ? '3' : '7'}</dd>
-                  </div>
-                  <div>
-                    <dt>Competitors found</dt>
-                    <dd>{preview === 'ready' ? '9' : preview === 'failed' ? '4' : '6'}</dd>
-                  </div>
-                </dl>
-              </section>
-
-              <section className={styles.creditNote}>
-                <span aria-hidden="true">{preview === 'failed' ? <ShieldCheck /> : <Coins />}</span>
-                <div>
-                  <strong>
-                    {preview === 'ready'
-                      ? '5 credits used'
-                      : preview === 'failed'
-                        ? '5 credits released'
-                        : '5 credits reserved'}
-                  </strong>
-                  <p>
-                    {preview === 'running'
-                      ? 'Finalized only when the report is ready.'
-                      : preview === 'failed'
-                        ? 'Nothing was charged for this run.'
-                        : 'The investigation completed successfully.'}
-                  </p>
-                </div>
-              </section>
-            </aside>
+            <div className={styles.creditNote}>
+              <span aria-hidden="true">{preview === 'failed' ? <ShieldCheck /> : <Coins />}</span>
+              <div>
+                <strong>
+                  {preview === 'ready'
+                    ? '5 credits used'
+                    : preview === 'failed'
+                      ? '5 credits released'
+                      : '5 credits reserved'}
+                </strong>
+                <p>
+                  {preview === 'running'
+                    ? 'Finalized only when the report is ready.'
+                    : preview === 'failed'
+                      ? 'Nothing was charged for this run.'
+                      : 'The investigation completed successfully.'}
+                </p>
+              </div>
+            </div>
           </section>
 
           <footer className={styles.pageFooter}>

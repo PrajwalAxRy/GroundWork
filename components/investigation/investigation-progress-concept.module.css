@@ -19,7 +19,6 @@
 .previewControls,
 .statusLead,
 .sectionHeading,
-.railHeading,
 .creditNote,
 .pageFooter,
 .pageFooter a {
@@ -245,14 +244,11 @@
   border-radius: 14px;
   background: var(--paper);
   box-shadow: var(--shadow);
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) 282px;
   overflow: hidden;
 }
 
 .progressMain {
-  min-width: 0;
-  padding: 28px 30px 22px;
+  padding: 28px 30px 24px;
 }
 
 .sectionHeading {
@@ -262,8 +258,7 @@
   margin-bottom: 18px;
 }
 
-.sectionHeading h2,
-.railHeading h2 {
+.sectionHeading h2 {
   margin: 0;
   color: var(--ink);
   font: 700 18px var(--font-groundwork-heading), system-ui, sans-serif;
@@ -395,59 +390,11 @@
   white-space: nowrap;
 }
 
-.contextRail {
-  padding: 28px 24px;
-  border-left: 1px solid var(--rules);
-  background: oklch(0.978 0.006 238);
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  gap: 36px;
-}
-
-.railHeading {
-  gap: 9px;
-}
-
-.railHeading svg {
-  width: 18px;
-  height: 18px;
-  color: var(--cobalt);
-}
-
-.railHeading h2 {
-  font-size: 15px;
-}
-
-.activityList {
-  margin: 18px 0 0;
-}
-
-.activityList div {
-  min-height: 38px;
-  border-bottom: 1px solid var(--rules);
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 14px;
-}
-
-.activityList dt {
-  color: var(--secondary-ink);
-  font-size: 12px;
-}
-
-.activityList dd {
-  margin: 0;
-  color: var(--ink);
-  font-size: 13px;
-  font-weight: 750;
-}
-
 .creditNote {
-  padding-top: 20px;
+  min-height: 72px;
+  padding: 14px 30px;
   border-top: 1px solid var(--rules);
-  align-items: flex-start;
+  background: oklch(0.978 0.006 238);
   gap: 11px;
 }
 
@@ -462,7 +409,7 @@
   flex: 0 0 auto;
 }
 
-.failed + .progressSurface .creditNote > span {
+.progressSurface.failed .creditNote > span {
   background: var(--pale-rust);
   color: var(--rust);
 }
@@ -536,15 +483,6 @@
 
   .statusLead .primaryAction {
     margin-left: 76px;
-  }
-
-  .progressSurface {
-    grid-template-columns: 1fr;
-  }
-
-  .contextRail {
-    border-top: 1px solid var(--rules);
-    border-left: 0;
   }
 }
 
@@ -624,9 +562,12 @@
     justify-content: center;
   }
 
-  .progressMain,
-  .contextRail {
+  .progressMain {
     padding: 22px 18px;
+  }
+
+  .creditNote {
+    padding: 14px 18px;
   }
 
   .sectionHeading {
