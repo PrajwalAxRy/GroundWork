@@ -1,5 +1,5 @@
 import { ProductShell } from '@/components/product/product-shell';
-import { ArrowRight, CheckCircle2, FlaskConical } from 'lucide-react';
+import { Archive, ArrowRight, CheckCircle2, FlaskConical } from 'lucide-react';
 import type { Metadata } from 'next';
 import Link from 'next/link';
 
@@ -17,6 +17,17 @@ const experiments = [
     area: 'Dashboard',
     status: 'Approved direction',
     approved: true,
+    archived: false,
+  },
+  {
+    href: '/_experiments/card-iterations',
+    title: 'Idea card iterations',
+    description:
+      'The restored comparison gallery with twelve early structures, including the six compact studies.',
+    area: 'Dashboard archive',
+    status: 'Historical study',
+    approved: false,
+    archived: true,
   },
   {
     href: '/_experiments/confirm-idea',
@@ -26,6 +37,7 @@ const experiments = [
     area: 'Shape review',
     status: 'Prototype',
     approved: false,
+    archived: false,
   },
 ] as const;
 
@@ -73,6 +85,8 @@ export default function ExperimentsIndexPage() {
                     <span className={experiment.approved ? 'is-approved' : undefined}>
                       {experiment.approved ? (
                         <CheckCircle2 aria-hidden="true" />
+                      ) : experiment.archived ? (
+                        <Archive aria-hidden="true" />
                       ) : (
                         <FlaskConical aria-hidden="true" />
                       )}

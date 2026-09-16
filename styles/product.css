@@ -410,6 +410,14 @@
   }
 }
 
+.experiment-archive-frame {
+  width: 100%;
+  min-height: 100dvh;
+  display: block;
+  border: 0;
+  background: var(--canvas);
+}
+
 .composer {
   margin: 0 0 36px;
   padding: 24px;
