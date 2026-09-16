@@ -241,6 +241,175 @@
   text-underline-offset: 3px;
 }
 
+.experiment-directory {
+  width: min(960px, calc(100% - 40px));
+  margin: 0 auto;
+  padding: 64px 0 96px;
+}
+.experiment-directory__header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 40px;
+  margin-bottom: 58px;
+}
+.experiment-directory__header h1 {
+  font-size: clamp(42px, 6vw, 64px);
+}
+.experiment-directory__intro {
+  max-width: 620px;
+  margin: 18px 0 0;
+  color: var(--secondary-ink);
+  font-size: 17px;
+  line-height: 1.55;
+}
+.experiment-directory__back {
+  flex: none;
+  padding-bottom: 3px;
+  color: var(--cobalt);
+  font-weight: 650;
+  text-underline-offset: 4px;
+}
+.experiment-directory__catalogue {
+  border-top: 1px solid var(--ink);
+}
+.experiment-directory__list-heading {
+  min-height: 54px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  border-bottom: 1px solid var(--rules);
+}
+.experiment-directory__list-heading h2 {
+  margin: 0;
+  font-size: 14px;
+  letter-spacing: -0.01em;
+}
+.experiment-directory__list-heading span {
+  color: var(--muted-ink);
+  font-size: 13px;
+}
+.experiment-directory__list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.experiment-directory__list li {
+  border-bottom: 1px solid var(--rules);
+}
+.experiment-directory__list a {
+  min-height: 144px;
+  padding: 26px 4px;
+  display: grid;
+  grid-template-columns: 52px minmax(0, 1fr) 176px 30px;
+  align-items: center;
+  gap: 20px;
+  color: var(--ink);
+  text-decoration: none;
+  transition: background-color 180ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+.experiment-directory__list a:hover {
+  background: oklch(0.992 0.003 235 / 0.72);
+}
+.experiment-directory__number {
+  align-self: start;
+  padding-top: 2px;
+  color: var(--cobalt);
+  font: 700 13px var(--font-groundwork-body), system-ui, sans-serif;
+  letter-spacing: 0.08em;
+}
+.experiment-directory__copy {
+  min-width: 0;
+  display: grid;
+  gap: 9px;
+}
+.experiment-directory__title {
+  font: 650 22px/1.2 var(--font-groundwork-heading), system-ui, sans-serif;
+  letter-spacing: -0.035em;
+}
+.experiment-directory__description {
+  max-width: 60ch;
+  color: var(--secondary-ink);
+  font-size: 14px;
+  line-height: 1.55;
+}
+.experiment-directory__meta {
+  display: grid;
+  gap: 8px;
+  color: var(--muted-ink);
+  font-size: 12px;
+}
+.experiment-directory__meta > span:last-child {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--secondary-ink);
+  font-weight: 600;
+}
+.experiment-directory__meta > span.is-approved {
+  color: var(--cobalt);
+}
+.experiment-directory__meta svg {
+  width: 15px;
+  height: 15px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+}
+.experiment-directory__arrow {
+  width: 20px;
+  height: 20px;
+  color: var(--cobalt);
+  transition: transform 180ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+.experiment-directory__list a:hover .experiment-directory__arrow {
+  transform: translateX(3px);
+}
+
+@media (max-width: 720px) {
+  .experiment-directory {
+    width: min(100% - 28px, 560px);
+    padding: 42px 0 64px;
+  }
+  .experiment-directory__header {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 22px;
+    margin-bottom: 38px;
+  }
+  .experiment-directory__header h1 {
+    font-size: 42px;
+  }
+  .experiment-directory__intro {
+    margin-top: 14px;
+    font-size: 15px;
+  }
+  .experiment-directory__list a {
+    min-height: 0;
+    padding: 22px 3px 24px;
+    grid-template-columns: 36px minmax(0, 1fr) 20px;
+    align-items: start;
+    gap: 13px;
+  }
+  .experiment-directory__copy {
+    gap: 8px;
+  }
+  .experiment-directory__title {
+    font-size: 19px;
+  }
+  .experiment-directory__meta {
+    grid-column: 2 / -1;
+    grid-template-columns: repeat(2, minmax(0, max-content));
+    gap: 8px 16px;
+  }
+  .experiment-directory__arrow {
+    grid-column: 3;
+    grid-row: 1;
+    margin-top: 2px;
+  }
+}
+
 .composer {
   margin: 0 0 36px;
   padding: 24px;

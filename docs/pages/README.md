@@ -53,6 +53,8 @@ Important component explorations should also have development-only routes such a
 - `/_experiments/risk-matrix`
 - `/_experiments/roadmap-overview`
 
+Use `/_experiments` to browse the experiment routes currently available in the application.
+
 ## Shared Product Shell
 
 Every authenticated page uses the same global top bar:
