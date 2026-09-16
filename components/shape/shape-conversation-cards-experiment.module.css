@@ -645,15 +645,6 @@
   flex: 0 0 auto;
 }
 
-.blockPreview {
-  max-width: 132px;
-  overflow: hidden;
-  color: var(--muted-ink);
-  font-size: 9px;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
 .memo {
   background: oklch(0.969 0.011 72);
 }
@@ -873,10 +864,6 @@
 
   .stage {
     padding: 18px;
-  }
-
-  .blockPreview {
-    display: none;
   }
 }
 

@@ -256,11 +256,8 @@ function ConceptPair({ variant }: { variant: ConceptVariant }) {
             )}
             <span className={styles.conceptToggleCopy}>
               <strong>Captured details</strong>
-              <small>4 details</small>
+              {variant.id !== 'blocks' && <small>4 details</small>}
             </span>
-            {variant.id === 'blocks' && (
-              <span className={styles.blockPreview}>Problem · Customer · Offer</span>
-            )}
             <ChevronDown className={styles.chevron} aria-hidden="true" />
           </button>
 
