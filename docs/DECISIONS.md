@@ -42,6 +42,7 @@ This file separates locked product decisions from topics that still need discuss
 - Investigation start remains a separate explicit paid action.
 - Selecting **Start investigation** opens a focused confirmation modal over Shape. Its content is hardcoded and identical for every Idea, not generated from the Shape conversation. The overview uses four concise fixed topics, **Customer and demand**, **Competition analysis**, **Business reality**, and **Evidence check**, rather than a detailed research plan. It explains failure protection and requires a final explicit action. Do not show a separate cost or balance summary inside the modal; retain the balance in the global shell and show the amount as a compact credit icon and number inside the primary action.
 - The prototype fixture is **5 credits** for an Investigation against a **10-credit** available balance. This does not settle commercial pricing, packs, or introductory-credit policy.
+- The current Shape workspace, lightweight review modal, paused-review handoff, and Investigation confirmation modal are fixed. Future work continues at Investigation Progress unless the user explicitly reopens one of these surfaces.
 - Investigation may proceed with unresolved questions, with appropriate confidence limitations.
 - The Brief freezes when Investigation starts.
 - Shape becomes a read-only transcript with no composer and no editable Brief.

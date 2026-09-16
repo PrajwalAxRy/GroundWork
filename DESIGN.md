@@ -153,7 +153,7 @@ The focus selection is deterministic. Prioritize unread, running, failed, ready,
 
 ## Shape
 
-Status: approved, integrated, and visually complete as of 2026-09-16.
+Status: approved, integrated, and fixed as of 2026-09-16. This includes the lightweight review modal, paused-review handoff, and Investigation confirmation modal. Do not revise them unless the user explicitly reopens the direction.
 
 The approved Shape direction is the conversation-first workspace from `/_experiments/shape-conversation`, with the **Quiet details** supporting-card treatment selected as card 11 in `/_experiments/shape-conversation_cards`.
 

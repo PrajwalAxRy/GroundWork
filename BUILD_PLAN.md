@@ -138,11 +138,11 @@ The product foundations, approved visual system, production frontend foundation,
 - [x] Integrate the approved paused-review handoff card into production Shape.
 - [x] Integrate the paid Investigation confirmation modal into production Shape using typed mock values.
 - [ ] Prevent duplicate paid-action submissions.
-- [ ] Distinguish the reversible paused-review state from permanent Brief freezing when Investigation starts.
+- [x] Distinguish the reversible paused-review state from permanent Brief freezing when Investigation starts.
 
 ### Completion checkpoint
 
-- [ ] A user can accept the current summary, pause Shape for review, resume shaping if needed, and then explicitly start Investigation through a separate paid action.
+- [x] A user can accept the current summary, pause Shape for review, resume shaping if needed, and then explicitly start Investigation through a separate paid action.
 
 ## Phase 6: Credits and Purchase Context
 
