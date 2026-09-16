@@ -10,6 +10,16 @@ export const metadata: Metadata = {
 
 const experiments = [
   {
+    href: '/_experiments/shape-conversation',
+    title: 'Shape: conversation workspace',
+    description:
+      'A conversation-first workspace with a persistent composer and compact Idea Brief panel, inspired by familiar chat products.',
+    area: 'Shape',
+    status: 'Prototype for review',
+    approved: false,
+    archived: false,
+  },
+  {
     href: '/_experiments/shape',
     title: 'Shape workspace',
     description:
