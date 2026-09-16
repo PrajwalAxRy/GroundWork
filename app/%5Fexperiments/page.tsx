@@ -10,6 +10,16 @@ export const metadata: Metadata = {
 
 const experiments = [
   {
+    href: '/_experiments/verdict-header',
+    title: 'Investigation verdict header',
+    description:
+      'An evidence-aware first viewport for the report verdict, strongest reasons, concern, recommended version, and next action.',
+    area: 'Investigation report',
+    status: 'Prototype for review',
+    approved: false,
+    archived: false,
+  },
+  {
     href: '/_experiments/investigation-progress',
     title: 'Investigation progress concept',
     description:
