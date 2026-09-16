@@ -130,6 +130,7 @@ This file separates locked product decisions from topics that still need discuss
 
 - A dedicated Confirm Idea page or production confirmation route (previously proposed as `/ideas/:ideaId/confirm`)
 - The former cofounder-workspace Shape page and its divided Current idea panel
+- The first from-scratch Shape experiment with an oversized headline, timeline-like conversation spine, and in-flow Idea outline; it felt too sharp and editorial rather than calm and familiar
 - The unapproved two-card Shape side-brief exploration
 - Multiple floating cards for answered and unanswered questions in Shape
 - One large divided Shape summary card showing confirmed, inferred, suggested, unknown, and conflicting fields together

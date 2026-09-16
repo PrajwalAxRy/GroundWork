@@ -2,16 +2,20 @@
 
 import { ProductShell } from '@/components/product/product-shell';
 import { Button } from '@/components/ui/product-primitives';
+import * as Dialog from '@radix-ui/react-dialog';
 import {
   ArrowLeft,
   ArrowUp,
   Check,
+  CheckCircle2,
   ChevronDown,
   CircleDashed,
   Lightbulb,
   MessageCircleMore,
   RotateCcw,
+  ShieldCheck,
   Sparkles,
+  X,
 } from 'lucide-react';
 import Link from 'next/link';
 import { type FormEvent, useState } from 'react';
@@ -31,11 +35,31 @@ const starters = [
   },
 ] as const;
 
-type Message = {
-  id: number;
-  role: 'groundwork' | 'user';
-  content: string;
+type Message = { id: number; role: 'groundwork' | 'user'; content: string };
+type BriefItem = {
+  label: string;
+  value: string;
+  status: 'confirmed' | 'assumption' | 'open';
 };
+
+const briefItems: BriefItem[] = [
+  {
+    label: 'Problem',
+    value: 'Patient requests get lost across several channels.',
+    status: 'confirmed',
+  },
+  {
+    label: 'Target customer',
+    value: 'Independent clinics with a small administrative team.',
+    status: 'assumption',
+  },
+  { label: 'Likely buyer', value: 'Practice manager.', status: 'confirmed' },
+  {
+    label: 'First version',
+    value: 'Collect messages or track follow-ups after staff add them.',
+    status: 'open',
+  },
+];
 
 const sampleMessages: Message[] = [
   {
@@ -63,25 +87,37 @@ const sampleMessages: Message[] = [
   },
 ];
 
+function StatusIcon({ status }: { status: BriefItem['status'] }) {
+  if (status === 'confirmed') return <CheckCircle2 aria-hidden="true" />;
+  if (status === 'assumption') return <Sparkles aria-hidden="true" />;
+  return <CircleDashed aria-hidden="true" />;
+}
+
+function statusLabel(status: BriefItem['status']) {
+  if (status === 'confirmed') return 'Confirmed';
+  if (status === 'assumption') return 'Groundwork’s assumption';
+  return 'Still exploring';
+}
+
 export function ShapeExperiment() {
   const [view, setView] = useState<'start' | 'conversation'>('start');
   const [thought, setThought] = useState('');
   const [draft, setDraft] = useState('');
-  const [outlineOpen, setOutlineOpen] = useState(true);
+  const [briefOpen, setBriefOpen] = useState(true);
+  const [reviewOpen, setReviewOpen] = useState(false);
   const [messages, setMessages] = useState<Message[]>(sampleMessages);
 
   function beginShaping(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const initialThought = thought.trim();
     if (!initialThought) return;
-
     setMessages([
       { id: 1, role: 'user', content: initialThought },
       {
         id: 2,
         role: 'groundwork',
         content:
-          'There is a useful starting point here. Let’s make the problem concrete before we settle on a solution. Who runs into this most often, and what do they do today when it happens?',
+          'Let’s make the problem concrete before settling on a solution. Who runs into this most often, and what do they do today when it happens?',
       },
     ]);
     setView('conversation');
@@ -91,7 +127,6 @@ export function ShapeExperiment() {
     event.preventDefault();
     const content = draft.trim();
     if (!content) return;
-
     const nextId = messages.length + 1;
     setMessages((current) => [
       ...current,
@@ -115,14 +150,15 @@ export function ShapeExperiment() {
     setThought('');
     setDraft('');
     setMessages(sampleMessages);
-    setOutlineOpen(true);
+    setBriefOpen(true);
+    setReviewOpen(false);
     setView('start');
   }
 
   return (
     <ProductShell>
-      <main className={`shape-experiment shape-experiment--${view}`}>
-        <nav className="shape-experiment__utility" aria-label="Shape experiment controls">
+      <main className="shape-saas">
+        <nav className="shape-saas__experiment-bar" aria-label="Shape experiment controls">
           <Link href="/_experiments">
             <ArrowLeft aria-hidden="true" />
             Experiments
@@ -137,31 +173,43 @@ export function ShapeExperiment() {
         </nav>
 
         {view === 'start' ? (
-          <section className="shape-start" aria-labelledby="shape-start-title">
-            <div className="shape-start__heading">
-              <span className="shape-stage-mark">
-                <Sparkles aria-hidden="true" />
+          <section className="shape-saas-start" aria-labelledby="shape-start-title">
+            <header className="shape-saas-start__header">
+              <div className="shape-saas-stage">
+                <MessageCircleMore aria-hidden="true" />
                 Shape
-              </span>
-              <h1 id="shape-start-title">Bring the rough version.</h1>
+                <span>Free</span>
+              </div>
+              <h1 id="shape-start-title">Shape a new idea</h1>
               <p>
-                Share the thought as it is. Groundwork will help you find the customer, sharpen the
-                problem, and challenge what still feels uncertain.
+                Start with whatever you have. Groundwork will help you clarify the customer,
+                problem, and strongest version of the idea.
               </p>
-            </div>
+            </header>
 
-            <form className="shape-start__composer" onSubmit={beginShaping}>
-              <label htmlFor="shape-first-thought">What are you thinking about building?</label>
+            <form className="shape-saas-start__card" onSubmit={beginShaping}>
+              <div className="shape-saas-assistant-intro">
+                <span aria-hidden="true">
+                  <Sparkles />
+                </span>
+                <div>
+                  <strong>What are you thinking about building?</strong>
+                  <p>A sentence, a problem you noticed, or a half-formed thought is enough.</p>
+                </div>
+              </div>
+              <label className="sr-only" htmlFor="shape-first-thought">
+                Describe your idea
+              </label>
               <textarea
                 id="shape-first-thought"
                 value={thought}
                 onChange={(event) => setThought(event.target.value)}
-                placeholder="A sentence, a problem you noticed, or a half-formed idea is enough…"
+                placeholder="For example: Small clinics lose track of patient requests across email, calls, and WhatsApp."
                 rows={5}
                 required
               />
-              <div className="shape-start__composer-footer">
-                <span>No pitch deck needed.</span>
+              <div className="shape-saas-start__actions">
+                <span>Your idea does not need to be polished.</span>
                 <Button type="submit" disabled={!thought.trim()}>
                   Start shaping
                   <ArrowUp aria-hidden="true" />
@@ -169,131 +217,186 @@ export function ShapeExperiment() {
               </div>
             </form>
 
-            <div className="shape-starters" aria-labelledby="shape-starters-title">
-              <div>
+            <section className="shape-saas-examples" aria-labelledby="shape-examples-title">
+              <div className="shape-saas-examples__heading">
                 <Lightbulb aria-hidden="true" />
-                <p id="shape-starters-title">Not sure how to begin?</p>
+                <h2 id="shape-examples-title">Need a starting point?</h2>
               </div>
-              <div className="shape-starters__options">
+              <div className="shape-saas-examples__list">
                 {starters.map((starter) => (
                   <button
                     type="button"
                     key={starter.label}
                     onClick={() => setThought(starter.text)}
                   >
-                    <span>{starter.label}</span>
-                    <small>{starter.text}</small>
+                    <strong>{starter.label}</strong>
+                    <span>{starter.text}</span>
                   </button>
                 ))}
               </div>
-            </div>
+            </section>
 
-            <footer className="shape-start__footer">
+            <div className="shape-saas-start__note">
+              <ShieldCheck aria-hidden="true" />
               <p>
-                Shape does not search the internet. Current competitors, market data, and other live
-                facts are checked later during Investigation.
+                Shape focuses on your thinking and does not search the internet. Groundwork checks
+                current competitors, market data, and other live facts during Investigation.
               </p>
               <button type="button" onClick={showSampleConversation}>
-                Preview a developed conversation
+                Preview a conversation
               </button>
-            </footer>
+            </div>
           </section>
         ) : (
-          <section className="shape-workspace" aria-labelledby="shape-workspace-title">
-            <header className="shape-workspace__header">
+          <section className="shape-saas-workspace" aria-labelledby="shape-workspace-title">
+            <header className="shape-saas-workspace__header">
               <div>
-                <span className="shape-stage-mark">
+                <div className="shape-saas-stage">
                   <MessageCircleMore aria-hidden="true" />
                   Shape
-                </span>
+                  <span>Saved</span>
+                </div>
                 <h1 id="shape-workspace-title">A calmer inbox for small clinics</h1>
-                <p>Draft idea · Changes are kept while you shape</p>
+                <p>Keep talking naturally. You can correct Groundwork at any time.</p>
               </div>
-              <Button type="button" variant="outline">
+              <Button type="button" variant="outline" onClick={() => setReviewOpen(true)}>
                 Review idea
               </Button>
             </header>
 
-            <section className={`shape-outline ${outlineOpen ? 'is-open' : ''}`}>
-              <button
-                className="shape-outline__toggle"
-                type="button"
-                aria-expanded={outlineOpen}
-                onClick={() => setOutlineOpen((open) => !open)}
-              >
-                <span className="shape-outline__signal" aria-hidden="true" />
-                <span>
-                  <strong>Idea outline</strong>
-                  <small>3 things understood · 4 still open</small>
-                </span>
-                <ChevronDown aria-hidden="true" />
-              </button>
-              {outlineOpen && (
-                <div className="shape-outline__content">
-                  <p className="shape-outline__summary">
-                    Help small clinics keep patient requests visible and owned without replacing the
-                    tools their staff already use.
-                  </p>
-                  <dl>
-                    <div>
-                      <dt>
-                        <Check aria-hidden="true" /> Problem
-                      </dt>
-                      <dd>Patient requests get lost across several channels.</dd>
-                    </div>
-                    <div>
-                      <dt>
-                        <Check aria-hidden="true" /> Likely buyer
-                      </dt>
-                      <dd>Practice manager at an independent clinic.</dd>
-                    </div>
-                    <div className="is-open-question">
-                      <dt>
-                        <CircleDashed aria-hidden="true" /> Still exploring
-                      </dt>
-                      <dd>Whether the first version collects messages or tracks follow-ups.</dd>
-                    </div>
-                  </dl>
+            <div className="shape-saas-workspace__layout">
+              <section className="shape-saas-chat" aria-label="Shape conversation">
+                <div className="shape-saas-chat__messages" aria-live="polite">
+                  {messages.map((message) => (
+                    <article
+                      className={`shape-saas-message shape-saas-message--${message.role}`}
+                      key={message.id}
+                    >
+                      {message.role === 'groundwork' && (
+                        <span className="shape-saas-message__avatar" aria-hidden="true">
+                          <Sparkles />
+                        </span>
+                      )}
+                      <div>
+                        <strong>{message.role === 'groundwork' ? 'Groundwork' : 'You'}</strong>
+                        <p>{message.content}</p>
+                      </div>
+                    </article>
+                  ))}
                 </div>
-              )}
-            </section>
 
-            <div className="shape-thread" aria-live="polite">
-              {messages.map((message) => (
-                <article
-                  className={`shape-message shape-message--${message.role}`}
-                  key={message.id}
-                >
-                  <div className="shape-message__speaker" aria-hidden="true">
-                    {message.role === 'groundwork' ? <Sparkles /> : <span>You</span>}
-                  </div>
+                <form className="shape-saas-composer" onSubmit={sendMessage}>
+                  <label className="sr-only" htmlFor="shape-reply-input">
+                    Continue the conversation
+                  </label>
+                  <textarea
+                    id="shape-reply-input"
+                    value={draft}
+                    onChange={(event) => setDraft(event.target.value)}
+                    placeholder="Reply, add a detail, or correct an assumption…"
+                    rows={3}
+                  />
                   <div>
-                    <strong>{message.role === 'groundwork' ? 'Groundwork' : 'You'}</strong>
-                    <p>{message.content}</p>
+                    <span>Groundwork asks one question at a time.</span>
+                    <Button type="submit" aria-label="Send message" disabled={!draft.trim()}>
+                      <ArrowUp aria-hidden="true" />
+                    </Button>
                   </div>
-                </article>
-              ))}
-            </div>
+                </form>
+              </section>
 
-            <form className="shape-reply" onSubmit={sendMessage}>
-              <label htmlFor="shape-reply-input">Continue the conversation</label>
-              <div>
-                <textarea
-                  id="shape-reply-input"
-                  value={draft}
-                  onChange={(event) => setDraft(event.target.value)}
-                  placeholder="Add a detail, correct an assumption, or ask a question…"
-                  rows={3}
-                />
-                <Button type="submit" aria-label="Send message" disabled={!draft.trim()}>
-                  <ArrowUp aria-hidden="true" />
-                </Button>
-              </div>
-              <p>Groundwork asks one useful question at a time.</p>
-            </form>
+              <aside className={`shape-saas-brief ${briefOpen ? 'is-open' : ''}`}>
+                <button
+                  className="shape-saas-brief__toggle"
+                  type="button"
+                  aria-expanded={briefOpen}
+                  onClick={() => setBriefOpen((open) => !open)}
+                >
+                  <span>
+                    <strong>Idea brief</strong>
+                    <small>Updates as the idea becomes clearer</small>
+                  </span>
+                  <ChevronDown aria-hidden="true" />
+                </button>
+                {briefOpen && (
+                  <div className="shape-saas-brief__content">
+                    <p>
+                      Help small clinics keep patient requests visible and owned without replacing
+                      the tools their staff already use.
+                    </p>
+                    <div className="shape-saas-brief__fields">
+                      {briefItems.map((item) => (
+                        <div key={item.label}>
+                          <strong>{item.label}</strong>
+                          <p>{item.value}</p>
+                          <span className={`is-${item.status}`}>
+                            <StatusIcon status={item.status} />
+                            {statusLabel(item.status)}
+                          </span>
+                        </div>
+                      ))}
+                    </div>
+                    <button type="button" onClick={() => setReviewOpen(true)}>
+                      Review full brief
+                    </button>
+                  </div>
+                )}
+              </aside>
+            </div>
           </section>
         )}
       </main>
+
+      <Dialog.Root open={reviewOpen} onOpenChange={setReviewOpen}>
+        <Dialog.Portal>
+          <Dialog.Overlay className="shape-review-overlay" />
+          <Dialog.Content className="shape-review-dialog">
+            <div className="shape-review-dialog__header">
+              <div>
+                <Dialog.Title>Review your idea</Dialog.Title>
+                <Dialog.Description>
+                  Check what Groundwork understands before moving toward Investigation.
+                </Dialog.Description>
+              </div>
+              <Dialog.Close asChild>
+                <button type="button" aria-label="Close review">
+                  <X aria-hidden="true" />
+                </button>
+              </Dialog.Close>
+            </div>
+            <div className="shape-review-dialog__summary">
+              <span>Idea summary</span>
+              <p>
+                A shared follow-up workspace that helps small clinics keep patient requests visible
+                without replacing their current communication tools.
+              </p>
+            </div>
+            <div className="shape-review-dialog__fields">
+              {briefItems.map((item) => (
+                <div key={item.label}>
+                  <span className={`is-${item.status}`}>
+                    <StatusIcon status={item.status} />
+                    {statusLabel(item.status)}
+                  </span>
+                  <strong>{item.label}</strong>
+                  <p>{item.value}</p>
+                </div>
+              ))}
+            </div>
+            <div className="shape-review-dialog__actions">
+              <Dialog.Close asChild>
+                <Button type="button" variant="text">
+                  Keep shaping
+                </Button>
+              </Dialog.Close>
+              <Button type="button" onClick={() => setReviewOpen(false)}>
+                Confirm brief
+                <Check aria-hidden="true" />
+              </Button>
+            </div>
+          </Dialog.Content>
+        </Dialog.Portal>
+      </Dialog.Root>
     </ProductShell>
   );
 }

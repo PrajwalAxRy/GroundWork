@@ -13,7 +13,7 @@ const experiments = [
     href: '/_experiments/shape',
     title: 'Shape workspace',
     description:
-      'A friendly, conversation-first Shape experience with a focused start state and an in-flow Idea outline.',
+      'A calm, familiar SaaS workspace with a focused start state, cofounder chat, supporting Idea Brief, and review modal.',
     area: 'Shape',
     status: 'Prototype for review',
     approved: false,
