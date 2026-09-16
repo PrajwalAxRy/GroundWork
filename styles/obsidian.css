@@ -596,6 +596,15 @@ body::before {
    7. Hero
    ============================================================ */
 
+/* Keep the research-dimension rail on the first viewport's bottom edge when
+   the hero content fits. Short screens can still grow naturally. */
+.ob-hero-stage {
+  display: grid;
+  grid-template-rows: minmax(0, 1fr) auto auto;
+  min-height: 100svh;
+  background: var(--ob-void);
+}
+
 .ob-hero {
   position: relative;
   padding-top: 180px;

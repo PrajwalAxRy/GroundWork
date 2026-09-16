@@ -174,3 +174,5 @@ The following remain open for later experiments: long-form report composition, v
 The product design system is implemented in `styles/product.css`, reusable controls in `components/ui/product-primitives.tsx`, and the product frame in `components/product/product-shell.tsx`. The marketing surface keeps its separate dark presentation in `styles/obsidian.css`; it does not redefine product semantics.
 
 This repository owns these files and all future design-system changes. The sibling landing-page repository is a read-only reference. `ARCHITECTURE.md` defines the corresponding route, component, and data boundaries.
+
+On the marketing landing page, the hero, divider, and research-dimension rail form one first-fold stage. When the hero content fits, the rail aligns with the bottom edge of the initial viewport; on shorter screens the stage grows naturally rather than clipping content.

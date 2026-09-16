@@ -46,10 +46,11 @@ import { Pillars } from '@/components/landing/pillars';
 export default function Home() {
   return (
     <>
-      <Hero />
-
-      <hr className="ob-rule" />
-      <DimensionMarquee />
+      <div className="ob-hero-stage">
+        <Hero />
+        <hr className="ob-rule" />
+        <DimensionMarquee />
+      </div>
 
       {/* No `<hr>` either side of this one, for the same reason `VerifiedStrip`
           has none: `.ob-band` carries its own `border-block`, so the warm band
