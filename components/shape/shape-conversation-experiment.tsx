@@ -8,6 +8,7 @@ import {
   ArrowUp,
   Check,
   ChevronDown,
+  Coins,
   Layers3,
   Lightbulb,
   ListChecks,
@@ -509,17 +510,6 @@ export function ShapeConversationExperiment({
               </ul>
             </section>
 
-            <div className={styles.creditSummary} aria-label="Credit summary">
-              <div>
-                <span>Investigation</span>
-                <strong>5 credits</strong>
-              </div>
-              <div>
-                <span>Your balance</span>
-                <strong>10 credits</strong>
-              </div>
-            </div>
-
             <p className={styles.failureProtection}>
               <ShieldCheck aria-hidden="true" />
               Your credits are reserved when research starts and used only after it completes. They
@@ -532,8 +522,16 @@ export function ShapeConversationExperiment({
                   Not now
                 </button>
               </Dialog.Close>
-              <button type="button" className={styles.confirmButton} onClick={startInvestigation}>
-                Use 5 credits and start investigation
+              <button
+                type="button"
+                className={styles.confirmButton}
+                onClick={startInvestigation}
+                aria-label="Start investigation for 5 credits"
+              >
+                Start investigation
+                <span className={styles.confirmCost} aria-hidden="true">
+                  <Coins />5
+                </span>
                 <ArrowRight aria-hidden="true" />
               </button>
             </div>
