@@ -26,9 +26,9 @@
   font-family: var(--font-groundwork-body), system-ui, sans-serif;
   font-size: 15px;
 }
-.gw-product button,
-.gw-product input,
-.gw-product textarea {
+:where(.gw-product) button,
+:where(.gw-product) input,
+:where(.gw-product) textarea {
   color: inherit;
 }
 .gw-product button:focus-visible,
