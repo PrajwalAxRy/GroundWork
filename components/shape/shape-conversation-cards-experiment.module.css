@@ -837,9 +837,9 @@
 }
 
 .quietdetails .conceptDetail > span strong {
-  color: var(--muted-ink);
+  color: var(--ink);
   font-size: 10px;
-  font-weight: 750;
+  font-weight: 800;
   letter-spacing: 0.045em;
   text-transform: uppercase;
 }
