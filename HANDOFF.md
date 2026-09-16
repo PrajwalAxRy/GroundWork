@@ -81,7 +81,7 @@ The frontend prototype should be reusable production-oriented code, not a dispos
 
 The initial visual system and dashboard Idea card are approved and integrated on the production frontend foundation. The production card uses the **Signal edge** direction from `/_experiments/idea-card-6/`.
 
-The previous Shape page, Shape experiment, Shape-specific styles, and screenshots were removed at the user's request. A placeholder remains at `/idea/shape/new`, reached from **New idea**. Two from-scratch prototypes are available for comparison: `/_experiments/shape` uses a calmer, familiar SaaS direction, while `/_experiments/shape-conversation` explores a conversation-first workspace with embedded Working Summary and Captured Details cards plus a persistent composer. Supporting card treatments are being compared at `/_experiments/shape-conversation_cards`. These explorations are awaiting desktop and mobile approval before any production integration.
+The Shape direction is approved and integrated at `/idea/shape/new`. It uses the conversation-first workspace from `/_experiments/shape-conversation` and the **Quiet details** treatment selected as card 11 in `/_experiments/shape-conversation_cards`: Working summary stays visible, Captured details is collapsed by default, and Review idea remains in the composer. Existing-Idea loading, frozen transcripts, response failure, and research-deferral states remain to be completed.
 
 ## Important Prototype Requirements
 
@@ -108,7 +108,7 @@ Consult `docs/DECISIONS.md` for the complete open-decision list.
 
 ## Repository State
 
-This repository is now the canonical Groundwork application. It uses a Next.js 16 App Router, React 19, strict TypeScript, Tailwind CSS 4, Radix primitives, Zod contracts, Biome, and Vitest. The copied marketing surface, integrated Your Ideas experience, local mock-service boundary, and approved Idea-card experiment live here. Shape contracts and mock data remain, but no Shape page is implemented. `ARCHITECTURE.md` defines the production frontend boundaries. The sibling landing-page folder remains an untouched reference and is not the application workspace.
+This repository is now the canonical Groundwork application. It uses a Next.js 16 App Router, React 19, strict TypeScript, Tailwind CSS 4, Radix primitives, Zod contracts, Biome, and Vitest. The copied marketing surface, integrated Your Ideas experience, local mock-service boundary, approved Idea-card experiment, and mock-driven new-Idea Shape page live here. `ARCHITECTURE.md` defines the production frontend boundaries. The sibling landing-page folder remains an untouched reference and is not the application workspace.
 
 ## Suggested Prompt for the New Chat
 

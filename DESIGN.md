@@ -112,9 +112,15 @@ The focus selection is deterministic. Prioritize unread, running, failed, ready,
 
 ## Shape
 
-The previous Shape visual implementation was removed at the user's request on 2026-09-16. There is currently no approved Shape layout, conversation treatment, side brief, composer, or responsive direction in the codebase.
+The approved Shape direction is the conversation-first workspace from `/_experiments/shape-conversation`, with the **Quiet details** supporting-card treatment selected as card 11 in `/_experiments/shape-conversation_cards`.
 
-The next Shape design must begin as a new development-only experiment and return for desktop and mobile approval before production integration. The functional requirements in `docs/PRODUCT_SPEC.md`, `docs/AI_BEHAVIOR.md`, and `docs/pages/02-shape.md` remain the starting constraints; the removed visual design must not be treated as an approved reference.
+- Keep the conversation and persistent composer as the primary surface.
+- Keep **Review idea** inside the composer.
+- Use two embedded supporting cards rather than a dedicated side panel: **Working summary** is always visible and **Captured details** is collapsed by default.
+- The Working summary card uses a 14-pixel radius, a pale-cobalt layered icon, a compact uppercase label, quiet update metadata, and one readable paragraph.
+- Captured details uses the same 14-pixel shape and icon vocabulary. Its expanded view is a plain label-and-value list with sentence-case bold labels, 13-pixel values, comfortable line height, and no count, preview text, status icons, or row dividers.
+- On desktop the card stack sits beside the conversation. On narrower screens it follows the conversation without displacing the composer as the primary action.
+- Structured provenance remains part of the data model and belongs in the focused **Review idea** experience, not the compact supporting card.
 
 ## Content and State Rules
 

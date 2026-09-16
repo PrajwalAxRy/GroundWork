@@ -22,7 +22,10 @@ This file separates locked product decisions from topics that still need discuss
 - It uses prior answers and actively offers suggestions.
 - Users can finish early.
 - The supporting Brief updates after meaningful changes, normally every two or three turns.
-- The previous Shape UI implementation was removed. Its layout, side-brief treatment, and responsive behavior are reopened for a future from-scratch design.
+- The approved Shape direction is the conversation-first workspace from `/_experiments/shape-conversation`, using the **Quiet details** card treatment (card 11 from `/_experiments/shape-conversation_cards`).
+- The supporting Brief appears as two embedded cards beside the conversation on desktop and after it on narrower screens: **Working summary** is always visible, while **Captured details** is collapsed by default.
+- The compact Captured details card prioritizes readable labels and values without counts, preview text, status icons, or row dividers. Full provenance remains available in the focused **Review idea** flow.
+- **Review idea** remains inside the main composer rather than in the supporting cards.
 - Shape has no internet access.
 - Questions requiring live facts are explicitly deferred to Investigation and recorded for research.
 
@@ -114,7 +117,7 @@ This file separates locked product decisions from topics that still need discuss
 - Manrope is the approved heading and compact-title family. DM Sans is the approved body, label, and control family, with system sans-serif fallbacks.
 - Semantic states always combine color with copy, icons, disabled semantics, or progress indicators.
 - Important unapproved components must continue through development-only experiments before production integration.
-- Shape has no current approved visual direction or production page. A future implementation must begin with a new experiment and approval cycle.
+- Shape uses the approved conversation-first composition and Quiet details card direction documented in `DESIGN.md`.
 
 ### Production frontend foundation
 
@@ -131,7 +134,7 @@ This file separates locked product decisions from topics that still need discuss
 - A dedicated Confirm Idea page or production confirmation route (previously proposed as `/ideas/:ideaId/confirm`)
 - The former cofounder-workspace Shape page and its divided Current idea panel
 - The first from-scratch Shape experiment with an oversized headline, timeline-like conversation spine, and in-flow Idea outline; it felt too sharp and editorial rather than calm and familiar
-- The unapproved two-card Shape side-brief exploration
+- The earlier status-heavy two-card Shape side-brief treatment
 - Multiple floating cards for answered and unanswered questions in Shape
 - One large divided Shape summary card showing confirmed, inferred, suggested, unknown, and conflicting fields together
 - A visible form-like questionnaire for Shape
@@ -182,7 +185,6 @@ This file separates locked product decisions from topics that still need discuss
 
 ### Visual system
 
-- Shape page composition, conversation treatment, side brief, composer, and responsive behavior
 - Long-form report composition and responsive section rhythm
 - Verdict, competitor detail, risk visualization, and Roadmap overview treatments
 - Illustration and generated-media usage

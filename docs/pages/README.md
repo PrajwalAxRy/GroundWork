@@ -44,7 +44,7 @@ These routes are recommendations for a clickable prototype and may be adapted to
 | Roadmap Progress | `/idea/roadmap/:ideaId/progress` |
 | Roadmap | `/idea/roadmap/:ideaId` |
 
-The new-Idea Shape route currently exists as a placeholder. The full Shape experience remains intentionally unimplemented, and its future design must begin with a new experiment.
+The new-Idea Shape route uses the approved conversation-first workspace and Quiet details supporting-card direction. Existing-Idea loading, frozen transcripts, and backend-connected conversation states remain future integration work.
 
 Important component explorations should also have development-only routes such as:
 

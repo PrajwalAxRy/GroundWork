@@ -51,7 +51,13 @@ The cofounder should normally:
 
 ### Supporting Idea Brief
 
-The page must help the user understand the current Idea and distinguish confirmed information from inferred, suggested, unknown, or conflicting content. The exact desktop layout, mobile treatment, and component structure are intentionally open for the future from-scratch Shape redesign.
+The approved supporting Brief uses two embedded cards:
+
+- **Working summary** is always visible and presents the current Idea in one concise paragraph.
+- **Captured details** is collapsed by default and expands into readable label-and-value groups.
+- The compact details view omits counts, preview text, status icons, and row dividers.
+- Full confirmed, inferred, suggested, unknown, and conflicting provenance remains available in **Review idea** rather than crowding the compact card.
+- On desktop the cards sit beside the conversation. On narrower screens they follow the conversation while the composer remains the primary reachable action.
 
 ### Composer
 

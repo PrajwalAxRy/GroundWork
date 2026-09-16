@@ -24,7 +24,6 @@
 .briefHeading,
 .composerFooter,
 .composerActions,
-.fieldHeading,
 .dialogActions {
   display: flex;
   align-items: center;
@@ -96,8 +95,7 @@
   font: 700 15px var(--font-groundwork-heading), system-ui, sans-serif;
 }
 
-.ideaIdentity small,
-.briefHeading small {
+.ideaIdentity small {
   color: var(--muted-ink);
   font-size: 12px;
 }
@@ -431,7 +429,7 @@
   padding: 1px 3px 8px 1px;
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 16px;
   align-self: start;
   overflow-y: auto;
 }
@@ -440,22 +438,45 @@
   border: 1px solid var(--rules);
   border-radius: 14px;
   background: var(--paper);
-  box-shadow: 0 12px 32px oklch(0.255 0.028 242 / 0.07);
   overflow: hidden;
   flex: 0 0 auto;
 }
 
-.cardHeader {
-  min-height: 68px;
-  padding: 14px 18px;
+.summaryCard {
+  padding: 20px 20px 22px;
+  border-color: oklch(0.82 0.02 242);
+  box-shadow: 0 14px 32px oklch(0.255 0.028 242 / 0.085);
+}
+
+.detailsCard {
+  border-color: oklch(0.84 0.017 242);
+}
+
+.summaryTopline {
   display: flex;
   align-items: center;
+  gap: 9px;
+}
+
+.summaryTopline > strong {
+  color: var(--secondary-ink);
+  font-size: 11px;
+  font-weight: 750;
+  letter-spacing: 0.045em;
+  text-transform: uppercase;
+}
+
+.summaryTopline > small {
+  margin-left: auto;
+  color: var(--secondary-ink);
+  font-size: 10px;
+  font-weight: 650;
 }
 
 .briefHeader {
   width: 100%;
-  min-height: 72px;
-  padding: 15px 18px;
+  min-height: 58px;
+  padding: 12px 16px;
   border: 0;
   border-bottom: 0;
   background: transparent;
@@ -476,19 +497,24 @@
   gap: 10px;
 }
 
-.briefHeading > svg {
-  width: 19px;
-  height: 19px;
+.briefIcon {
+  width: 30px;
+  height: 30px;
+  border-radius: 8px;
+  background: var(--pale-cobalt);
   color: var(--cobalt);
-}
-
-.briefHeading > span {
   display: grid;
-  gap: 3px;
+  place-items: center;
+  flex: 0 0 auto;
 }
 
-.briefHeading strong {
-  font: 700 14px var(--font-groundwork-heading), system-ui, sans-serif;
+.briefIcon svg {
+  width: 17px;
+  height: 17px;
+}
+
+.briefHeading > strong {
+  font: 700 13px var(--font-groundwork-heading), system-ui, sans-serif;
 }
 
 .chevron {
@@ -501,25 +527,25 @@
 }
 
 .cardOpen .briefHeader {
-  border-bottom: 1px solid var(--rules);
+  border-bottom: 0;
 }
 
 .summaryBody {
-  padding: 18px;
-  border-top: 1px solid var(--rules);
-  background: oklch(0.975 0.006 235);
+  padding: 0;
+  border-top: 0;
+  background: var(--paper);
 }
 
 .summaryBody > p {
-  margin: 0;
-  color: var(--secondary-ink);
-  font-size: 14px;
-  line-height: 1.6;
+  margin: 18px 0 0;
+  color: var(--ink);
+  font-size: 15px;
+  line-height: 1.68;
 }
 
 .emptySummary strong {
   display: block;
-  margin-bottom: 6px;
+  margin: 18px 0 6px;
   font-size: 13px;
 }
 
@@ -532,54 +558,32 @@
 }
 
 .briefBody {
-  padding: 20px 18px;
-  background: oklch(0.975 0.006 235);
+  padding: 8px 20px 22px;
+  background: var(--paper);
+}
+
+.briefFields {
+  display: grid;
+  gap: 20px;
 }
 
 .briefFields section {
-  padding: 17px 0;
-  border-bottom: 1px solid var(--rules);
+  padding: 0;
+  border-bottom: 0;
 }
 
-.fieldHeading {
-  justify-content: space-between;
-  gap: 10px;
-}
-
-.fieldHeading strong {
-  font-size: 12px;
-}
-
-.fieldHeading span {
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  font-size: 10px;
-  white-space: nowrap;
-}
-
-.fieldHeading span svg {
-  width: 12px;
-  height: 12px;
-}
-
-.confirmed {
-  color: oklch(0.46 0.11 155);
-}
-
-.assumption {
-  color: var(--cobalt);
-}
-
-.open {
-  color: var(--amber);
+.briefFields section > strong {
+  color: var(--ink);
+  font-size: 11px;
+  font-weight: 750;
+  letter-spacing: 0.01em;
 }
 
 .briefFields section > p {
-  margin: 8px 0 0;
-  color: var(--secondary-ink);
+  margin: 6px 0 0;
+  color: var(--ink);
   font-size: 13px;
-  line-height: 1.5;
+  line-height: 1.6;
 }
 
 .dialogOverlay {

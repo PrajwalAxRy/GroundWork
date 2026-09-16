@@ -178,7 +178,9 @@ It may discuss likely categories and conceptual possibilities if clearly framed 
 
 ### Supporting Idea Brief
 
-Shape must help the user understand the current Idea and distinguish confirmed information from inference, suggestions, conflicts, and unknowns. The exact presentation, layout, and responsive treatment are intentionally open for the future from-scratch Shape redesign.
+Shape uses two compact supporting cards. **Working summary** remains visible and updates as the conversation develops. **Captured details** is collapsed by default and expands into a quiet, readable list of labels and values without counts, preview text, status icons, or row dividers. The cards sit beside the conversation on desktop and follow it on narrower screens.
+
+The structured Brief still stores confirmed information, inference, suggestions, conflicts, and unknowns. The compact card deliberately omits that provenance to remain scannable; the focused **Review idea** flow exposes the full field state when the user needs to inspect or correct it.
 
 The supporting Brief updates after meaningful changes, normally every two or three turns. Groundwork must never promote inferred or suggested information into a confirmed state.
 

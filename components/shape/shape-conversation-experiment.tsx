@@ -6,10 +6,8 @@ import {
   ArrowLeft,
   ArrowUp,
   Check,
-  CheckCircle2,
   ChevronDown,
-  CircleDashed,
-  FileText,
+  Layers3,
   Lightbulb,
   ListChecks,
   LockKeyhole,
@@ -32,6 +30,10 @@ type BriefItem = {
   label: string;
   value: string;
   status: 'confirmed' | 'assumption' | 'open';
+};
+
+type ShapeConversationExperimentProps = {
+  mode?: 'experiment' | 'product';
 };
 
 const starters = [
@@ -89,24 +91,15 @@ const briefItems: BriefItem[] = [
   },
 ];
 
-function statusLabel(status: BriefItem['status']) {
-  if (status === 'confirmed') return 'Confirmed';
-  if (status === 'assumption') return 'Suggested';
-  return 'Still exploring';
-}
-
-function StatusIcon({ status }: { status: BriefItem['status'] }) {
-  if (status === 'confirmed') return <CheckCircle2 aria-hidden="true" />;
-  if (status === 'assumption') return <Sparkles aria-hidden="true" />;
-  return <CircleDashed aria-hidden="true" />;
-}
-
-export function ShapeConversationExperiment() {
+export function ShapeConversationExperiment({
+  mode = 'experiment',
+}: ShapeConversationExperimentProps) {
   const [messages, setMessages] = useState<Message[]>([]);
   const [draft, setDraft] = useState('');
   const [capturedOpen, setCapturedOpen] = useState(false);
   const [reviewOpen, setReviewOpen] = useState(false);
   const hasConversation = messages.length > 0;
+  const isProduct = mode === 'product';
 
   function sendMessage(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -157,9 +150,9 @@ export function ShapeConversationExperiment() {
       <main className={styles.page}>
         <header className={styles.utilityBar}>
           <div className={styles.utilityLeft}>
-            <Link href="/_experiments" className={styles.backLink}>
+            <Link href={isProduct ? '/ideas' : '/_experiments'} className={styles.backLink}>
               <ArrowLeft aria-hidden="true" />
-              Experiments
+              {isProduct ? 'Your ideas' : 'Experiments'}
             </Link>
             <span className={styles.divider} aria-hidden="true" />
             <div className={styles.ideaIdentity}>
@@ -179,11 +172,11 @@ export function ShapeConversationExperiment() {
                 <RotateCcw aria-hidden="true" />
                 Start over
               </button>
-            ) : (
+            ) : !isProduct ? (
               <button type="button" className={styles.quietButton} onClick={showSample}>
                 Preview conversation
               </button>
-            )}
+            ) : null}
           </div>
         </header>
 
@@ -284,15 +277,13 @@ export function ShapeConversationExperiment() {
           </section>
 
           <aside className={styles.briefStack} aria-label="Idea brief">
-            <section className={styles.briefCard}>
-              <header className={styles.cardHeader}>
-                <span className={styles.briefHeading}>
-                  <FileText aria-hidden="true" />
-                  <span>
-                    <strong>Working summary</strong>
-                    <small>Updates as you talk</small>
-                  </span>
+            <section className={`${styles.briefCard} ${styles.summaryCard}`}>
+              <header className={styles.summaryTopline}>
+                <span className={styles.briefIcon} aria-hidden="true">
+                  <Layers3 />
                 </span>
+                <strong>Working summary</strong>
+                <small>{hasConversation ? 'Updated now' : 'Waiting to start'}</small>
               </header>
               <div className={styles.summaryBody}>
                 {hasConversation ? (
@@ -311,7 +302,11 @@ export function ShapeConversationExperiment() {
               </div>
             </section>
 
-            <section className={`${styles.briefCard} ${capturedOpen ? styles.cardOpen : ''}`}>
+            <section
+              className={`${styles.briefCard} ${styles.detailsCard} ${
+                capturedOpen ? styles.cardOpen : ''
+              }`}
+            >
               <button
                 type="button"
                 className={styles.briefHeader}
@@ -319,11 +314,10 @@ export function ShapeConversationExperiment() {
                 aria-expanded={capturedOpen}
               >
                 <span className={styles.briefHeading}>
-                  <ListChecks aria-hidden="true" />
-                  <span>
-                    <strong>Captured details</strong>
-                    <small>{hasConversation ? '4 details captured' : 'Nothing captured yet'}</small>
+                  <span className={styles.briefIcon} aria-hidden="true">
+                    <ListChecks />
                   </span>
+                  <strong>Captured details</strong>
                 </span>
                 <ChevronDown aria-hidden="true" className={styles.chevron} />
               </button>
@@ -334,13 +328,7 @@ export function ShapeConversationExperiment() {
                     <div className={styles.briefFields}>
                       {briefItems.map((item) => (
                         <section key={item.label}>
-                          <div className={styles.fieldHeading}>
-                            <strong>{item.label}</strong>
-                            <span className={styles[item.status]}>
-                              <StatusIcon status={item.status} />
-                              {statusLabel(item.status)}
-                            </span>
-                          </div>
+                          <strong>{item.label}</strong>
                           <p>{item.value}</p>
                         </section>
                       ))}

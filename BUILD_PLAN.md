@@ -15,7 +15,7 @@ This is the execution checklist for building the Groundwork website and product 
 
 ## Current Position
 
-The product foundations, approved visual system, production frontend foundation, and **Your Ideas** page are implemented. The previous Shape page and its experiments were removed at the user's request so a future Shape experience can be designed from scratch.
+The product foundations, approved visual system, production frontend foundation, **Your Ideas** page, and approved Shape conversation direction are implemented with typed mock behavior. Existing-Idea loading and the remaining Shape states still require integration.
 
 ## Phase 0: Product Foundation
 
@@ -85,10 +85,11 @@ The product foundations, approved visual system, production frontend foundation,
 
 ### Future rebuild
 
-- [ ] Reopen Shape visual design from a blank implementation.
+- [x] Reopen Shape visual design from a blank implementation.
 - [x] Create a new development-only Shape experiment at `/_experiments/shape`.
-- [ ] Obtain desktop and mobile approval before production integration.
-- [ ] Rebuild `/idea/shape/:ideaId` from the approved direction.
+- [x] Obtain desktop and mobile approval before production integration.
+- [x] Rebuild `/idea/shape/new` from the approved direction.
+- [ ] Rebuild `/idea/shape/:ideaId` with service-backed Idea loading.
 - [ ] Restore conversation, draft, frozen-transcript, failure, and research-deferral states.
 
 ### Completion checkpoint
@@ -117,7 +118,7 @@ The product foundations, approved visual system, production frontend foundation,
 
 - [x] Explore a dedicated Confirm Idea page; retain it only as a rejected development reference.
 - [x] Remove the unapproved side-brief experiment with the former Shape page.
-- [ ] Resume Brief review design only after the new Shape page direction is approved.
+- [x] Resume Brief review design only after the new Shape page direction is approved.
 - [ ] Prototype the focused Idea Brief review modal over Shape.
 - [ ] Prototype editing for fields that are still allowed to change.
 - [ ] Prototype confirmed, uncertain, conflicting, and **Investigate this for me** states.
@@ -293,4 +294,4 @@ The product foundations, approved visual system, production frontend foundation,
 
 ## Immediate Next Action
 
-- [ ] Leave Shape unimplemented until the user explicitly begins the from-scratch rebuild.
+- [ ] Complete existing-Idea loading and the draft, frozen-transcript, failure, and research-deferral Shape states.
