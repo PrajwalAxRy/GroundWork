@@ -23,6 +23,7 @@
 .ideaIdentity,
 .briefHeading,
 .composerFooter,
+.composerActions,
 .fieldHeading,
 .dialogActions {
   display: flex;
@@ -368,7 +369,11 @@
   font-size: 11px;
 }
 
-.composerFooter button {
+.composerActions {
+  gap: 8px;
+}
+
+.sendButton {
   width: 34px;
   height: 34px;
   border: 0;
@@ -380,34 +385,71 @@
   cursor: pointer;
 }
 
-.composerFooter button:disabled {
+.sendButton:disabled {
   background: var(--rules);
   color: var(--muted-ink);
   cursor: not-allowed;
 }
 
-.composerFooter button:not(:disabled):hover {
+.sendButton:not(:disabled):hover {
   background: var(--cobalt-hover);
 }
 
-.composerFooter svg {
+.sendButton svg {
   width: 17px;
   height: 17px;
 }
 
-.brief {
+.reviewButton {
+  min-height: 34px;
+  padding: 0 12px;
+  border: 1px solid var(--rules);
+  border-radius: 8px;
+  background: var(--paper);
+  color: var(--secondary-ink);
+  font: 700 12px inherit;
+  cursor: pointer;
+}
+
+.reviewButton:not(:disabled):hover {
+  border-color: oklch(0.47 0.135 252 / 0.4);
+  background: var(--pale-cobalt);
+  color: var(--cobalt-hover);
+}
+
+.reviewButton:disabled {
+  color: var(--muted-ink);
+  cursor: not-allowed;
+  opacity: 0.58;
+}
+
+.briefStack {
   min-width: 0;
   height: calc(100% - 40px);
   max-height: 680px;
   margin: 20px 0;
+  padding: 1px 3px 8px 1px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  align-self: start;
+  overflow-y: auto;
+}
+
+.briefCard {
   border: 1px solid var(--rules);
   border-radius: 14px;
   background: var(--paper);
   box-shadow: 0 12px 32px oklch(0.255 0.028 242 / 0.07);
-  display: flex;
-  flex-direction: column;
-  align-self: start;
   overflow: hidden;
+  flex: 0 0 auto;
+}
+
+.cardHeader {
+  min-height: 68px;
+  padding: 14px 18px;
+  display: flex;
+  align-items: center;
 }
 
 .briefHeader {
@@ -415,7 +457,7 @@
   min-height: 72px;
   padding: 15px 18px;
   border: 0;
-  border-bottom: 1px solid var(--rules);
+  border-bottom: 0;
   background: transparent;
   display: flex;
   align-items: center;
@@ -454,75 +496,44 @@
   transition: transform 160ms ease;
 }
 
-.briefOpen .chevron {
+.cardOpen .chevron {
   transform: rotate(180deg);
 }
 
-.briefBody {
-  min-height: 0;
-  padding: 20px 18px;
-  background: oklch(0.975 0.006 235);
-  overflow-y: auto;
-  flex: 1;
-}
-
-.emptyBrief {
-  min-height: 300px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-}
-
-.emptyBrief > span {
-  width: 48px;
-  height: 48px;
-  margin-bottom: 16px;
-  border: 1px solid var(--rules);
-  border-radius: 12px;
-  background: var(--paper);
-  color: var(--muted-ink);
-  display: grid;
-  place-items: center;
-}
-
-.emptyBrief svg {
-  width: 21px;
-  height: 21px;
-}
-
-.emptyBrief strong {
-  margin-bottom: 8px;
-  font: 700 14px var(--font-groundwork-heading), system-ui, sans-serif;
-}
-
-.emptyBrief p {
-  max-width: 250px;
-  margin: 0;
-  color: var(--muted-ink);
-  font-size: 13px;
-  line-height: 1.55;
-}
-
-.briefSummary {
-  padding-bottom: 20px;
+.cardOpen .briefHeader {
   border-bottom: 1px solid var(--rules);
 }
 
-.briefSummary span {
-  color: var(--muted-ink);
-  font-size: 11px;
-  font-weight: 750;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
+.summaryBody {
+  padding: 18px;
+  border-top: 1px solid var(--rules);
+  background: oklch(0.975 0.006 235);
 }
 
-.briefSummary p {
-  margin: 8px 0 0;
+.summaryBody > p {
+  margin: 0;
   color: var(--secondary-ink);
   font-size: 14px;
+  line-height: 1.6;
+}
+
+.emptySummary strong {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 13px;
+}
+
+.emptySummary p,
+.emptyCaptured {
+  margin: 0;
+  color: var(--muted-ink);
+  font-size: 12px;
   line-height: 1.55;
+}
+
+.briefBody {
+  padding: 20px 18px;
+  background: oklch(0.975 0.006 235);
 }
 
 .briefFields section {
@@ -569,41 +580,6 @@
   color: var(--secondary-ink);
   font-size: 13px;
   line-height: 1.5;
-}
-
-.briefFooter {
-  padding: 16px 18px 19px;
-  border-top: 1px solid var(--rules);
-  background: var(--paper);
-}
-
-.briefFooter button {
-  width: 100%;
-  min-height: 42px;
-  border: 0;
-  border-radius: 8px;
-  background: var(--cobalt);
-  color: white;
-  font: 700 14px inherit;
-  cursor: pointer;
-}
-
-.briefFooter button:disabled {
-  background: var(--soft);
-  color: var(--muted-ink);
-  cursor: not-allowed;
-}
-
-.briefFooter button:not(:disabled):hover {
-  background: var(--cobalt-hover);
-}
-
-.briefFooter span {
-  display: block;
-  margin-top: 8px;
-  color: var(--muted-ink);
-  text-align: center;
-  font-size: 11px;
 }
 
 .dialogOverlay {
@@ -738,19 +714,11 @@
     min-height: calc(100dvh - 140px);
   }
 
-  .brief {
+  .briefStack {
     width: calc(100% - 32px);
     height: auto;
     max-height: none;
     margin: 16px;
-  }
-
-  .briefBody {
-    overflow: visible;
-  }
-
-  .emptyBrief {
-    min-height: 220px;
   }
 }
 
@@ -845,7 +813,12 @@
   }
 
   .composerFooter > span {
-    max-width: 230px;
+    display: none;
+  }
+
+  .composerActions {
+    width: 100%;
+    justify-content: flex-end;
   }
 
   .dialog {

@@ -11,6 +11,7 @@ import {
   CircleDashed,
   FileText,
   Lightbulb,
+  ListChecks,
   LockKeyhole,
   MessageCircleMore,
   RotateCcw,
@@ -103,7 +104,7 @@ function StatusIcon({ status }: { status: BriefItem['status'] }) {
 export function ShapeConversationExperiment() {
   const [messages, setMessages] = useState<Message[]>([]);
   const [draft, setDraft] = useState('');
-  const [briefOpen, setBriefOpen] = useState(true);
+  const [capturedOpen, setCapturedOpen] = useState(false);
   const [reviewOpen, setReviewOpen] = useState(false);
   const hasConversation = messages.length > 0;
 
@@ -148,7 +149,7 @@ export function ShapeConversationExperiment() {
   function reset() {
     setMessages([]);
     setDraft('');
-    setBriefOpen(true);
+    setCapturedOpen(false);
   }
 
   return (
@@ -259,53 +260,77 @@ export function ShapeConversationExperiment() {
                       ? 'Groundwork asks one main question at a time.'
                       : 'A sentence is enough to begin.'}
                   </span>
-                  <button type="submit" aria-label="Send message" disabled={!draft.trim()}>
-                    <ArrowUp aria-hidden="true" />
-                  </button>
+                  <div className={styles.composerActions}>
+                    <button
+                      type="button"
+                      className={styles.reviewButton}
+                      onClick={() => setReviewOpen(true)}
+                      disabled={!hasConversation}
+                    >
+                      Review idea
+                    </button>
+                    <button
+                      type="submit"
+                      className={styles.sendButton}
+                      aria-label="Send message"
+                      disabled={!draft.trim()}
+                    >
+                      <ArrowUp aria-hidden="true" />
+                    </button>
+                  </div>
                 </div>
               </div>
             </form>
           </section>
 
-          <aside className={`${styles.brief} ${briefOpen ? styles.briefOpen : ''}`}>
-            <button
-              type="button"
-              className={styles.briefHeader}
-              onClick={() => setBriefOpen((open) => !open)}
-              aria-expanded={briefOpen}
-            >
-              <span className={styles.briefHeading}>
-                <FileText aria-hidden="true" />
-                <span>
-                  <strong>Idea Brief</strong>
-                  <small>Builds as you talk</small>
+          <aside className={styles.briefStack} aria-label="Idea brief">
+            <section className={styles.briefCard}>
+              <header className={styles.cardHeader}>
+                <span className={styles.briefHeading}>
+                  <FileText aria-hidden="true" />
+                  <span>
+                    <strong>Working summary</strong>
+                    <small>Updates as you talk</small>
+                  </span>
                 </span>
-              </span>
-              <ChevronDown aria-hidden="true" className={styles.chevron} />
-            </button>
-
-            {briefOpen && (
-              <div className={styles.briefBody}>
-                {!hasConversation ? (
-                  <div className={styles.emptyBrief}>
-                    <span aria-hidden="true">
-                      <FileText />
-                    </span>
+              </header>
+              <div className={styles.summaryBody}>
+                {hasConversation ? (
+                  <p>
+                    Help small clinics keep patient requests visible and owned without replacing the
+                    tools their staff already use.
+                  </p>
+                ) : (
+                  <div className={styles.emptySummary}>
                     <strong>Your idea will take shape here</strong>
                     <p>
-                      As you talk, Groundwork will capture what’s clear, what’s assumed, and what
-                      still needs thought.
+                      Start the conversation and Groundwork will summarize the idea as it develops.
                     </p>
                   </div>
-                ) : (
-                  <>
-                    <div className={styles.briefSummary}>
-                      <span>Working summary</span>
-                      <p>
-                        Help small clinics keep patient requests visible and owned without replacing
-                        the tools their staff already use.
-                      </p>
-                    </div>
+                )}
+              </div>
+            </section>
+
+            <section className={`${styles.briefCard} ${capturedOpen ? styles.cardOpen : ''}`}>
+              <button
+                type="button"
+                className={styles.briefHeader}
+                onClick={() => setCapturedOpen((open) => !open)}
+                aria-expanded={capturedOpen}
+              >
+                <span className={styles.briefHeading}>
+                  <ListChecks aria-hidden="true" />
+                  <span>
+                    <strong>Captured details</strong>
+                    <small>{hasConversation ? '4 details captured' : 'Nothing captured yet'}</small>
+                  </span>
+                </span>
+                <ChevronDown aria-hidden="true" className={styles.chevron} />
+              </button>
+
+              {capturedOpen && (
+                <div className={styles.briefBody}>
+                  {hasConversation ? (
                     <div className={styles.briefFields}>
                       {briefItems.map((item) => (
                         <section key={item.label}>
@@ -320,19 +345,14 @@ export function ShapeConversationExperiment() {
                         </section>
                       ))}
                     </div>
-                  </>
-                )}
-              </div>
-            )}
-
-            <div className={styles.briefFooter}>
-              <button type="button" onClick={() => setReviewOpen(true)} disabled={!hasConversation}>
-                Review idea
-              </button>
-              <span>
-                {hasConversation ? 'Ready when you are' : 'Keep talking to build your brief'}
-              </span>
-            </div>
+                  ) : (
+                    <p className={styles.emptyCaptured}>
+                      Confirmed details, suggestions, and open questions will appear here.
+                    </p>
+                  )}
+                </div>
+              )}
+            </section>
           </aside>
         </div>
       </main>
