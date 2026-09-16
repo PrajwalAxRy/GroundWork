@@ -4,6 +4,7 @@ import { ProductShell } from '@/components/product/product-shell';
 import * as Dialog from '@radix-ui/react-dialog';
 import {
   ArrowLeft,
+  ArrowRight,
   ArrowUp,
   Check,
   ChevronDown,
@@ -98,6 +99,8 @@ export function ShapeConversationExperiment({
   const [draft, setDraft] = useState('');
   const [capturedOpen, setCapturedOpen] = useState(false);
   const [reviewOpen, setReviewOpen] = useState(false);
+  const [reviewAccepted, setReviewAccepted] = useState(false);
+  const [investigationIntent, setInvestigationIntent] = useState(false);
   const hasConversation = messages.length > 0;
   const isProduct = mode === 'product';
 
@@ -143,6 +146,20 @@ export function ShapeConversationExperiment({
     setMessages([]);
     setDraft('');
     setCapturedOpen(false);
+    setReviewAccepted(false);
+    setInvestigationIntent(false);
+  }
+
+  function acceptSummary() {
+    setReviewOpen(false);
+    setReviewAccepted(true);
+    setCapturedOpen(false);
+    setInvestigationIntent(false);
+  }
+
+  function continueShaping() {
+    setReviewAccepted(false);
+    setInvestigationIntent(false);
   }
 
   return (
@@ -166,7 +183,9 @@ export function ShapeConversationExperiment({
             </div>
           </div>
           <div className={styles.utilityActions}>
-            <span className={styles.saved}>{hasConversation ? 'Saved' : 'Draft'}</span>
+            <span className={styles.saved}>
+              {reviewAccepted ? 'Summary accepted' : hasConversation ? 'Saved' : 'Draft'}
+            </span>
             {hasConversation ? (
               <button type="button" className={styles.quietButton} onClick={reset}>
                 <RotateCcw aria-hidden="true" />
@@ -231,53 +250,106 @@ export function ShapeConversationExperiment({
               )}
             </div>
 
-            <form className={styles.composerArea} onSubmit={sendMessage}>
-              <div className={styles.composer}>
-                <label htmlFor="shape-conversation-input" className="sr-only">
-                  {hasConversation ? 'Continue discussing your idea' : 'Start discussing your idea'}
-                </label>
-                <textarea
-                  id="shape-conversation-input"
-                  value={draft}
-                  onChange={(event) => setDraft(event.target.value)}
-                  placeholder={
-                    hasConversation
-                      ? 'Reply, add a detail, or correct an assumption…'
-                      : 'Describe the idea you want to explore…'
-                  }
-                  rows={3}
-                />
-                <div className={styles.composerFooter}>
-                  <span>
-                    {hasConversation
-                      ? 'Groundwork asks one main question at a time.'
-                      : 'A sentence is enough to begin.'}
-                  </span>
-                  <div className={styles.composerActions}>
+            {reviewAccepted ? (
+              <section className={styles.composerArea} aria-labelledby="investigation-ready-title">
+                <div className={styles.investigationHandoff}>
+                  <div className={styles.handoffHeading}>
+                    <span className={styles.handoffIcon} aria-hidden="true">
+                      <Check />
+                    </span>
+                    <div>
+                      <p>Shape paused for review</p>
+                      <h2 id="investigation-ready-title">Ready to investigate</h2>
+                    </div>
+                  </div>
+                  <p className={styles.handoffCopy}>
+                    Groundwork will use this accepted summary as the starting point for live
+                    research.
+                  </p>
+                  <p className={styles.handoffSummary}>
+                    Help small clinics keep patient requests visible and owned without replacing the
+                    tools their staff already use.
+                  </p>
+                  <div className={styles.handoffActions}>
                     <button
                       type="button"
-                      className={styles.reviewButton}
-                      onClick={() => setReviewOpen(true)}
-                      disabled={!hasConversation}
+                      className={styles.continueButton}
+                      onClick={continueShaping}
                     >
-                      Review idea
+                      Continue shaping
                     </button>
                     <button
-                      type="submit"
-                      className={styles.sendButton}
-                      aria-label="Send message"
-                      disabled={!draft.trim()}
+                      type="button"
+                      className={styles.startInvestigationButton}
+                      onClick={() => setInvestigationIntent(true)}
                     >
-                      <ArrowUp aria-hidden="true" />
+                      Start investigation
+                      <ArrowRight aria-hidden="true" />
                     </button>
                   </div>
+                  {investigationIntent && (
+                    <output className={styles.handoffNotice} aria-live="polite">
+                      Next, you&apos;ll review the research scope, credit cost, and failure
+                      protection before anything starts.
+                    </output>
+                  )}
                 </div>
-              </div>
-            </form>
+              </section>
+            ) : (
+              <form className={styles.composerArea} onSubmit={sendMessage}>
+                <div className={styles.composer}>
+                  <label htmlFor="shape-conversation-input" className="sr-only">
+                    {hasConversation
+                      ? 'Continue discussing your idea'
+                      : 'Start discussing your idea'}
+                  </label>
+                  <textarea
+                    id="shape-conversation-input"
+                    value={draft}
+                    onChange={(event) => setDraft(event.target.value)}
+                    placeholder={
+                      hasConversation
+                        ? 'Reply, add a detail, or correct an assumption…'
+                        : 'Describe the idea you want to explore…'
+                    }
+                    rows={3}
+                  />
+                  <div className={styles.composerFooter}>
+                    <span>
+                      {hasConversation
+                        ? 'Groundwork asks one main question at a time.'
+                        : 'A sentence is enough to begin.'}
+                    </span>
+                    <div className={styles.composerActions}>
+                      <button
+                        type="button"
+                        className={styles.reviewButton}
+                        onClick={() => setReviewOpen(true)}
+                        disabled={!hasConversation}
+                      >
+                        Review idea
+                      </button>
+                      <button
+                        type="submit"
+                        className={styles.sendButton}
+                        aria-label="Send message"
+                        disabled={!draft.trim()}
+                      >
+                        <ArrowUp aria-hidden="true" />
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </form>
+            )}
           </section>
 
           <aside className={styles.briefStack} aria-label="Idea brief">
-            <section className={`${styles.briefCard} ${styles.summaryCard}`}>
+            <section
+              className={`${styles.briefCard} ${styles.summaryCard} ${
+                reviewAccepted ? styles.readOnlyCard : ''
+              }`}
+            >
               <header className={styles.summaryTopline}>
                 <span className={styles.briefIcon} aria-hidden="true">
                   <Layers3 />
@@ -301,7 +373,7 @@ export function ShapeConversationExperiment({
             <section
               className={`${styles.briefCard} ${styles.detailsCard} ${
                 capturedOpen ? styles.cardOpen : ''
-              }`}
+              } ${reviewAccepted ? styles.readOnlyCard : ''}`}
             >
               <button
                 type="button"
@@ -369,11 +441,7 @@ export function ShapeConversationExperiment({
                   Keep shaping
                 </button>
               </Dialog.Close>
-              <button
-                type="button"
-                className={styles.confirmButton}
-                onClick={() => setReviewOpen(false)}
-              >
+              <button type="button" className={styles.confirmButton} onClick={acceptSummary}>
                 Looks right
                 <Check aria-hidden="true" />
               </button>

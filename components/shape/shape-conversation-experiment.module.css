@@ -421,6 +421,125 @@
   opacity: 0.58;
 }
 
+.investigationHandoff {
+  width: min(760px, 100%);
+  margin: 0 auto;
+  padding: 20px;
+  border: 1px solid oklch(0.68 0.06 247);
+  border-radius: 14px;
+  background: var(--pale-cobalt);
+  box-shadow: 0 10px 28px oklch(0.47 0.135 252 / 0.1);
+}
+
+.handoffHeading {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+}
+
+.handoffIcon {
+  width: 34px;
+  height: 34px;
+  border-radius: 9px;
+  background: var(--paper);
+  color: var(--cobalt);
+  display: grid;
+  place-items: center;
+  flex: 0 0 auto;
+}
+
+.handoffIcon svg {
+  width: 17px;
+  height: 17px;
+}
+
+.handoffHeading p {
+  margin: 0 0 2px;
+  color: var(--cobalt);
+  font-size: 11px;
+  font-weight: 750;
+  letter-spacing: 0.045em;
+  text-transform: uppercase;
+}
+
+.handoffHeading h2 {
+  margin: 0;
+  color: var(--ink);
+  font: 700 19px var(--font-groundwork-heading), system-ui, sans-serif;
+  letter-spacing: -0.025em;
+}
+
+.handoffCopy {
+  max-width: 580px;
+  margin: 14px 0 0;
+  color: var(--secondary-ink);
+  font-size: 14px;
+  line-height: 1.55;
+}
+
+.handoffSummary {
+  margin: 15px 0;
+  padding: 14px 15px;
+  border: 1px solid oklch(0.78 0.025 242);
+  border-radius: 10px;
+  background: var(--paper);
+  color: var(--ink);
+  font: 600 14px / 1.55 var(--font-groundwork-heading), system-ui, sans-serif;
+}
+
+.handoffActions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 9px;
+}
+
+.continueButton,
+.startInvestigationButton {
+  min-height: 40px;
+  padding: 0 14px;
+  border-radius: 8px;
+  font: 700 13px inherit;
+  cursor: pointer;
+}
+
+.continueButton {
+  border: 1px solid oklch(0.69 0.035 242);
+  background: var(--paper);
+  color: var(--secondary-ink);
+}
+
+.continueButton:hover {
+  background: var(--soft);
+  color: var(--ink);
+}
+
+.startInvestigationButton {
+  border: 1px solid var(--cobalt);
+  background: var(--cobalt);
+  color: var(--paper);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  box-shadow: 0 5px 14px oklch(0.47 0.135 252 / 0.18);
+}
+
+.startInvestigationButton:hover {
+  border-color: var(--cobalt-hover);
+  background: var(--cobalt-hover);
+}
+
+.startInvestigationButton svg {
+  width: 15px;
+  height: 15px;
+}
+
+.handoffNotice {
+  margin: 13px 0 0;
+  color: var(--secondary-ink);
+  font-size: 12px;
+  line-height: 1.5;
+}
+
 .briefStack {
   min-width: 0;
   height: calc(100% - 40px);
@@ -451,6 +570,20 @@
 .detailsCard {
   border-color: oklch(0.84 0.017 242);
   box-shadow: 0 5px 14px oklch(0.255 0.028 242 / 0.045);
+}
+
+.readOnlyCard {
+  background: oklch(0.978 0.006 238);
+  box-shadow: none;
+}
+
+.readOnlyCard .summaryBody,
+.readOnlyCard .briefBody {
+  background: oklch(0.978 0.006 238);
+}
+
+.readOnlyCard .briefHeader:hover {
+  background: oklch(0.96 0.008 238);
 }
 
 .summaryTopline {
@@ -811,6 +944,20 @@
   .composerActions {
     width: 100%;
     justify-content: flex-end;
+  }
+
+  .investigationHandoff {
+    padding: 17px;
+  }
+
+  .handoffActions {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+
+  .continueButton,
+  .startInvestigationButton {
+    justify-content: center;
   }
 
   .dialog {
