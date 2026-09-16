@@ -283,7 +283,6 @@ export function ShapeConversationExperiment({
                   <Layers3 />
                 </span>
                 <strong>Working summary</strong>
-                <small>{hasConversation ? 'Updated now' : 'Waiting to start'}</small>
               </header>
               <div className={styles.summaryBody}>
                 {hasConversation ? (
@@ -293,10 +292,7 @@ export function ShapeConversationExperiment({
                   </p>
                 ) : (
                   <div className={styles.emptySummary}>
-                    <strong>Your idea will take shape here</strong>
-                    <p>
-                      Start the conversation and Groundwork will summarize the idea as it develops.
-                    </p>
+                    <p>Continue chatting to update this summary.</p>
                   </div>
                 )}
               </div>
