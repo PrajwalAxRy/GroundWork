@@ -53,9 +53,9 @@ The product foundations, approved visual system, production frontend foundation,
 - [x] Build the inline new-Idea composer.
 - [x] Use typed mock Idea data behind a separate data module.
 - [x] Integrate the approved Signal edge card as the production Idea card.
-- [x] Show one emphasized current action and no secondary stage controls.
-- [x] Limit dashboard action copy to Continue shaping, Review idea, and View roadmap.
-- [x] Keep granular running, locked, complete, and failed states on their relevant detail pages.
+- [x] Show one emphasized current action and two quiet secondary stages.
+- [x] Support active, ready, unread, available, running, locked, complete, and failed card states.
+- [x] Pair semantic color with action copy, icons, or disabled semantics.
 - [x] Keep verdict and last-updated metadata out of the collapsed card.
 - [x] Preserve rename and delete prototype interactions.
 - [x] Provide loading, empty, and recoverable error views.

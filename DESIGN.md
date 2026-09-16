@@ -58,7 +58,7 @@ Do not use pure black or pure white. Keep inactive surfaces neutral and reserve 
 
 ## Global Shell
 
-The authenticated top bar is 68 pixels tall on desktop and 60 pixels on mobile. It contains only the Groundwork logo, credit balance, and profile control. Use a paper surface, a single bottom rule, and sticky positioning. The profile control uses a quiet neutral surface, dark icon, and visible border rather than a solid dark block.
+The authenticated top bar is 68 pixels tall on desktop and 60 pixels on mobile. It contains only the Groundwork logo, credit balance, and profile control. Use a paper surface, a single bottom rule, and sticky positioning.
 
 The dashboard content width is at most 1040 pixels. The default desktop page padding is 64 pixels above and 96 pixels below. The background may use a very low-contrast 28-pixel horizontal field-line pattern.
 
@@ -68,34 +68,42 @@ The production Idea card is the approved Signal edge pattern from `/_experiments
 
 ### Anatomy
 
-1. A 6-pixel inset signal rail anchors the card.
-2. The body shows a one-line title and one-line Brief on desktop.
-3. One emphasized focus control shows **Continue shaping**, **Review idea**, or **View roadmap**.
-4. An overflow control contains rename and delete actions.
+1. A 6-pixel inset signal rail identifies the current semantic state.
+2. The body shows a short status notice, one-line title, and one-line Brief on desktop.
+3. Two quiet secondary stage controls show stage name, action label, and a numbered or semantic marker.
+4. One emphasized focus control shows the single best current action.
+5. An overflow control contains rename and delete actions.
 
 The card is not a single click target. Each enabled stage is a separate button. The collapsed card does not render verdict or last-updated metadata, though those values remain available for sorting and report context.
 
 ### Desktop
 
-- Minimum height: 118 pixels.
-- Grid: flexible body and a 180-pixel focus action.
+- Minimum height: 146 pixels.
+- Grid: flexible body, 280-pixel secondary-stage region, 170-pixel focus action.
 - Gap: 20 pixels.
 - Title: 19 pixels, single line with ellipsis.
 - Brief: 13 pixels, single line with ellipsis.
-- Focus action: at least 58 pixels high.
+- Focus action: at least 82 pixels high.
 
 ### Mobile
 
-At 720 pixels and below, the body and action remain side by side while space allows. At 440 pixels and below, the action moves beneath the summary so the title and Brief keep a readable measure. Titles wrap naturally and Briefs clamp to two lines.
+At 720 pixels and below, the body spans the card width. The two secondary stages stack in the lower-left region and the focus action occupies a 125-pixel lower-right region. Titles wrap naturally and Briefs clamp to two lines. The information hierarchy remains body, history, current action.
 
 ### State Treatment
 
-The dashboard uses one pale-cobalt focus treatment with explicit action copy and an arrow. It does not use amber, rust, spinners, failure copy, or stage markers. Those semantic treatments remain available for the detailed progress and recovery pages where the state can be explained and acted on.
+| State | Rail and notice | Marker or icon | Focus treatment |
+|---|---|---|---|
+| Current, ready, unread, available | Cobalt | Number or arrow | Pale cobalt with explicit action copy |
+| Completed | Neutral ink | Checkmark | Quiet unless it is the only remaining destination |
+| Running | Amber | Spinner plus status text | Pale amber |
+| Locked | Neutral muted | Lock icon and disabled semantics | Never chosen as the focus action |
+| Failed | Rust | Warning icon plus recovery copy | Pale rust |
+
+The focus selection is deterministic. Prioritize unread, running, failed, ready, active, then available. If no action state exists, use the last stage as the revisit destination.
 
 ## Interaction and Motion
 
 - Use visible 3-pixel cobalt focus rings with a 3-pixel offset.
-- Primary button text and card-action text must meet WCAG AA contrast against their resting surfaces.
 - Hover states change background or tone without moving layout.
 - Button press may move down by 1 pixel.
 - Most future transitions should complete within 150 to 250 milliseconds and communicate state.
@@ -110,7 +118,7 @@ The next Shape design must begin as a new development-only experiment and return
 
 ## Content and State Rules
 
-- Dashboard cards use only **Continue shaping**, **Review idea**, and **View roadmap**.
+- Use direct action labels such as **Continue shaping**, **Read report**, **Build roadmap**, and **Retry research**.
 - Missing optional content closes its space naturally.
 - Do not show `undefined`, empty labels, repeated `N/A`, or broken placeholders.
 - Distinguish not found, not applicable, partial, failed, locked, running, ready, and complete states in both copy and structure.

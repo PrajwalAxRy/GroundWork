@@ -12,8 +12,7 @@ Roadmap Progress communicates that a paid Roadmap is being generated from the fr
 
 - Confirmed **Build my Roadmap** action with sufficient credits
 - Successful contextual credit purchase
-- Direct revisit of an active Roadmap URL
-- Completion or failure notification
+- **View roadmap progress** from an Idea card
 - Returning to an unfinished or failed Roadmap run
 
 ## Required Data
@@ -58,7 +57,7 @@ Explain that credits remain reserved until successful completion.
 
 ### Leave and return
 
-The user may return to Your Ideas or Investigation. The Roadmap run continues in the background and can be reopened from its direct URL or a notification.
+The user may return to Your Ideas or Investigation. The Roadmap run continues in the background and reopens through the Idea card.
 
 ### Completion
 
@@ -104,3 +103,4 @@ The user may return to Your Ideas or Investigation. The Roadmap run continues in
 - Fake progress percentages
 - Editing the frozen Brief
 - User-controlled cancellation unless later approved
+

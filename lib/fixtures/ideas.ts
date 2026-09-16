@@ -68,6 +68,7 @@ export const ideas: Idea[] = [
     brief:
       'A mobile-first workspace that turns photos and voice notes from residential energy audits into consistent findings and homeowner-ready summaries.',
     updated: 'Updated Sep 8',
+    notice: 'Research in progress',
     stages: [
       {
         key: 'shape',
@@ -79,16 +80,16 @@ export const ideas: Idea[] = [
       {
         key: 'investigate',
         label: 'Investigate',
-        state: 'complete',
-        action: 'Open investigation',
-        note: 'Report available',
+        state: 'running',
+        action: 'View progress',
+        note: 'Checking claims and sources',
       },
       {
         key: 'roadmap',
         label: 'Roadmap',
-        state: 'complete',
-        action: 'View roadmap',
-        note: 'Roadmap available',
+        state: 'locked',
+        action: 'Locked',
+        note: 'Report required',
       },
     ],
   },
@@ -98,6 +99,7 @@ export const ideas: Idea[] = [
     brief:
       'A scheduled refill service for offices that want to reduce single-use plastic without managing dispensers, inventory, or multiple suppliers.',
     updated: 'Updated Sep 5',
+    notice: 'New report',
     verdict: { label: 'Test the critical assumption', confidence: 'Moderate confidence' },
     stages: [
       {
@@ -110,16 +112,16 @@ export const ideas: Idea[] = [
       {
         key: 'investigate',
         label: 'Investigate',
-        state: 'complete',
-        action: 'Open investigation',
-        note: 'Report available',
+        state: 'unread',
+        action: 'Read report',
+        note: 'Report ready',
       },
       {
         key: 'roadmap',
         label: 'Roadmap',
-        state: 'complete',
-        action: 'View roadmap',
-        note: 'Roadmap available',
+        state: 'available',
+        action: 'Build roadmap',
+        note: 'Available next',
       },
     ],
   },
@@ -129,6 +131,7 @@ export const ideas: Idea[] = [
     brief:
       'A location-aware calendar that helps multi-city food-truck owners track permit renewals, inspection requirements, and recurring operating deadlines.',
     updated: 'Updated Aug 29',
+    notice: 'Credits restored',
     stages: [
       {
         key: 'shape',
@@ -140,16 +143,16 @@ export const ideas: Idea[] = [
       {
         key: 'investigate',
         label: 'Investigate',
-        state: 'complete',
-        action: 'Open investigation',
-        note: 'Report available',
+        state: 'failed',
+        action: 'Retry research',
+        note: 'Research could not finish',
       },
       {
         key: 'roadmap',
         label: 'Roadmap',
-        state: 'complete',
-        action: 'View roadmap',
-        note: 'Roadmap available',
+        state: 'locked',
+        action: 'Locked',
+        note: 'Report required',
       },
     ],
   },

@@ -11,7 +11,7 @@ The Investigation Report helps a user decide whether to pursue an Idea, understa
 ## Entry Points
 
 - **Read investigation** from completed Investigation Progress
-- Completion notification
+- **Report ready** or **Open investigation** from an Idea card
 - Return from a paid follow-up action
 - Return from the Roadmap
 
@@ -323,3 +323,4 @@ Field-level examples:
 - PDF export
 - Editing the frozen Brief
 - Arbitrary AI-generated UI
+

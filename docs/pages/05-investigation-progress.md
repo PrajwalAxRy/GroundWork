@@ -12,9 +12,9 @@ Investigation Progress reassures the user that paid research is continuing in th
 
 - Successful **Confirm and investigate** action
 - Successful contextual credit purchase
-- Direct revisit of an active Investigation URL
+- **View research progress** from an Idea card
 - Returning to an Investigation that is still running
-- Completion or failure notification
+- Failed Investigation state from Your Ideas
 
 ## Required Data
 
@@ -82,7 +82,7 @@ The user may return to Your Ideas at any time. Research continues in the backgro
 
 ### Return later
 
-A refresh must restore the current state without starting another job. The dashboard does not duplicate this page's granular progress or retry state.
+The Idea card opens this same run. A refresh must restore the current state without starting another job.
 
 ### Completion
 
@@ -141,3 +141,4 @@ For a temporary status-loading error, do not claim that research failed. Offer r
 - Starting another run from repeated clicks
 - Detailed technical logs
 - User-controlled cancellation unless later approved
+

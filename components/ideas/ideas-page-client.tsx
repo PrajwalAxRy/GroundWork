@@ -10,26 +10,51 @@ import {
   TextAreaField,
   TextField,
 } from '@/components/ui/product-primitives';
-import type { Idea, Stage } from '@/lib/contracts/product';
+import type { Idea, Stage, StageState } from '@/lib/contracts/product';
 import { mockProductService } from '@/lib/services/product-service';
-import { ArrowRight, MoreHorizontal } from 'lucide-react';
+import {
+  AlertTriangle,
+  ArrowRight,
+  Check,
+  LoaderCircle,
+  LockKeyhole,
+  MoreHorizontal,
+} from 'lucide-react';
 import { type FormEvent, useEffect, useRef, useState } from 'react';
 
 type Preview = 'populated' | 'empty' | 'loading' | 'error';
 
-type DashboardAction = {
-  label: 'Continue shaping' | 'Review idea' | 'View roadmap';
-  stage: Stage;
-};
+const actionPriority: StageState[] = [
+  'unread',
+  'running',
+  'failed',
+  'ready',
+  'active',
+  'available',
+];
 
-function dashboardAction(idea: Idea): DashboardAction {
-  const shape = idea.stages.find((stage) => stage.key === 'shape');
-  const roadmap = idea.stages.find((stage) => stage.key === 'roadmap');
+function primaryStage(idea: Idea): Stage {
+  const stage = actionPriority
+    .map((state) => idea.stages.find((entry) => entry.state === state))
+    .find((entry): entry is Stage => Boolean(entry));
+  const fallback = idea.stages.at(-1);
+  if (stage) return stage;
+  if (fallback) return fallback;
+  throw new Error(`Idea ${idea.id} has no stages.`);
+}
 
-  if (!shape || !roadmap) throw new Error(`Idea ${idea.id} is missing a dashboard stage.`);
-  if (shape.state === 'active') return { label: 'Continue shaping', stage: shape };
-  if (roadmap.state === 'complete') return { label: 'View roadmap', stage: roadmap };
-  return { label: 'Review idea', stage: shape };
+function StageIcon({ state }: { state: StageState }) {
+  if (state === 'locked') return <LockKeyhole aria-hidden="true" />;
+  if (state === 'complete') return <Check aria-hidden="true" />;
+  if (state === 'running') return <LoaderCircle className="spinner" aria-hidden="true" />;
+  if (state === 'failed') return <AlertTriangle aria-hidden="true" />;
+  return <ArrowRight aria-hidden="true" />;
+}
+
+function StageMarker({ stage, index }: { stage: Stage; index: number }) {
+  if (['locked', 'complete', 'running', 'failed'].includes(stage.state))
+    return <StageIcon state={stage.state} />;
+  return <>{index + 1}</>;
 }
 
 export function IdeasPageClient({ initialPreview = 'populated' }: { initialPreview?: Preview }) {
@@ -154,12 +179,17 @@ export function IdeasPageClient({ initialPreview = 'populated' }: { initialPrevi
   }
 
   function IdeaCard({ idea }: { idea: Idea }) {
-    const action = dashboardAction(idea);
+    const focus = primaryStage(idea);
     const isEditing = editing === idea.id;
     return (
-      <article className="idea-card">
+      <article className={`idea-card idea-card--${focus.state}`}>
         <div className="idea-card__signal" aria-hidden="true" />
         <div className="idea-card__body">
+          <p className="notice">
+            <span aria-hidden="true" />
+            {idea.notice ??
+              (focus.state === 'active' ? 'Shape in progress' : focus.note || focus.action)}
+          </p>
           {isEditing ? (
             <form className="rename-form" onSubmit={(event) => void renameIdea(event, idea.id)}>
               <TextField
@@ -183,14 +213,37 @@ export function IdeasPageClient({ initialPreview = 'populated' }: { initialPrevi
           )}
           <p className="brief">{idea.brief}</p>
         </div>
+        <div className="idea-card__history" aria-label={`Other stages for ${idea.title}`}>
+          {idea.stages
+            .filter((stage) => stage !== focus)
+            .map((stage) => (
+              <button
+                type="button"
+                key={stage.key}
+                className={`card-stage card-stage--${stage.state}`}
+                disabled={stage.state === 'locked'}
+                onClick={() => openStage(idea, stage)}
+                aria-label={`${stage.action}: ${stage.label} for ${idea.title}`}
+              >
+                <span className="card-stage__marker" aria-hidden="true">
+                  <StageMarker stage={stage} index={idea.stages.indexOf(stage)} />
+                </span>
+                <span>
+                  <strong>{stage.label}</strong>
+                  <small>{stage.action}</small>
+                </span>
+              </button>
+            ))}
+        </div>
         <button
           type="button"
-          className="idea-card__focus"
-          onClick={() => openStage(idea, action.stage)}
-          aria-label={`${action.label} for ${idea.title}`}
+          className={`idea-card__focus idea-card__focus--${focus.state}`}
+          onClick={() => openStage(idea, focus)}
+          aria-label={`${focus.action}: ${focus.label} for ${idea.title}`}
         >
-          <strong>{action.label}</strong>
-          <ArrowRight aria-hidden="true" />
+          <span>{focus.note || focus.label}</span>
+          <strong>{focus.action}</strong>
+          <StageIcon state={focus.state} />
         </button>
         <div className="card-menu-wrap">
           <Menu

@@ -98,9 +98,8 @@ This file separates locked product decisions from topics that still need discuss
 - Dashboard header contains **Your ideas** and **New idea**.
 - No separate Continue and Earlier Ideas sections.
 - Ideas appear as a single-column stack of wide cards.
-- Cards show the title, short Brief, one current action, and overflow actions.
-- The approved dashboard card direction is the simplified **Signal edge** (`/_experiments/idea-card-6/`, evolved from experiment card 14): a compact horizontal card with a slim signal rail and one emphasized current action. The collapsed card omits verdict, last-updated metadata, secondary stage controls, and background-job details.
-- Dashboard cards use only **Continue shaping**, **Review idea**, and **View roadmap**. Research progress, retry, report-ready, and other granular process states belong on their relevant stage pages.
+- Cards show title, short Brief, and Shape, Investigate, and Roadmap stage controls.
+- The approved dashboard card direction is **Signal edge** (`/_experiments/idea-card-6/`, evolved from experiment card 14): a compact horizontal card with a slim semantic status rail, two quiet secondary stage controls, and one emphasized current action. The collapsed card omits verdict and last-updated metadata.
 - The whole card is not one click target.
 - State is never communicated using color alone.
 - New Idea opens an inline idea input.
@@ -145,8 +144,6 @@ This file separates locked product decisions from topics that still need discuss
 - Dedicated Roadmap resource and interview-question sections
 - Dashboard split into Continue and Earlier Ideas
 - My Ideas and New Idea controls in the global top bar
-- Multi-state dashboard cards with separate Shape, Investigate, and Roadmap controls
-- Dashboard actions such as **Retry research**, **View progress**, **Read report**, and **Build roadmap**
 - Sharing and export in the MVP
 
 ## Open Product Decisions

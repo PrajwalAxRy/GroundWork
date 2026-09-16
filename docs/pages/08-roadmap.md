@@ -13,7 +13,7 @@ The main Roadmap should take roughly five to eight minutes to read.
 ## Entry Points
 
 - **Open Roadmap** from completed Roadmap Progress
-- **View roadmap** from an Idea card
+- **Open roadmap** from an Idea card
 - Return from the Investigation
 - Return to an existing Roadmap follow-up conversation
 
@@ -206,3 +206,4 @@ Open the immutable Investigation report without altering the Roadmap or chat.
 - Specific technology-stack recommendations
 - Legal or regulatory instructions
 - Public sharing and export
+
