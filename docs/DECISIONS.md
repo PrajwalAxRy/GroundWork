@@ -40,6 +40,8 @@ This file separates locked product decisions from topics that still need discuss
 - After **Looks right**, Shape is paused for review: the transcript and supporting Brief cards are read-only, and the composer is replaced by a summary-led Investigation handoff card with **Continue shaping** and **Start investigation**.
 - **Continue shaping** reverses the paused state. The Brief becomes permanently frozen only when Investigation starts.
 - Investigation start remains a separate explicit paid action.
+- Selecting **Start investigation** opens a focused confirmation modal over Shape. It gives a short, high-level overview of the research rather than a detailed research plan, shows the credit cost and balance, explains failure protection, and requires a final explicit action.
+- The prototype fixture is **5 credits** for an Investigation against a **10-credit** available balance. This does not settle commercial pricing, packs, or introductory-credit policy.
 - Investigation may proceed with unresolved questions, with appropriate confidence limitations.
 - The Brief freezes when Investigation starts.
 - Shape becomes a read-only transcript with no composer and no editable Brief.

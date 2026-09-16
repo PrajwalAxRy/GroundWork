@@ -210,7 +210,7 @@ Closing the modal or selecting **Keep shaping** returns to the unchanged Shape c
 
 After **Looks right**, Shape enters a reversible **paused for review** state. The conversation remains visible as a read-only transcript, the Working summary and Captured details cards become read-only, and the composer is replaced by a focused Investigation handoff card. That card repeats the accepted summary and provides **Continue shaping** and **Start investigation**. **Continue shaping** restores the composer; a material change makes the accepted summary stale and requires review again. This is not the permanent Brief freeze, which occurs only after the user separately confirms and starts Investigation.
 
-Research scope, credit cost, current balance, and failure protection belong to the separate paid Investigation-start action. That action still requires explicit confirmation before credits are reserved. Its exact in-page placement remains to be designed.
+Research scope, credit cost, current balance, and failure protection belong to the separate paid Investigation-start action. Selecting **Start investigation** opens a focused confirmation modal over Shape. That modal gives a high-level overview of the research, rather than a detailed research plan, then requires explicit confirmation before credits are reserved.
 
 ## 5. Brief Freeze
 
@@ -239,9 +239,7 @@ At research start, credits are reserved. They are consumed only after successful
 
 The user should see:
 
-- What will be investigated
-- Questions marked for research
-- What the report contains
+- A high-level overview of what will be investigated
 - Credit cost
 - Current balance
 - A clear statement about failure protection
@@ -250,7 +248,7 @@ Recommended action copy:
 
 > Use [amount] credits and start investigation
 
-Exact credit amounts remain undecided.
+For the current frontend prototype, an Investigation costs **5 credits** and the example available balance is **10 credits**. These are provisional fixtures only. Exact commercial pricing, pack sizes, and introductory-credit policy remain undecided and must be owned by the backend when implemented.
 
 ### Credit purchasing
 

@@ -14,6 +14,8 @@ import {
   LockKeyhole,
   MessageCircleMore,
   RotateCcw,
+  Search,
+  ShieldCheck,
   Sparkles,
   X,
 } from 'lucide-react';
@@ -100,7 +102,8 @@ export function ShapeConversationExperiment({
   const [capturedOpen, setCapturedOpen] = useState(false);
   const [reviewOpen, setReviewOpen] = useState(false);
   const [reviewAccepted, setReviewAccepted] = useState(false);
-  const [investigationIntent, setInvestigationIntent] = useState(false);
+  const [investigationOpen, setInvestigationOpen] = useState(false);
+  const [investigationStarted, setInvestigationStarted] = useState(false);
   const hasConversation = messages.length > 0;
   const isProduct = mode === 'product';
 
@@ -147,19 +150,27 @@ export function ShapeConversationExperiment({
     setDraft('');
     setCapturedOpen(false);
     setReviewAccepted(false);
-    setInvestigationIntent(false);
+    setInvestigationOpen(false);
+    setInvestigationStarted(false);
   }
 
   function acceptSummary() {
     setReviewOpen(false);
     setReviewAccepted(true);
     setCapturedOpen(false);
-    setInvestigationIntent(false);
+    setInvestigationOpen(false);
+    setInvestigationStarted(false);
   }
 
   function continueShaping() {
     setReviewAccepted(false);
-    setInvestigationIntent(false);
+    setInvestigationOpen(false);
+    setInvestigationStarted(false);
+  }
+
+  function startInvestigation() {
+    setInvestigationOpen(false);
+    setInvestigationStarted(true);
   }
 
   return (
@@ -184,7 +195,13 @@ export function ShapeConversationExperiment({
           </div>
           <div className={styles.utilityActions}>
             <span className={styles.saved}>
-              {reviewAccepted ? 'Summary accepted' : hasConversation ? 'Saved' : 'Draft'}
+              {investigationStarted
+                ? 'Investigation starting'
+                : reviewAccepted
+                  ? 'Summary accepted'
+                  : hasConversation
+                    ? 'Saved'
+                    : 'Draft'}
             </span>
             {hasConversation ? (
               <button type="button" className={styles.quietButton} onClick={reset}>
@@ -250,50 +267,60 @@ export function ShapeConversationExperiment({
               )}
             </div>
 
-            {reviewAccepted ? (
+            {reviewAccepted || investigationStarted ? (
               <section className={styles.composerArea} aria-labelledby="investigation-ready-title">
-                <div className={styles.investigationHandoff}>
-                  <div className={styles.handoffHeading}>
+                {investigationStarted ? (
+                  <div className={styles.investigationStarted}>
                     <span className={styles.handoffIcon} aria-hidden="true">
-                      <Check />
+                      <Search />
                     </span>
                     <div>
-                      <p>Shape paused for review</p>
-                      <h2 id="investigation-ready-title">Ready to investigate</h2>
+                      <p>Investigation confirmed</p>
+                      <h2 id="investigation-ready-title">Research is about to begin</h2>
+                      <span>
+                        5 credits are reserved. This idea is now read-only while Groundwork
+                        researches it.
+                      </span>
                     </div>
                   </div>
-                  <p className={styles.handoffCopy}>
-                    Groundwork will use this accepted summary as the starting point for live
-                    research.
-                  </p>
-                  <p className={styles.handoffSummary}>
-                    Help small clinics keep patient requests visible and owned without replacing the
-                    tools their staff already use.
-                  </p>
-                  <div className={styles.handoffActions}>
-                    <button
-                      type="button"
-                      className={styles.continueButton}
-                      onClick={continueShaping}
-                    >
-                      Continue shaping
-                    </button>
-                    <button
-                      type="button"
-                      className={styles.startInvestigationButton}
-                      onClick={() => setInvestigationIntent(true)}
-                    >
-                      Start investigation
-                      <ArrowRight aria-hidden="true" />
-                    </button>
+                ) : (
+                  <div className={styles.investigationHandoff}>
+                    <div className={styles.handoffHeading}>
+                      <span className={styles.handoffIcon} aria-hidden="true">
+                        <Check />
+                      </span>
+                      <div>
+                        <p>Shape paused for review</p>
+                        <h2 id="investigation-ready-title">Ready to investigate</h2>
+                      </div>
+                    </div>
+                    <p className={styles.handoffCopy}>
+                      Groundwork will use this accepted summary as the starting point for live
+                      research.
+                    </p>
+                    <p className={styles.handoffSummary}>
+                      Help small clinics keep patient requests visible and owned without replacing
+                      the tools their staff already use.
+                    </p>
+                    <div className={styles.handoffActions}>
+                      <button
+                        type="button"
+                        className={styles.continueButton}
+                        onClick={continueShaping}
+                      >
+                        Continue shaping
+                      </button>
+                      <button
+                        type="button"
+                        className={styles.startInvestigationButton}
+                        onClick={() => setInvestigationOpen(true)}
+                      >
+                        Start investigation
+                        <ArrowRight aria-hidden="true" />
+                      </button>
+                    </div>
                   </div>
-                  {investigationIntent && (
-                    <output className={styles.handoffNotice} aria-live="polite">
-                      Next, you&apos;ll review the research scope, credit cost, and failure
-                      protection before anything starts.
-                    </output>
-                  )}
-                </div>
+                )}
               </section>
             ) : (
               <form className={styles.composerArea} onSubmit={sendMessage}>
@@ -347,7 +374,7 @@ export function ShapeConversationExperiment({
           <aside className={styles.briefStack} aria-label="Idea brief">
             <section
               className={`${styles.briefCard} ${styles.summaryCard} ${
-                reviewAccepted ? styles.readOnlyCard : ''
+                reviewAccepted || investigationStarted ? styles.readOnlyCard : ''
               }`}
             >
               <header className={styles.summaryTopline}>
@@ -373,7 +400,7 @@ export function ShapeConversationExperiment({
             <section
               className={`${styles.briefCard} ${styles.detailsCard} ${
                 capturedOpen ? styles.cardOpen : ''
-              } ${reviewAccepted ? styles.readOnlyCard : ''}`}
+              } ${reviewAccepted || investigationStarted ? styles.readOnlyCard : ''}`}
             >
               <button
                 type="button"
@@ -444,6 +471,70 @@ export function ShapeConversationExperiment({
               <button type="button" className={styles.confirmButton} onClick={acceptSummary}>
                 Looks right
                 <Check aria-hidden="true" />
+              </button>
+            </div>
+          </Dialog.Content>
+        </Dialog.Portal>
+      </Dialog.Root>
+
+      <Dialog.Root open={investigationOpen} onOpenChange={setInvestigationOpen}>
+        <Dialog.Portal>
+          <Dialog.Overlay className={styles.dialogOverlay} />
+          <Dialog.Content className={`${styles.dialog} ${styles.investigationDialog}`}>
+            <div className={styles.dialogHeader}>
+              <div>
+                <Dialog.Title>Confirm investigation</Dialog.Title>
+                <Dialog.Description>
+                  Groundwork will use live research to stress-test this idea.
+                </Dialog.Description>
+              </div>
+              <Dialog.Close asChild>
+                <button type="button" aria-label="Close investigation confirmation">
+                  <X aria-hidden="true" />
+                </button>
+              </Dialog.Close>
+            </div>
+
+            <section className={styles.researchOverview} aria-labelledby="research-overview-title">
+              <div className={styles.researchOverviewHeading}>
+                <span aria-hidden="true">
+                  <Search />
+                </span>
+                <h3 id="research-overview-title">What Groundwork will look into</h3>
+              </div>
+              <ul>
+                <li>Whether the problem appears worth solving</li>
+                <li>How people handle it today</li>
+                <li>What it may take to reach early customers</li>
+              </ul>
+            </section>
+
+            <div className={styles.creditSummary} aria-label="Credit summary">
+              <div>
+                <span>Investigation</span>
+                <strong>5 credits</strong>
+              </div>
+              <div>
+                <span>Your balance</span>
+                <strong>10 credits</strong>
+              </div>
+            </div>
+
+            <p className={styles.failureProtection}>
+              <ShieldCheck aria-hidden="true" />
+              Your credits are reserved when research starts and used only after it completes. They
+              are released if the investigation fails.
+            </p>
+
+            <div className={styles.dialogActions}>
+              <Dialog.Close asChild>
+                <button type="button" className={styles.keepShaping}>
+                  Not now
+                </button>
+              </Dialog.Close>
+              <button type="button" className={styles.confirmButton} onClick={startInvestigation}>
+                Use 5 credits and start investigation
+                <ArrowRight aria-hidden="true" />
               </button>
             </div>
           </Dialog.Content>

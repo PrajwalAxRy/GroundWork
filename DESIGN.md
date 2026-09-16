@@ -205,6 +205,7 @@ Shape is a focused working surface, not a dashboard and not a form disguised as 
 - After **Looks right**, retain the transcript and supporting cards in a read-only state. Replace the composer, in the same conversation-column position, with one pale-cobalt **Ready to investigate** handoff card.
 - The handoff card contains a short explanation, the accepted summary, and adjacent **Continue shaping** and **Start investigation** actions. It is a focused transition surface, not another dashboard card or a purchase confirmation.
 - **Continue shaping** restores the normal composer. Permanent freezing occurs only after the separate Investigation-start confirmation.
+- **Start investigation** opens a compact confirmation modal. It uses a short title and sentence, one restrained high-level research overview, a two-part cost and balance row, a clear failure-protection note, and the explicit action **Use 5 credits and start investigation**. Keep the scope intentionally broad, with no detailed research-question editor or report preview.
 
 ### Responsive behavior
 

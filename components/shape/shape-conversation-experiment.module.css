@@ -540,6 +540,43 @@
   line-height: 1.5;
 }
 
+.investigationStarted {
+  width: min(760px, 100%);
+  margin: 0 auto;
+  padding: 20px;
+  border: 1px solid var(--rules);
+  border-radius: 14px;
+  background: var(--soft);
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.investigationStarted p {
+  margin: 1px 0 3px;
+  color: var(--secondary-ink);
+  font-size: 11px;
+  font-weight: 750;
+  letter-spacing: 0.045em;
+  text-transform: uppercase;
+}
+
+.investigationStarted h2 {
+  margin: 0;
+  color: var(--ink);
+  font: 700 19px var(--font-groundwork-heading), system-ui, sans-serif;
+  letter-spacing: -0.025em;
+}
+
+.investigationStarted div > span {
+  display: block;
+  max-width: 550px;
+  margin-top: 7px;
+  color: var(--secondary-ink);
+  font-size: 14px;
+  line-height: 1.55;
+}
+
 .briefStack {
   min-width: 0;
   height: calc(100% - 40px);
@@ -808,7 +845,7 @@
 .confirmButton {
   border: 0;
   background: var(--cobalt);
-  color: white;
+  color: var(--paper);
   display: inline-flex;
   align-items: center;
   gap: 7px;
@@ -816,6 +853,102 @@
 
 .confirmButton svg {
   width: 16px;
+}
+
+.investigationDialog {
+  width: min(600px, calc(100vw - 32px));
+}
+
+.researchOverview {
+  margin: 23px 0 16px;
+  padding: 18px;
+  border: 1px solid oklch(0.8 0.022 242);
+  border-radius: 10px;
+  background: var(--soft);
+}
+
+.researchOverviewHeading {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+}
+
+.researchOverviewHeading > span {
+  width: 29px;
+  height: 29px;
+  border-radius: 8px;
+  background: var(--pale-cobalt);
+  color: var(--cobalt);
+  display: grid;
+  place-items: center;
+}
+
+.researchOverviewHeading svg {
+  width: 16px;
+  height: 16px;
+}
+
+.researchOverview h3 {
+  margin: 0;
+  color: var(--ink);
+  font: 700 14px var(--font-groundwork-heading), system-ui, sans-serif;
+}
+
+.researchOverview ul {
+  margin: 15px 0 0 38px;
+  padding: 0;
+  color: var(--secondary-ink);
+  font-size: 14px;
+  line-height: 1.65;
+}
+
+.creditSummary {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  border-top: 1px solid var(--rules);
+  border-bottom: 1px solid var(--rules);
+}
+
+.creditSummary > div {
+  padding: 14px 0;
+  display: grid;
+  gap: 3px;
+}
+
+.creditSummary > div + div {
+  padding-left: 18px;
+  border-left: 1px solid var(--rules);
+}
+
+.creditSummary span {
+  color: var(--muted-ink);
+  font-size: 11px;
+  font-weight: 750;
+  letter-spacing: 0.045em;
+  text-transform: uppercase;
+}
+
+.creditSummary strong {
+  color: var(--ink);
+  font: 700 17px var(--font-groundwork-heading), system-ui, sans-serif;
+}
+
+.failureProtection {
+  margin: 16px 0 23px;
+  color: var(--secondary-ink);
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  font-size: 13px;
+  line-height: 1.55;
+}
+
+.failureProtection svg {
+  width: 17px;
+  height: 17px;
+  margin-top: 1px;
+  color: var(--cobalt);
+  flex: 0 0 auto;
 }
 
 @keyframes fadeIn {
@@ -962,6 +1095,15 @@
 
   .dialog {
     padding: 21px;
+  }
+
+  .investigationDialog .dialogActions {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+
+  .investigationDialog .dialogActions button {
+    justify-content: center;
   }
 }
 

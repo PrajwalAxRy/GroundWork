@@ -127,13 +127,16 @@ The product foundations, approved visual system, production frontend foundation,
 - [x] Approve the reversible paused-review state: read-only transcript and Brief cards, with an Investigation handoff card replacing the composer.
 - [x] Define the handoff card as accepted summary, **Continue shaping**, and **Start investigation**.
 - [x] Record the rejection of a dedicated confirmation route in the product documents.
+- [x] Approve a compact in-place Investigation confirmation modal with high-level scope, cost, balance, and failure protection.
+- [x] Use provisional prototype fixtures of 5 credits per Investigation and a 10-credit balance, without deciding commercial pricing.
 
 ### Integration
 
 - [x] Integrate the approved lightweight review modal into production Shape.
 - [ ] Persist the accepted-summary state through the product service.
 - [ ] Preserve the conversation and accepted summary when confirmation fails.
-- [ ] Integrate the approved paused-review handoff card into production Shape.
+- [x] Integrate the approved paused-review handoff card into production Shape.
+- [x] Integrate the paid Investigation confirmation modal into production Shape using typed mock values.
 - [ ] Prevent duplicate paid-action submissions.
 - [ ] Distinguish the reversible paused-review state from permanent Brief freezing when Investigation starts.
 
