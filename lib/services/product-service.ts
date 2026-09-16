@@ -17,6 +17,7 @@ import {
   shapeSessionSchema,
 } from '@/lib/contracts/product';
 import { ideas as initialIdeas } from '@/lib/fixtures/ideas';
+import { investigationJobs as initialInvestigationJobs } from '@/lib/fixtures/jobs';
 import { shapeSessions as initialShapeSessions } from '@/lib/fixtures/shapes';
 import { type MockShapeResponder, createMockShapeReply } from '@/lib/services/mock-shape-responder';
 import { z } from 'zod';
@@ -39,6 +40,11 @@ type PrototypeStore = z.infer<typeof prototypeStoreSchema>;
 
 type StartInvestigationResult = {
   session: ShapeSession;
+  job: ProductJob;
+  creditBalance: CreditBalance;
+};
+
+type RetryInvestigationResult = {
   job: ProductJob;
   creditBalance: CreditBalance;
 };
@@ -70,6 +76,7 @@ export interface ProductService {
   addInvestigationQuestion(ideaId: string, question: string): Promise<void>;
   updateSummaryField(ideaId: string, field: SummaryField): Promise<ShapeSession | null>;
   startInvestigation(ideaId: string): Promise<StartInvestigationResult>;
+  retryInvestigation(ideaId: string): Promise<RetryInvestigationResult>;
   getCreditBalance(): Promise<CreditBalance>;
   getJob(ideaId: string, kind: 'investigation' | 'roadmap'): Promise<ProductJob | null>;
   getReport(ideaId: string): Promise<InvestigationReport | null>;
@@ -90,9 +97,31 @@ function initialStore(): PrototypeStore {
     ideas: clone(initialIdeas),
     shapes: clone(initialShapeSessions),
     drafts: {},
-    jobs: [],
+    jobs: clone(initialInvestigationJobs),
     creditBalance: { available: PROTOTYPE_INITIAL_CREDITS, reserved: 0 },
   });
+}
+
+function withFixtureJobs(store: PrototypeStore): PrototypeStore {
+  const jobs = [...store.jobs];
+  for (const fixture of initialInvestigationJobs) {
+    const idea = store.ideas.find((entry) => entry.id === fixture.ideaId);
+    const investigate = idea?.stages.find((stage) => stage.key === 'investigate');
+    const fixtureMatchesIdea =
+      (fixture.state === 'failed' && investigate?.state === 'failed') ||
+      (fixture.state === 'completed' &&
+        ['complete', 'unread'].includes(investigate?.state ?? '')) ||
+      (['queued', 'researching', 'verifying', 'assembling'].includes(fixture.state) &&
+        investigate?.state === 'running');
+
+    if (
+      fixtureMatchesIdea &&
+      !jobs.some((job) => job.ideaId === fixture.ideaId && job.kind === fixture.kind)
+    ) {
+      jobs.push(clone(fixture));
+    }
+  }
+  return { ...store, jobs };
 }
 
 function parseStoredValue(value: string | null): PrototypeStore | null {
@@ -110,15 +139,15 @@ const browserStore: StoreAccess = {
     if (typeof window === 'undefined') return initialStore();
 
     const current = parseStoredValue(window.localStorage.getItem(storageKey));
-    if (current) return current;
+    if (current) return withFixtureJobs(current);
 
     const migrated = parseStoredValue(window.localStorage.getItem(legacyStorageKey));
     if (migrated) {
       window.localStorage.setItem(storageKey, JSON.stringify(migrated));
-      return migrated;
+      return withFixtureJobs(migrated);
     }
 
-    return initialStore();
+    return withFixtureJobs(initialStore());
   },
 
   write(store) {
@@ -567,6 +596,45 @@ function createService(storeAccess: StoreAccess, responder: MockShapeResponder):
         job: clone(job),
         creditBalance: clone(store.creditBalance),
       };
+    },
+
+    async retryInvestigation(ideaId) {
+      const store = storeAccess.read();
+      const job = store.jobs.find(
+        (entry) => entry.ideaId === ideaId && entry.kind === 'investigation',
+      );
+      const idea = store.ideas.find((entry) => entry.id === ideaId);
+
+      if (!job || !idea) {
+        throw new ProductServiceError('IDEA_NOT_FOUND', 'This Investigation could not be found.');
+      }
+
+      if (job.state !== 'failed') {
+        return { job: clone(job), creditBalance: clone(store.creditBalance) };
+      }
+
+      if (store.creditBalance.available < job.reservedCredits) {
+        throw new ProductServiceError(
+          'INSUFFICIENT_CREDITS',
+          'Add credits before retrying this Investigation.',
+        );
+      }
+
+      job.state = 'queued';
+      job.phaseLabel = 'Preparing the research plan';
+      job.creditsReleased = false;
+      store.creditBalance.available -= job.reservedCredits;
+      store.creditBalance.reserved += job.reservedCredits;
+      idea.notice = 'Research in progress';
+      idea.updated = 'Updated just now';
+      setIdeaStage(idea, 'investigate', {
+        state: 'running',
+        action: 'View progress',
+        note: 'Preparing the research plan',
+      });
+      storeAccess.write(store);
+
+      return { job: clone(job), creditBalance: clone(store.creditBalance) };
     },
 
     async getCreditBalance() {

@@ -24,7 +24,6 @@ Investigation Progress reassures the user that paid research is continuing in th
 - Credits reserved
 - Current job status
 - Ordered research phases and their states
-- Truthful activity counts, when available
 - Start time and last status update
 - Failure reason and credit state, when applicable
 
@@ -59,20 +58,9 @@ Display these phases:
 
 Each phase can be waiting, active, completed, or failed. Do not show a fake overall percentage.
 
-### Activity summary
-
-Show only genuine available activity, such as:
-
-- Sources reviewed
-- Sources retained
-- Relevant competitors identified
-- Claims being checked
-
-Do not reveal draft verdicts or unverified conclusions.
-
 ### Reserved-credit note
 
-Explain that credits are reserved and will be finalized only after successful report completion.
+Show this as a compact footer attached to the progress surface. Explain that credits are reserved and will be finalized only after successful report completion.
 
 ## Interactions
 
@@ -127,9 +115,9 @@ For a temporary status-loading error, do not claim that research failed. Offer r
 
 ## Prototype Scenarios
 
-1. Queued with no activity counts yet
+1. Queued before research begins
 2. Active competitor research
-3. Verification with source counts
+3. Verification
 4. Completed report
 5. Terminal failure with credits released
 6. Temporary status-fetch error
@@ -137,6 +125,7 @@ For a temporary status-loading error, do not claim that research failed. Offer r
 ## Out of Scope
 
 - Fake percentage completion
+- Activity-count panels or metric grids
 - Streaming unverified findings
 - Starting another run from repeated clicks
 - Detailed technical logs

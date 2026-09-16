@@ -26,7 +26,8 @@ app/
 components/
   landing/                copied and product-aligned marketing surface
   product/                shared product shell
-  ideas/ and shape/       feature-owned UI
+  ideas/, shape/, and
+  investigation/         feature-owned UI
   ui/                     reusable primitives only
 lib/
   contracts/              runtime-validated data contracts
@@ -49,6 +50,7 @@ Feature components may compose shared primitives, but shared primitives must not
 | `/ideas` | Your Ideas dashboard |
 | `/idea/shape/new` | Collect the first thought, create the Idea, and continue on its stable route |
 | `/idea/shape/[ideaId]` | Load and operate the service-backed Shape conversation for an existing Idea |
+| `/idea/investigate/[ideaId]/progress` | Load a durable Investigation job, show genuine phases and credit state, and provide retry recovery |
 | `/credits` | Intentional placeholder until commercial decisions are locked |
 | `/preview/[slug]` | Marketing media preview |
 | `/_experiments/*` | Development-only review surfaces; never a production product path |
@@ -56,6 +58,8 @@ Feature components may compose shared primitives, but shared primitives must not
 Future Idea-stage routes follow `docs/pages/README.md` and live under `app/(product)/idea/<stage>/[ideaId]/`. The `/ideas` collection route remains the dashboard.
 
 Shape uses a thin dynamic route, a client controller that owns service interaction, and a shared approved workspace view. Its persisted lifecycle is `shaping`, `review_paused`, or `frozen`; accepting the summary stores an immutable snapshot, resuming clears that approval, and successful Investigation start performs the permanent freeze.
+
+Investigation Progress uses the same thin-route pattern. Its client controller loads the Idea, job, and credit balance through `ProductService`; the shared progress view renders queued, researching, verifying, assembling, completed, and failed states. Failed retries reuse the same frozen Idea and cannot create duplicate reservations.
 
 ## Data and trust boundaries
 

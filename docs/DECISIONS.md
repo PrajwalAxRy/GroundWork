@@ -84,6 +84,9 @@ This file separates locked product decisions from topics that still need discuss
 - Duplicate actions must not duplicate jobs or charges.
 - Research runs in the background.
 - Progress shows genuine stages rather than a fake percentage.
+- The approved Investigation Progress direction is the familiar tracking-page composition from `/_experiments/investigation-progress`, integrated at `/idea/investigate/:ideaId/progress`.
+- Investigation Progress uses one status lead and one continuous six-phase progress surface. It does not use an activity-count panel, metric grid, fake percentage, estimated completion time, or large animated progress graphic.
+- Reserved, used, and released credit outcomes appear as a compact footer attached to the progress surface.
 - Users may buy enough for one Investigation or choose better-value larger packs.
 - Follow-up research and substantial regeneration cost credits.
 - Eligible follow-up analyses derived from an existing Investigation should cost fewer credits than the first full Investigation. Exact discount rules remain open.
@@ -183,7 +186,6 @@ This file separates locked product decisions from topics that still need discuss
 - Introductory credits or trial behavior
 - Exact discount amounts and eligibility rules for follow-up analyses
 - Free-chat abuse controls
-- Exact placement of the paid Investigation-start confirmation after the Brief review modal
 
 ### Onboarding
 

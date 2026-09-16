@@ -98,6 +98,16 @@ export function IdeasPageClient({ initialPreview = 'populated' }: { initialPrevi
       router.push(`/idea/shape/${idea.id}`);
       return;
     }
+    if (stage.key === 'investigate') {
+      if (stage.state === 'running' || stage.state === 'failed') {
+        router.push(`/idea/investigate/${idea.id}/progress`);
+        return;
+      }
+      if (stage.state === 'available' || stage.state === 'ready') {
+        router.push(`/idea/shape/${idea.id}`);
+        return;
+      }
+    }
     setFeedback(`${stage.action} will connect when its page is built in the next prototype phase.`);
   }
 

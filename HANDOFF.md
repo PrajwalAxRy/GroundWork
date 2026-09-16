@@ -85,7 +85,9 @@ The Shape UI design is approved and fully integrated at `/idea/shape/new` and `/
 
 The lightweight **Review your idea** modal, paused-review handoff, and paid Investigation confirmation are approved, integrated, and fixed. Do not redesign them unless the user explicitly reopens the decision. **Review your idea** shows the current Idea summary with **Looks right** and **Keep shaping**. Selecting **Looks right** persists the accepted-summary snapshot and pauses Shape for review: transcript and supporting cards become read-only, and the composer is replaced by a **Ready to investigate** card containing the accepted summary, **Continue shaping**, and **Start investigation**. Continuing Shape invalidates the accepted snapshot. **Start investigation** opens the compact fixed-content confirmation modal; the service reserves credits idempotently and permanently freezes Shape only after that operation succeeds. Its overview uses the four locked topics: **Customer and demand**, **Competition analysis**, **Business reality**, and **Evidence check**.
 
-The next design and implementation topic is the Investigation Progress experience at `/idea/investigate/:ideaId/progress`.
+The Investigation Progress direction from `/_experiments/investigation-progress` is approved and integrated at `/idea/investigate/:ideaId/progress`. It uses a familiar tracking-page composition with one status lead, one continuous six-phase progress surface, and a compact credit-outcome footer. The user explicitly removed the activity-count panel. Running, ready, failed, retry, status-loading failure, and credit-release behavior run through typed mock jobs and the product-service boundary. Dashboard running and failed actions open this route, and a successful paid Investigation confirmation in Shape navigates to it.
+
+The next design topic is the Investigation Report, beginning with the verdict-header experiment described in Phase 8 of `BUILD_PLAN.md`.
 
 ## Important Prototype Requirements
 
@@ -112,7 +114,7 @@ Consult `docs/DECISIONS.md` for the complete open-decision list.
 
 ## Repository State
 
-This repository is now the canonical Groundwork application. It uses a Next.js 16 App Router, React 19, strict TypeScript, Tailwind CSS 4, Radix primitives, Zod contracts, Biome, and Vitest. The copied marketing surface, integrated Your Ideas experience, local mock-service boundary, approved Idea-card experiment, and complete mock service-backed Shape workflow live here. `ARCHITECTURE.md` defines the production frontend boundaries. The sibling landing-page folder remains an untouched reference and is not the application workspace.
+This repository is now the canonical Groundwork application. It uses a Next.js 16 App Router, React 19, strict TypeScript, Tailwind CSS 4, Radix primitives, Zod contracts, Biome, and Vitest. The copied marketing surface, integrated Your Ideas experience, local mock-service boundary, approved Idea-card experiment, complete mock service-backed Shape workflow, and approved service-backed Investigation Progress route live here. `ARCHITECTURE.md` defines the production frontend boundaries. The sibling landing-page folder remains an untouched reference and is not the application workspace.
 
 ## Suggested Prompt for the New Chat
 

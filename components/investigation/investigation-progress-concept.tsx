@@ -19,8 +19,24 @@ import Link from 'next/link';
 import { useState } from 'react';
 import styles from './investigation-progress-concept.module.css';
 
-type PreviewState = 'running' | 'ready' | 'failed';
+export type InvestigationProgressStatus = 'running' | 'ready' | 'failed';
 type PhaseState = 'complete' | 'active' | 'waiting' | 'failed';
+
+type InvestigationProgressViewProps = {
+  ideaId: string;
+  ideaTitle: string;
+  status: InvestigationProgressStatus;
+  eyebrow: string;
+  title: string;
+  description: string;
+  activePhaseIndex: number;
+  reservedCredits: number;
+  availableCredits: number;
+  lastChecked?: string;
+  retrying?: boolean;
+  onRetry?: () => void;
+  onPreviewChange?: (status: InvestigationProgressStatus) => void;
+};
 
 const phases = [
   'Research plan',
@@ -49,14 +65,15 @@ const previewCopy = {
   },
 } as const;
 
-function phaseState(index: number, preview: PreviewState): PhaseState {
-  if (preview === 'ready') return 'complete';
-  if (preview === 'failed') {
-    if (index < 2) return 'complete';
-    return index === 2 ? 'failed' : 'waiting';
-  }
-  if (index < 2) return 'complete';
-  return index === 2 ? 'active' : 'waiting';
+function phaseState(
+  index: number,
+  status: InvestigationProgressStatus,
+  activePhaseIndex: number,
+): PhaseState {
+  if (status === 'ready') return 'complete';
+  if (index < activePhaseIndex) return 'complete';
+  if (index === activePhaseIndex) return status === 'failed' ? 'failed' : 'active';
+  return 'waiting';
 }
 
 function PhaseMarker({ state }: { state: PhaseState }) {
@@ -66,12 +83,23 @@ function PhaseMarker({ state }: { state: PhaseState }) {
   return <Circle aria-hidden="true" />;
 }
 
-export function InvestigationProgressConcept() {
-  const [preview, setPreview] = useState<PreviewState>('running');
-  const copy = previewCopy[preview];
-
+export function InvestigationProgressView({
+  ideaId,
+  ideaTitle,
+  status,
+  eyebrow,
+  title,
+  description,
+  activePhaseIndex,
+  reservedCredits,
+  availableCredits,
+  lastChecked,
+  retrying = false,
+  onRetry,
+  onPreviewChange,
+}: InvestigationProgressViewProps) {
   return (
-    <ProductShell>
+    <ProductShell credits={availableCredits}>
       <main className={styles.page}>
         <header className={styles.utilityBar}>
           <div className={styles.utilityLeft}>
@@ -84,76 +112,81 @@ export function InvestigationProgressConcept() {
               <FlaskConical />
             </span>
             <span className={styles.ideaIdentity}>
-              <strong>A calmer inbox for small clinics</strong>
+              <strong>{ideaTitle}</strong>
               <small>Investigation</small>
             </span>
           </div>
 
-          <div className={styles.previewControls} aria-label="Preview state">
-            <span>Concept view</span>
-            {(['running', 'ready', 'failed'] as const).map((state) => (
-              <button
-                type="button"
-                key={state}
-                className={preview === state ? styles.selectedPreview : undefined}
-                onClick={() => setPreview(state)}
-                aria-pressed={preview === state}
-              >
-                {state}
-              </button>
-            ))}
-          </div>
+          {onPreviewChange ? (
+            <div className={styles.previewControls} aria-label="Preview state">
+              <span>Concept view</span>
+              {(['running', 'ready', 'failed'] as const).map((state) => (
+                <button
+                  type="button"
+                  key={state}
+                  className={status === state ? styles.selectedPreview : undefined}
+                  onClick={() => onPreviewChange(state)}
+                  aria-pressed={status === state}
+                >
+                  {state}
+                </button>
+              ))}
+            </div>
+          ) : null}
         </header>
 
         <div className={styles.content}>
-          <section className={`${styles.statusLead} ${styles[preview]}`}>
+          <section className={`${styles.statusLead} ${styles[status]}`}>
             <span className={styles.statusIcon} aria-hidden="true">
-              {preview === 'running' ? (
+              {status === 'running' ? (
                 <Search />
-              ) : preview === 'ready' ? (
+              ) : status === 'ready' ? (
                 <FileCheck2 />
               ) : (
                 <AlertCircle />
               )}
             </span>
             <div>
-              <p>{copy.eyebrow}</p>
-              <h1>{copy.title}</h1>
-              <span>{copy.description}</span>
+              <p>{eyebrow}</p>
+              <h1>{title}</h1>
+              <span>{description}</span>
             </div>
-            {preview === 'ready' ? (
-              <button className={styles.primaryAction} type="button">
+            {status === 'ready' ? (
+              <Link className={styles.primaryAction} href={`/idea/investigate/${ideaId}`}>
                 Read investigation
                 <ArrowRight aria-hidden="true" />
-              </button>
-            ) : preview === 'failed' ? (
-              <button className={styles.primaryAction} type="button">
+              </Link>
+            ) : status === 'failed' && onRetry ? (
+              <button
+                className={styles.primaryAction}
+                type="button"
+                onClick={onRetry}
+                disabled={retrying}
+              >
                 <RefreshCw aria-hidden="true" />
-                Retry investigation
+                {retrying ? 'Retrying…' : 'Retry investigation'}
               </button>
             ) : null}
           </section>
 
           <section
-            className={`${styles.progressSurface} ${styles[preview]}`}
-            aria-label="Investigation progress concept"
+            className={`${styles.progressSurface} ${styles[status]}`}
+            aria-label="Investigation progress"
           >
             <div className={styles.progressMain}>
               <div className={styles.sectionHeading}>
                 <div>
                   <p>Research progress</p>
-                  <h2>
-                    {preview === 'ready' ? 'All checks complete' : 'What Groundwork is doing'}
-                  </h2>
+                  <h2>{status === 'ready' ? 'All checks complete' : 'What Groundwork is doing'}</h2>
                 </div>
-                {preview === 'running' ? (
+                {status === 'running' ? (
                   <span className={styles.liveLabel}>Working now</span>
                 ) : null}
               </div>
 
               <ol className={styles.phaseList}>
                 {phases.map((phase, index) => {
-                  const state = phaseState(index, preview);
+                  const state = phaseState(index, status, activePhaseIndex);
                   return (
                     <li className={styles[state]} key={phase}>
                       <span className={styles.marker}>
@@ -180,19 +213,19 @@ export function InvestigationProgressConcept() {
             </div>
 
             <div className={styles.creditNote}>
-              <span aria-hidden="true">{preview === 'failed' ? <ShieldCheck /> : <Coins />}</span>
+              <span aria-hidden="true">{status === 'failed' ? <ShieldCheck /> : <Coins />}</span>
               <div>
                 <strong>
-                  {preview === 'ready'
-                    ? '5 credits used'
-                    : preview === 'failed'
-                      ? '5 credits released'
-                      : '5 credits reserved'}
+                  {status === 'ready'
+                    ? `${reservedCredits} credits used`
+                    : status === 'failed'
+                      ? `${reservedCredits} credits released`
+                      : `${reservedCredits} credits reserved`}
                 </strong>
                 <p>
-                  {preview === 'running'
+                  {status === 'running'
                     ? 'Finalized only when the report is ready.'
-                    : preview === 'failed'
+                    : status === 'failed'
                       ? 'Nothing was charged for this run.'
                       : 'The investigation completed successfully.'}
                 </p>
@@ -205,10 +238,32 @@ export function InvestigationProgressConcept() {
               <ArrowLeft aria-hidden="true" />
               Return to Your ideas
             </Link>
-            {preview === 'running' ? <span>Last checked just now</span> : null}
+            {lastChecked ? <span>{lastChecked}</span> : null}
           </footer>
         </div>
       </main>
     </ProductShell>
+  );
+}
+
+export function InvestigationProgressConcept() {
+  const [preview, setPreview] = useState<InvestigationProgressStatus>('running');
+  const copy = previewCopy[preview];
+
+  return (
+    <InvestigationProgressView
+      ideaId="idea-03"
+      ideaTitle="A calmer inbox for small clinics"
+      status={preview}
+      eyebrow={copy.eyebrow}
+      title={copy.title}
+      description={copy.description}
+      activePhaseIndex={2}
+      reservedCredits={5}
+      availableCredits={10}
+      lastChecked={preview === 'running' ? 'Last checked just now' : undefined}
+      onRetry={() => setPreview('running')}
+      onPreviewChange={setPreview}
+    />
   );
 }

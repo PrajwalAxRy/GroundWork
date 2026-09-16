@@ -6,6 +6,7 @@ import {
   shapeSessionSchema,
 } from '@/lib/contracts/product';
 import { ideas } from '@/lib/fixtures/ideas';
+import { investigationJobs } from '@/lib/fixtures/jobs';
 import { shapeSessions } from '@/lib/fixtures/shapes';
 import { describe, expect, it } from 'vitest';
 
@@ -16,6 +17,10 @@ describe('product contracts', () => {
 
   it('accepts every Shape fixture', () => {
     expect(shapeSessions.map((shape) => shapeSessionSchema.parse(shape))).toHaveLength(2);
+  });
+
+  it('accepts every Investigation job fixture', () => {
+    expect(investigationJobs.map((job) => jobSchema.parse(job))).toHaveLength(3);
   });
 
   it('migrates the previous frozen Shape format', () => {

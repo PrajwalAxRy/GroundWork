@@ -1,6 +1,6 @@
 # Groundwork Design System
 
-Status: Product UI baseline approved through 2026-09-16. The **Your Ideas** and **Shape** directions are integrated and locked unless the user explicitly reopens them. Their source experiments are `/_experiments/idea-card-6/`, `/_experiments/shape-conversation`, and `/_experiments/shape-conversation_cards`.
+Status: Product UI baseline approved through 2026-09-16. The **Your Ideas**, **Shape**, and **Investigation Progress** directions are integrated and locked unless the user explicitly reopens them. Their source experiments include `/_experiments/idea-card-6/`, `/_experiments/shape-conversation`, `/_experiments/shape-conversation_cards`, and `/_experiments/investigation-progress`.
 
 ## Design Intent
 
@@ -212,6 +212,18 @@ Shape is a focused working surface, not a dashboard and not a form disguised as 
 - Below 860 pixels, place the supporting cards after the conversation rather than squeezing them beside it.
 - Below 620 pixels, compact the utility bar, reduce text labels on icon-led controls, stack the starter prompts, and use 16-pixel horizontal page margins.
 - Keep the composer reachable and visually primary. Do not let the supporting cards displace it or obscure messages when the keyboard is open.
+
+## Investigation Progress
+
+The approved Investigation Progress direction comes from `/_experiments/investigation-progress` and is integrated at `/idea/investigate/:ideaId/progress`.
+
+- Use a familiar tracking-page composition: one clear status lead followed by one continuous ordered progress surface.
+- Retain the compact Idea utility bar from focused Shape work, with a route back to **Your ideas**, the Idea title, and the **Investigation** label.
+- Show the six genuine research phases as one vertical connected sequence. Completed, active, waiting, and failed phases combine icon, copy, and semantic color.
+- Do not show a fake percentage, completion estimate, large animated progress illustration, activity-count panel, or dashboard-like metric grid.
+- Keep the reserved-credit outcome as a compact footer attached to the progress surface. Running, completed, and failed states respectively explain that credits are reserved, used, or released.
+- Running uses amber, ready uses cobalt, and failure uses rust. Ready and failed states change the status lead and primary action without rearranging the page.
+- On mobile, preserve the same order and single reading path. Hide secondary state labels before compressing or removing the phase names.
 
 ## Content and State Rules
 

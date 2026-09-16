@@ -6,6 +6,7 @@ import type { CreditBalance, Idea, ProductJob, ShapeSession } from '@/lib/contra
 import { mockProductService } from '@/lib/services/product-service';
 import { AlertCircle, ArrowLeft, MessageCircleMore, RotateCcw } from 'lucide-react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { useCallback, useEffect, useState } from 'react';
 import styles from './shape-conversation-experiment.module.css';
 
@@ -13,6 +14,7 @@ type LoadState = 'loading' | 'ready' | 'not_found' | 'error';
 type PendingAction = 'sending' | 'retrying' | 'accepting' | 'resuming' | 'starting' | null;
 
 export function ShapePageClient({ ideaId }: { ideaId: string }) {
+  const router = useRouter();
   const [loadState, setLoadState] = useState<LoadState>('loading');
   const [idea, setIdea] = useState<Idea | null>(null);
   const [session, setSession] = useState<ShapeSession | null>(null);
@@ -177,6 +179,7 @@ export function ShapePageClient({ ideaId }: { ideaId: string }) {
       setSession(result.session);
       setJob(result.job);
       setCreditBalance(result.creditBalance);
+      router.push(`/idea/investigate/${ideaId}/progress`);
       return true;
     } catch (error) {
       setActionError(

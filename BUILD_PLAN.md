@@ -15,7 +15,7 @@ This is the execution checklist for building the Groundwork website and product 
 
 ## Current Position
 
-The product foundations, approved visual system, production frontend foundation, **Your Ideas** page, and complete service-backed Shape prototype are implemented with typed mock behavior. Investigation Progress is the next component-design and implementation topic while final commercial credit decisions remain open.
+The product foundations, approved visual system, production frontend foundation, **Your Ideas**, complete service-backed Shape, and Investigation Progress are implemented with typed mock behavior. Investigation Report component experiments are next while final commercial credit decisions remain open.
 
 ## Phase 0: Product Foundation
 
@@ -162,17 +162,17 @@ The product foundations, approved visual system, production frontend foundation,
 
 ## Phase 7: Investigation Progress
 
-- [ ] Prototype genuine research stages without a fake percentage.
-- [ ] Show reserved credits while research is running.
-- [ ] Show background-safe navigation away from the page.
-- [ ] Show ready, failed, retryable, and credits-released outcomes.
-- [ ] Verify duplicate actions cannot create duplicate visible jobs.
-- [ ] Obtain desktop and mobile approval.
-- [ ] Build `/idea/investigate/:ideaId/progress` with typed mock jobs.
+- [x] Prototype genuine research stages without a fake percentage.
+- [x] Show reserved credits while research is running.
+- [x] Show background-safe navigation away from the page.
+- [x] Show ready, failed, retryable, and credits-released outcomes.
+- [x] Verify duplicate actions cannot create duplicate visible jobs.
+- [x] Obtain desktop and mobile approval.
+- [x] Build `/idea/investigate/:ideaId/progress` with typed mock jobs.
 
 ### Completion checkpoint
 
-- [ ] Every Investigation job state has a clear status, next action, and credit outcome.
+- [x] Every Investigation job state has a clear status, next action, and credit outcome.
 
 ## Phase 8: Investigation Report
 
@@ -300,4 +300,4 @@ The product foundations, approved visual system, production frontend foundation,
 
 ## Immediate Next Action
 
-- [ ] Begin the Investigation Progress experiment with genuine stages, reserved-credit messaging, ready, and failed outcomes.
+- [ ] Begin the Investigation Report verdict-header experiment.

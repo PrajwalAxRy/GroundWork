@@ -13,10 +13,10 @@ const experiments = [
     href: '/_experiments/investigation-progress',
     title: 'Investigation progress concept',
     description:
-      'A low-copy layout study for research progress, background-safe navigation, activity, and credit outcomes.',
+      'The approved tracking-page direction for genuine research phases, background-safe navigation, and credit outcomes.',
     area: 'Investigation',
-    status: 'Concept for review',
-    approved: false,
+    status: 'Approved direction',
+    approved: true,
     archived: false,
   },
   {

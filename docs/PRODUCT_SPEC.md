@@ -271,7 +271,7 @@ Display real phases instead of a fake percentage:
 5. Checking claims and sources
 6. Assembling the report
 
-The page may show truthful activity such as sources reviewed, sources retained, relevant competitors identified, and claims being cross-checked. Do not reveal unverified conclusions early.
+The approved progress page deliberately omits activity counts and metric panels. It uses one continuous six-phase tracking surface and a compact reserved-credit footer. Do not reveal unverified conclusions early.
 
 Research states include:
 

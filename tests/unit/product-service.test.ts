@@ -55,6 +55,21 @@ describe('Shape product service', () => {
     expect(await service.getCreditBalance()).toEqual({ available: 0, reserved: 10 });
   });
 
+  it('retries a failed Investigation without duplicating its reservation', async () => {
+    const service = createMemoryProductService();
+
+    const first = await service.retryInvestigation('idea-05');
+    const duplicate = await service.retryInvestigation('idea-05');
+
+    expect(first.job.state).toBe('queued');
+    expect(first.job.creditsReleased).toBe(false);
+    expect(duplicate.job.id).toBe(first.job.id);
+    expect(duplicate.creditBalance).toEqual({
+      available: PROTOTYPE_INITIAL_CREDITS - PROTOTYPE_INVESTIGATION_CREDITS,
+      reserved: PROTOTYPE_INVESTIGATION_CREDITS,
+    });
+  });
+
   it('defers current-evidence questions to Investigation', async () => {
     const service = createMemoryProductService();
     const question = 'Who are the current competitors and what is their pricing?';
