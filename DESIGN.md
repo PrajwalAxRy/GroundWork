@@ -1,6 +1,6 @@
 # Groundwork Design System
 
-Status: Initial visual system approved through 2026-09-16. The approved source experiment is `/_experiments/idea-card-6/`, using the Signal edge card direction.
+Status: Product UI baseline approved through 2026-09-16. The **Your Ideas** and **Shape** directions are integrated and locked unless the user explicitly reopens them. Their source experiments are `/_experiments/idea-card-6/`, `/_experiments/shape-conversation`, and `/_experiments/shape-conversation_cards`.
 
 ## Design Intent
 
@@ -8,11 +8,20 @@ Groundwork is a light-first, calm research workspace for people making consequen
 
 Premium quality comes from hierarchy, compact information design, readable typography, restrained color, and explicit states. Avoid decorative AI styling, generic card grids, excessive elevation, glass effects, and gamified scores.
 
+The product has two complementary spatial modes:
+
+- **Overview mode** uses the cool canvas, subtle field lines, and a centered content column to help users scan Ideas and identify the next action.
+- **Focused work mode** uses a cleaner paper surface, a compact Idea-level utility bar, and a primary working area so the interface recedes behind the task.
+
+Do not force every page into the dashboard composition. Preserve the shared shell, type, color, controls, and state vocabulary while allowing each workflow to use the layout that best supports its job.
+
 ## Visual Language
 
 The visual metaphor is a working research surface: cool paper, fine field lines, concise annotations, and a narrow signal that identifies the state requiring attention. Field-research references must remain subtle and functional.
 
 Use a restrained color strategy. Cobalt identifies primary actions and active or ready states. Amber identifies work in progress. Rust identifies failure or destructive actions. Every semantic color must be paired with text, an icon, or another non-color cue.
+
+Use familiar Lucide-style outline icons. Icons clarify navigation, state, or action; they are not decoration. In particular, use a conversation symbol for the Shape welcome state rather than a generic sparkle or magic symbol.
 
 ## Color Tokens
 
@@ -52,15 +61,47 @@ Do not use pure black or pure white. Keep inactive surfaces neutral and reserve 
 - Control radius: 7 to 8 pixels.
 - Status markers: circular.
 - Standard card shadow: `0 12px 32px oklch(0.255 0.028 242 / 0.065)`.
+- Shape supporting cards use shallower elevation: `0 8px 20px oklch(0.255 0.028 242 / 0.065)` for Working summary and `0 5px 14px oklch(0.255 0.028 242 / 0.045)` for Captured details.
 - Use 1-pixel cool-blue rules for structure.
 - Use varied spacing to establish rhythm. Dense controls may use 6 to 10 pixel gaps; card regions use 18 to 20 pixels; page sections use 36 to 64 pixels.
 - Avoid nested card styling. Secondary stage controls are quiet controls inside the entity card, not additional raised cards.
 
 ## Global Shell
 
-The authenticated top bar is 68 pixels tall on desktop and 60 pixels on mobile. It contains only the Groundwork logo, credit balance, and profile control. Use a paper surface, a single bottom rule, and sticky positioning.
+The authenticated top bar is 68 pixels tall on desktop and 60 pixels on mobile. It contains only the Groundwork logo, credit balance, and profile control. Use a paper surface, a single bottom rule, and sticky positioning. The logo returns to **Your Ideas**.
 
 The dashboard content width is at most 1040 pixels. The default desktop page padding is 64 pixels above and 96 pixels below. The background may use a very low-contrast 28-pixel horizontal field-line pattern.
+
+Idea-stage pages add a separate page-level utility bar below the global shell. It contains the back route, Idea identity, stage label, and only the status or utility controls relevant to that page. This bar must remain visually secondary to the global shell and must not grow into a sidebar or application-wide navigation system.
+
+## Your Ideas
+
+Status: approved and integrated.
+
+**Your Ideas** is an overview and re-entry surface, not a metrics dashboard. It uses the cool canvas and low-contrast horizontal field lines to create a calm working-set view.
+
+### Page composition
+
+- Use one centered column with a maximum width of 1040 pixels.
+- Open with a small cobalt kicker, a large **Your ideas** title, one short explanatory sentence, and the **New idea** primary action aligned opposite the heading on desktop.
+- Follow the heading with a quiet list summary: Idea count on the left, sorting context on the right, and one dark rule beneath.
+- Render Ideas as a single-column stack of wide cards with an 18-pixel gap. Do not introduce summary metrics, category tiles, or a second dashboard rail.
+- Keep **New idea** as the only strong page-level action. Card-level current actions may be emphasized, but secondary stage controls and overflow actions remain quiet.
+
+### Responsive behavior
+
+- At 720 pixels and below, reduce the outer page padding and allow the heading and action to share a compact two-column header.
+- Keep the title prominent at approximately 42 pixels rather than shrinking it into a standard toolbar heading.
+- Hide nonessential list metadata such as the sort label.
+- Reflow each Idea card structurally: the body spans the full card width, secondary stages stack at lower left, and the current action occupies a compact lower-right block.
+- Allow titles to wrap and clamp the Brief to two lines. Preserve the same order of attention: status and Idea, prior stages, current action.
+
+### Supporting states
+
+- Loading uses skeleton cards shaped like the final Signal edge cards.
+- The empty state teaches what kind of rough thought can become an Idea; it must not feel like an error or a promotional hero.
+- Load failures appear as an inline feedback surface with a direct retry action. Existing Ideas are described as unchanged.
+- Rename stays inline within the card. Delete requires explicit confirmation.
 
 ## Idea Card: Signal Edge
 
@@ -116,13 +157,49 @@ Status: approved, integrated, and visually complete as of 2026-09-16.
 
 The approved Shape direction is the conversation-first workspace from `/_experiments/shape-conversation`, with the **Quiet details** supporting-card treatment selected as card 11 in `/_experiments/shape-conversation_cards`.
 
-- Keep the conversation and persistent composer as the primary surface.
-- Keep **Review idea** inside the composer.
-- Use two embedded supporting cards rather than a dedicated side panel: **Working summary** is always visible and **Captured details** is collapsed by default.
-- The Working summary card uses a 14-pixel radius, a defined cool-blue border, a restrained soft shadow, a pale-cobalt layered icon, a compact uppercase label, and one readable paragraph. Its empty state has no status metadata or mock summary; it uses one muted instruction to continue chatting.
-- Captured details uses the same 14-pixel shape and icon vocabulary with a quieter shadow so the summary remains primary. Its empty state uses one muted instruction to continue chatting. Its expanded populated view is a plain label-and-value list with sentence-case bold labels, 13-pixel values, comfortable line height, and no count, preview text, status icons, or row dividers.
-- On desktop the card stack sits beside the conversation. On narrower screens it follows the conversation without displacing the composer as the primary action.
+Shape is a focused working surface, not a dashboard and not a form disguised as chat. Its canvas is plain paper without the dashboard field-line pattern.
+
+### Page composition
+
+- Place a 72-pixel Idea utility bar beneath the global shell on desktop. It contains **Your ideas**, a divider, the Idea icon and identity, the **Shape** stage label, and quiet draft, saved, or reset controls where applicable.
+- Use a desktop grid with a flexible conversation region and a 300 to 340-pixel supporting-card column. Keep the inter-column gap between 16 and 24 pixels.
+- Keep the conversation and persistent composer as the primary surface. The supporting cards are embedded aids, not a full-height side panel.
+- Keep **Review idea** inside the composer. It is secondary to sending a message and becomes available when there is conversation content.
+
+### New-Idea welcome state
+
+- Center a compact welcome composition within the conversation region, with a pale-cobalt conversation icon, a clear **Start discussing your idea** heading, short explanatory copy, and three starter prompts.
+- Starter prompts are familiar bordered controls, not decorative feature cards. On mobile they become one-column rows.
+- State the no-internet boundary in one quiet line below the prompts.
+- Do not use fake Idea content in the supporting cards. Working summary reads **Continue chatting to update this summary.** Captured details reads **Continue chatting to capture details.** Both lines use muted text.
+
+### Progressed conversation
+
+- Keep the readable transcript column at approximately 760 pixels.
+- Separate days with a small centered label and quiet horizontal rules.
+- User messages use one soft neutral bubble. Groundwork responses remain open on the paper surface with a small pale-cobalt avatar, avoiding a stack of competing chat bubbles.
+- Message labels are compact and semibold. Body copy uses 15-pixel text with generous line height.
+- The assistant contributes one useful observation or challenge and asks one main question at a time; the visual treatment should support that measured cadence.
+
+### Composer
+
+- Keep the composer sticky at the bottom of the conversation region and no wider than the transcript.
+- Use a 14-pixel radius, a defined cool-blue border, and a soft shadow. A cobalt focus ring appears only during input focus.
+- The textarea is visually open within the surface. Supporting guidance is quiet and may disappear on small screens.
+- Keep **Review idea** and Send together at the lower right. Send is the compact cobalt primary control; disabled states use neutral rules and muted ink.
+
+### Supporting Idea Brief
+
+- Use two embedded cards rather than a dedicated side panel: **Working summary** is always visible and **Captured details** is collapsed by default.
+- The Working summary card uses a 14-pixel radius, a defined cool-blue border, the stronger of the two restrained shadows, a pale-cobalt layered icon, a compact uppercase label, and one readable paragraph. Do not show update timestamps or waiting-status metadata in this compact card.
+- Captured details uses the same 14-pixel shape and icon vocabulary with a quieter shadow so the summary remains primary. Its expanded populated view is a plain label-and-value list with sentence-case bold labels, 13-pixel values, comfortable line height, and no count, preview text, status icons, or row dividers.
 - Structured provenance remains part of the data model and belongs in the focused **Review idea** experience, not the compact supporting card.
+
+### Responsive behavior
+
+- Below 860 pixels, place the supporting cards after the conversation rather than squeezing them beside it.
+- Below 620 pixels, compact the utility bar, reduce text labels on icon-led controls, stack the starter prompts, and use 16-pixel horizontal page margins.
+- Keep the composer reachable and visually primary. Do not let the supporting cards displace it or obscure messages when the keyboard is open.
 
 ## Content and State Rules
 
