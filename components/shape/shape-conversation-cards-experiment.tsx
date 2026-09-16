@@ -15,7 +15,7 @@ import { useState } from 'react';
 import styles from './shape-conversation-cards-experiment.module.css';
 
 type Variant = {
-  id: 'quiet' | 'soft' | 'document' | 'compact' | 'guided';
+  id: 'quiet' | 'hairline' | 'typeled' | 'tonal' | 'compact';
   number: string;
   name: string;
   description: string;
@@ -32,33 +32,33 @@ const variants: Variant[] = [
     note: 'Closest to the current direction',
   },
   {
-    id: 'soft',
+    id: 'hairline',
     number: '02',
-    name: 'Soft surfaces',
-    description: 'A warmer summary surface with a restrained blue detail card.',
-    note: 'Friendliest and most approachable',
+    name: 'Hairline',
+    description: 'No shadow, smaller icons, and a single crisp border around each card.',
+    note: 'Cleanest balance',
     recommended: true,
   },
   {
-    id: 'document',
+    id: 'typeled',
     number: '03',
-    name: 'Working document',
-    description: 'Crisper typography and flatter surfaces that feel more like a live brief.',
-    note: 'Most content-focused',
+    name: 'Type-led',
+    description: 'Icons disappear so the hierarchy comes entirely from type and spacing.',
+    note: 'Most minimal',
+  },
+  {
+    id: 'tonal',
+    number: '04',
+    name: 'Single tone',
+    description: 'Each card becomes one continuous surface with fewer internal rules.',
+    note: 'Softest visual weight',
   },
   {
     id: 'compact',
-    number: '04',
-    name: 'Compact utility',
-    description: 'Tighter controls and denser spacing for a smaller supporting rail.',
-    note: 'Best when chat needs more room',
-  },
-  {
-    id: 'guided',
     number: '05',
-    name: 'Guided progress',
-    description: 'A little more status context without turning the brief into a dashboard.',
-    note: 'Clearest sense of momentum',
+    name: 'Compact minimal',
+    description: 'The same quiet treatment with less height and tighter supporting text.',
+    note: 'Leaves the most room for chat',
   },
 ];
 
@@ -104,16 +104,12 @@ function CardPair({ variant }: { variant: Variant }) {
               <strong>Working summary</strong>
               <small>Updates as you talk</small>
             </span>
-            {variant.id === 'guided' && <span className={styles.liveState}>Live</span>}
           </header>
           <div className={styles.summaryBody}>
             <p>
               Help small clinics keep patient requests visible and owned without replacing the tools
               their staff already use.
             </p>
-            {variant.id === 'guided' && (
-              <span className={styles.summaryMeta}>Last updated from your latest answer</span>
-            )}
           </div>
         </section>
 
@@ -131,14 +127,6 @@ function CardPair({ variant }: { variant: Variant }) {
               <strong>Captured details</strong>
               <small>4 details captured</small>
             </span>
-            {variant.id === 'compact' && (
-              <span className={styles.detailMarks} aria-hidden="true">
-                <i />
-                <i />
-                <i />
-                <i />
-              </span>
-            )}
             <ChevronDown className={styles.chevron} aria-hidden="true" />
           </button>
 
@@ -178,12 +166,12 @@ export function ShapeConversationCardsExperiment() {
 
         <header className={styles.pageHeader}>
           <div>
-            <p className={styles.kicker}>Shape card study</p>
-            <h1>Five ways to present the evolving idea</h1>
+            <p className={styles.kicker}>Minimal card study</p>
+            <h1>Five quieter versions of the card stack</h1>
           </div>
           <p>
-            The information and interaction stay the same. Only hierarchy, density, surface, and
-            tone change.
+            Quiet stack remains the reference. Each option removes a different layer of visual
+            treatment while keeping the same information and interaction.
           </p>
         </header>
 
