@@ -702,14 +702,6 @@
   box-shadow: none;
 }
 
-.blocks .conceptSummary {
-  padding: 18px 20px 22px;
-}
-
-.blocks .conceptSummary > p {
-  margin-top: 28px;
-}
-
 .blocks .conceptDetails {
   background: var(--paper);
 }
@@ -758,6 +750,7 @@
   gap: 0;
 }
 
+.blocks .conceptSummary,
 .tucked .conceptSummary {
   position: relative;
   z-index: 2;
@@ -767,6 +760,7 @@
   box-shadow: 0 14px 32px oklch(0.255 0.028 242 / 0.085);
 }
 
+.blocks .conceptIcon,
 .tucked .conceptIcon {
   width: 30px;
   height: 30px;
@@ -774,12 +768,14 @@
   background: var(--pale-cobalt);
 }
 
+.blocks .conceptSummary > p,
 .tucked .conceptSummary > p {
   margin-top: 18px;
   font-size: 15px;
   line-height: 1.68;
 }
 
+.blocks .updated,
 .tucked .updated {
   color: var(--secondary-ink);
   font-weight: 650;
