@@ -113,31 +113,33 @@ The product foundations, approved visual system, production frontend foundation,
 
 - [x] New pages can be assembled from shared components and typed contracts without duplicating prototype code.
 
-## Phase 5: Shape Brief Review (deferred)
+## Phase 5: Shape Summary Review
 
 ### Experiment and approval
 
 - [x] Explore a dedicated Confirm Idea page; retain it only as a rejected development reference.
 - [x] Remove the unapproved side-brief experiment with the former Shape page.
 - [x] Resume Brief review design only after the new Shape page direction is approved.
-- [ ] Prototype the focused Idea Brief review modal over Shape.
-- [ ] Prototype editing for fields that are still allowed to change.
-- [ ] Prototype confirmed, uncertain, conflicting, and **Investigate this for me** states.
-- [ ] Prototype incomplete-but-allowed review behavior.
-- [ ] Define the transition from confirmed Brief to the separate paid Investigation-start action.
-- [ ] Capture desktop and mobile modal screenshots and obtain approval.
+- [x] Approve the lightweight **Review your idea** summary modal already integrated into Shape.
+- [x] Keep corrections and research deferrals in the conversation rather than adding field controls to the modal.
+- [x] Keep **Looks right**, **Keep shaping**, and the standard close control.
+- [x] Confirm that accepting the summary does not promote hidden field provenance or spend credits.
+- [x] Approve the reversible paused-review state: read-only transcript and Brief cards, with an Investigation handoff card replacing the composer.
+- [x] Define the handoff card as accepted summary, **Continue shaping**, and **Start investigation**.
 - [x] Record the rejection of a dedicated confirmation route in the product documents.
 
 ### Integration
 
-- [ ] Integrate the approved review modal into production Shape.
-- [ ] Preserve edits when a recoverable request fails.
+- [x] Integrate the approved lightweight review modal into production Shape.
+- [ ] Persist the accepted-summary state through the product service.
+- [ ] Preserve the conversation and accepted summary when confirmation fails.
+- [ ] Integrate the approved paused-review handoff card into production Shape.
 - [ ] Prevent duplicate paid-action submissions.
-- [ ] Freeze the Brief only when Investigation starts.
+- [ ] Distinguish the reversible paused-review state from permanent Brief freezing when Investigation starts.
 
 ### Completion checkpoint
 
-- [ ] A user can review a mock Brief without leaving Shape, resolve or defer uncertainties, and then explicitly start Investigation through a separate paid action.
+- [ ] A user can accept the current summary, pause Shape for review, resume shaping if needed, and then explicitly start Investigation through a separate paid action.
 
 ## Phase 6: Credits and Purchase Context
 

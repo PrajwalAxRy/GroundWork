@@ -2,11 +2,11 @@
 
 ## Status
 
-This specification supersedes the former dedicated Confirm Idea page. There is no production confirmation route; review happens inside `/idea/shape/:ideaId`.
+Approved and integrated into Shape. This lightweight modal supersedes both the former dedicated Confirm Idea page and proposals for a detailed field-by-field Brief editor.
 
 ## Purpose
 
-The Review Idea modal is the focused handoff inside Shape. It lets the user inspect and correct Groundwork's understanding without losing the conversation context or entering a separate page.
+The modal gives the user one calm checkpoint: confirm that Groundwork's current summary captures the Idea. It is not a second form and does not replace the Shape conversation as the place to correct or clarify the Idea.
 
 ## Entry Points
 
@@ -17,94 +17,70 @@ The Review Idea modal is the focused handoff inside Shape. It lets the user insp
 
 ## Required Data
 
-- Editable draft Idea Brief
-- Provenance and review status for each Brief field
-- Open research questions
-- Submission and recoverable save state
+- Current Idea summary
+- Whether the summary has been accepted
+- Pending or recoverable confirmation state when connected to the product service
+
+The complete structured Brief and field provenance remain stored outside the modal.
 
 ## Modal Contents
 
-The modal contains the Idea Brief only:
+- Title: **Review your idea**
+- Description: **Check what Groundwork understands before you move on.**
+- Label: **Idea summary**
+- The current Idea summary
 
-- Idea summary
-- Problem
-- Target customer
-- Buyer, if different
-- Proposed solution
-- Value proposition
-- Market or geography
-- Likely business model
-- Important assumptions
-- Questions to investigate
+The modal does not contain:
 
-Each field can be:
-
-- Confirmed
-- Groundwork's assumption
-- Investigate this for me
-
-The modal does not contain a report preview, a persistent research-summary sidebar, credit packs, or a full purchase surface.
+- Field-by-field Brief details
+- Editing controls
+- Provenance or status controls
+- **Investigate this for me** controls
+- Investigation scope or report preview
+- Credit cost, balance, or purchase controls
 
 ## Actions
 
-- Primary: **Confirm brief**
+- Primary: **Looks right**
 - Secondary: **Keep shaping**
 - Standard close control
 
-Confirming the Brief does not spend credits. The paid Investigation-start action is separate and must show scope, cost, balance, and failure protection before reserving credits.
-
 ## Interactions
 
-### Edit a field
+### Keep shaping or close
 
-- Selecting an editable field enables direct correction.
-- Saving a correction marks the value as confirmed unless the user deliberately defers it.
-- Editing the Brief does not rewrite the visible chat transcript.
+Return to the unchanged Shape conversation. The user corrects misunderstandings, supplies missing information, or asks Groundwork to investigate uncertainty through normal conversation.
 
-### Investigate this for me
+### Looks right
 
-- The user can mark an uncertain field or question for Investigation.
-- The item is added to the research scope.
-- Deliberate uncertainty is not styled as a validation error.
+1. Record that the user accepts the current Idea summary.
+2. Close the modal and return to Shape.
+3. Do not mark every hidden Brief field as confirmed.
+4. Do not freeze the Brief, reserve credits, or start Investigation.
 
-### Keep shaping
+The separate paid Investigation-start action must later show research scope, cost, balance, and failure protection before credits are reserved.
 
-Closing the modal returns to the unchanged editable conversation. All draft Brief changes are preserved.
+After acceptance, Shape enters a reversible **paused for review** state. The transcript and supporting cards remain visible but become read-only; the composer is replaced by a **Ready to investigate** card. The card contains the accepted summary, **Continue shaping**, and **Start investigation**. The latter opens the separate paid confirmation.
 
-### Confirm brief
-
-1. Validate that a minimally understandable Idea exists.
-2. Save the reviewed draft Brief.
-3. Close the modal and expose the next Investigation action.
-4. Do not freeze the Brief or reserve credits yet.
-
-The Brief and Shape conversation freeze only when the user separately confirms and starts the paid Investigation.
+If the user selects **Continue shaping** and materially changes the Idea, the accepted state becomes stale and the user should review the updated summary again before starting Investigation.
 
 ## Validation and Failure States
 
-- Unknown fields are allowed when marked for Investigation or acknowledged as unresolved.
-- If the core Idea is too empty to research, explain the minimum clarification needed and return focus to Shape.
-- A save failure preserves edits, keeps the modal open, and offers retry.
-- Closing and reopening the modal must not lose valid draft changes.
+- **Review idea** remains unavailable until enough conversation exists to produce a meaningful summary.
+- If summary confirmation fails, keep the modal open, preserve the conversation and summary, and offer retry.
+- Unknown and inferred Brief fields remain valid internal states; accepting the summary does not change their provenance.
 
 ## Accessibility and Responsive Behavior
 
-- Use an accessible modal with focus containment, Escape-to-close, labelled title and description, and focus restoration to **Review idea**.
-- On desktop, keep the Shape workspace visible behind the overlay.
-- On mobile, use a focused near-full-screen dialog with reachable actions and no narrow side-by-side layout.
-- Long Brief content scrolls inside the dialog while the actions remain reachable.
-
-## Prototype Scenarios
-
-1. Mostly confirmed Brief
-2. Several fields marked **Investigate this for me**
-3. Groundwork assumptions awaiting confirmation
-4. Incomplete but reviewable Brief
-5. Recoverable save failure
+- Use an accessible modal with focus containment, Escape-to-close, a labelled title and description, and focus restoration to **Review idea**.
+- Keep the Shape workspace visible behind the overlay on desktop.
+- Preserve the compact hierarchy on mobile with comfortable inset spacing and reachable actions.
+- The summary wraps naturally and the modal must not require horizontal scrolling.
 
 ## Out of Scope
 
 - Dedicated confirmation page
+- Detailed Brief editor
 - Credit-pack selection
 - Preliminary verdict
 - Live research results

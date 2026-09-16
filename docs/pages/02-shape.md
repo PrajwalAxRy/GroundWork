@@ -56,7 +56,7 @@ The approved supporting Brief uses two embedded cards:
 - **Working summary** is always visible and presents the current Idea in one concise paragraph.
 - **Captured details** is collapsed by default and expands into readable label-and-value groups.
 - The compact details view omits counts, preview text, status icons, and row dividers.
-- Full confirmed, inferred, suggested, unknown, and conflicting provenance remains available in **Review idea** rather than crowding the compact card.
+- Full confirmed, inferred, suggested, unknown, and conflicting provenance remains internal. Users correct or clarify Groundwork through the normal Shape conversation rather than crowding the compact card or lightweight **Review idea** modal.
 - On desktop the cards sit beside the conversation. On narrower screens they follow the conversation while the composer remains the primary reachable action.
 
 ### Composer
@@ -106,6 +106,18 @@ The user corrects misunderstandings through normal conversation. Groundwork then
 - **Review idea** is available.
 - The supporting Brief can continue updating.
 - The AI may suggest that the Idea is ready, but cannot force the transition.
+
+## Paused Review State
+
+After the user selects **Looks right** in the review modal:
+
+- Keep the conversation visible as a read-only transcript.
+- Keep Working summary and Captured details visible but read-only.
+- Replace the composer with a **Ready to investigate** card that repeats the accepted summary.
+- Provide **Continue shaping** to restore the composer and **Start investigation** to open the separate paid confirmation.
+- If the user resumes Shape and materially changes the Idea, mark the accepted summary stale and require review again before Investigation.
+
+This state is reversible and distinct from the permanently frozen state after Investigation begins.
 
 ## Frozen State
 

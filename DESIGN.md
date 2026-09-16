@@ -193,7 +193,18 @@ Shape is a focused working surface, not a dashboard and not a form disguised as 
 - Use two embedded cards rather than a dedicated side panel: **Working summary** is always visible and **Captured details** is collapsed by default.
 - The Working summary card uses a 14-pixel radius, a defined cool-blue border, the stronger of the two restrained shadows, a pale-cobalt layered icon, a compact uppercase label, and one readable paragraph. Do not show update timestamps or waiting-status metadata in this compact card.
 - Captured details uses the same 14-pixel shape and icon vocabulary with a quieter shadow so the summary remains primary. Its expanded populated view is a plain label-and-value list with sentence-case bold labels, 13-pixel values, comfortable line height, and no count, preview text, status icons, or row dividers.
-- Structured provenance remains part of the data model and belongs in the focused **Review idea** experience, not the compact supporting card.
+- Structured provenance remains part of the data model but is not exposed as field controls in the compact supporting cards or the lightweight review modal. Users correct Groundwork through conversation.
+
+### Review idea modal
+
+- The compact modal already integrated into Shape is the approved direction.
+- Show **Review your idea**, one sentence explaining that the user is checking Groundwork's understanding, and the current Idea summary.
+- Keep the modal intentionally small. Do not expand it into a field editor, status-management form, research-scope panel, or paid confirmation surface.
+- Use **Looks right** as the primary action and **Keep shaping** as the secondary action. The standard close control also returns to Shape.
+- On mobile, preserve the same compact hierarchy with comfortable inset spacing and reachable actions rather than turning the modal into a long full-screen form.
+- After **Looks right**, retain the transcript and supporting cards in a read-only state. Replace the composer, in the same conversation-column position, with one pale-cobalt **Ready to investigate** handoff card.
+- The handoff card contains a short explanation, the accepted summary, and adjacent **Continue shaping** and **Start investigation** actions. It is a focused transition surface, not another dashboard card or a purchase confirmation.
+- **Continue shaping** restores the normal composer. Permanent freezing occurs only after the separate Investigation-start confirmation.
 
 ### Responsive behavior
 

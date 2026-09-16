@@ -180,7 +180,7 @@ It may discuss likely categories and conceptual possibilities if clearly framed 
 
 Shape uses two compact supporting cards. **Working summary** remains visible and updates as the conversation develops. **Captured details** is collapsed by default and expands into a quiet, readable list of labels and values without counts, preview text, status icons, or row dividers. The cards sit beside the conversation on desktop and follow it on narrower screens.
 
-The structured Brief still stores confirmed information, inference, suggestions, conflicts, and unknowns. The compact card deliberately omits that provenance to remain scannable; the focused **Review idea** flow exposes the full field state when the user needs to inspect or correct it.
+The structured Brief still stores confirmed information, inference, suggestions, conflicts, and unknowns. The compact card deliberately omits that provenance to remain scannable. Users correct misunderstandings and identify uncertainties through the Shape conversation rather than through a field-by-field form.
 
 The supporting Brief updates after meaningful changes, normally every two or three turns. Groundwork must never promote inferred or suggested information into a confirmed state.
 
@@ -194,34 +194,21 @@ The assistant may suggest review when enough is known, but the user can select i
 
 Selecting **Review idea** opens a focused modal over Shape. It does not navigate to a dedicated confirmation page.
 
-The modal contains the Idea Brief only:
+The approved modal is a lightweight summary checkpoint. It contains:
 
-- Editable Idea summary
-- Problem
-- Target customer and buyer
-- Proposed solution
-- Market or geography
-- Business model
-- Important assumptions
-- Questions to investigate
+- Title: **Review your idea**
+- A short explanation that the user is checking Groundwork's understanding
+- The current Idea summary
 
-Each brief item can be:
+It does not expose the full structured Brief, field provenance, field editors, research-question controls, Investigation scope, report previews, or credit-purchase content. If the summary is wrong or incomplete, the user returns to the conversation and corrects Groundwork naturally.
 
-- Confirmed
-- Groundwork's assumption
-- Investigate this for me
-
-Use **Not sure, investigate this for me** instead of a vague Skip action. This distinguishes deliberate uncertainty from missing information.
-
-Suggested explanatory copy:
-
-> You do not need every answer yet. Mark anything you are unsure about, and Groundwork will investigate the possibilities before recommending a direction.
-
-Primary action: **Confirm brief**
+Primary action: **Looks right**
 
 Secondary action: **Keep shaping**
 
-Closing the modal returns to the unchanged Shape conversation. Confirming the Brief completes the review step but does not by itself spend credits.
+Closing the modal or selecting **Keep shaping** returns to the unchanged Shape conversation. Selecting **Looks right** records that the user accepts the current summary. It does not silently promote inferred, suggested, conflicting, or unknown Brief fields to confirmed status or spend credits.
+
+After **Looks right**, Shape enters a reversible **paused for review** state. The conversation remains visible as a read-only transcript, the Working summary and Captured details cards become read-only, and the composer is replaced by a focused Investigation handoff card. That card repeats the accepted summary and provides **Continue shaping** and **Start investigation**. **Continue shaping** restores the composer; a material change makes the accepted summary stale and requires review again. This is not the permanent Brief freeze, which occurs only after the user separately confirms and starts Investigation.
 
 Research scope, credit cost, current balance, and failure protection belong to the separate paid Investigation-start action. That action still requires explicit confirmation before credits are reserved. Its exact in-page placement remains to be designed.
 

@@ -25,17 +25,21 @@ This file separates locked product decisions from topics that still need discuss
 - The approved Shape direction is the conversation-first workspace from `/_experiments/shape-conversation`, using the **Quiet details** card treatment (card 11 from `/_experiments/shape-conversation_cards`).
 - The Shape UI design is complete and locked as of 2026-09-16. Do not reopen or replace the visual direction unless the user explicitly requests it.
 - The supporting Brief appears as two embedded cards beside the conversation on desktop and after it on narrower screens: **Working summary** is always visible, while **Captured details** is collapsed by default.
-- The compact Captured details card prioritizes readable labels and values without counts, preview text, status icons, or row dividers. Full provenance remains available in the focused **Review idea** flow.
+- The compact Captured details card prioritizes readable labels and values without counts, preview text, status icons, or row dividers. Full provenance remains internal; users correct or clarify details through conversation rather than a field-by-field review form.
 - **Review idea** remains inside the main composer rather than in the supporting cards.
 - Shape has no internet access.
 - Questions requiring live facts are explicitly deferred to Investigation and recorded for research.
 
 ### Confirmation and freezing
 
-- **Review idea** opens a focused Idea Brief modal over Shape; there is no dedicated confirmation page.
-- The review modal contains the Idea Brief rather than Investigation scope, report previews, or credit-purchase content.
-- Confirming the Brief does not itself spend credits. Investigation start remains a separate explicit paid action.
-- Users can mark uncertain fields as **Investigate this for me**.
+- **Review idea** opens the approved lightweight modal already present in Shape; there is no dedicated confirmation page or separate detailed review experiment.
+- The modal shows the current Idea summary only, with **Looks right**, **Keep shaping**, and the standard close control.
+- The modal does not expose field-by-field editing, provenance controls, research-question controls, Investigation scope, report previews, or credit-purchase content.
+- Corrections and uncertainty are handled through the normal Shape conversation. The assistant records questions requiring live facts for Investigation.
+- **Looks right** confirms the summary only. It does not promote inferred or unknown fields, spend credits, or begin Investigation.
+- After **Looks right**, Shape is paused for review: the transcript and supporting Brief cards are read-only, and the composer is replaced by a summary-led Investigation handoff card with **Continue shaping** and **Start investigation**.
+- **Continue shaping** reverses the paused state. The Brief becomes permanently frozen only when Investigation starts.
+- Investigation start remains a separate explicit paid action.
 - Investigation may proceed with unresolved questions, with appropriate confidence limitations.
 - The Brief freezes when Investigation starts.
 - Shape becomes a read-only transcript with no composer and no editable Brief.

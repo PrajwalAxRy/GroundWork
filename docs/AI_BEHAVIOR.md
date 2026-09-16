@@ -116,7 +116,7 @@ The final schema should cover at least:
 - Critical assumptions
 - Questions to investigate
 
-Every field needs a controlled status. The in-Shape Idea Brief review modal changes uncertain fields to a deliberate **Investigate this for me** state.
+Every field needs a controlled status. The lightweight in-Shape review modal confirms only that the current Idea summary looks right to the user. It must not convert inferred, suggested, conflicting, or unknown fields into confirmed facts. After acceptance, the conversation is paused for review but remains reversible through **Continue shaping**. Field corrections and requests to investigate uncertainty are captured through the Shape conversation.
 
 Once Investigation begins, the Idea Brief is immutable.
 

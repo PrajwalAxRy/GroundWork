@@ -83,6 +83,8 @@ The initial visual system and dashboard Idea card are approved and integrated on
 
 The Shape UI design is approved, integrated, and visually complete at `/idea/shape/new`. Treat this direction as locked unless the user explicitly reopens it. It uses the conversation-first workspace from `/_experiments/shape-conversation` and the **Quiet details** treatment selected as card 11 in `/_experiments/shape-conversation_cards`: Working summary stays visible, Captured details is collapsed by default, and Review idea remains in the composer. Existing-Idea loading, frozen transcripts, response failure, and research-deferral states remain implementation work, not open visual-design questions.
 
+The lightweight **Review your idea** modal already present in Shape is approved. It shows the current Idea summary with **Looks right** and **Keep shaping**. Do not replace it with a detailed Brief form or a new review experiment. Selecting **Looks right** will pause Shape for review: transcript and supporting cards become read-only, and the composer is replaced by a **Ready to investigate** card containing the accepted summary, **Continue shaping**, and **Start investigation**. This pause is reversible; permanent freezing begins only when Investigation starts. The separate paid confirmation opened by **Start investigation** remains to be designed.
+
 ## Important Prototype Requirements
 
 - Use realistic typed mock data that can later be replaced by real API responses.
