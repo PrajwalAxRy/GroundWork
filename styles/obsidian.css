@@ -607,8 +607,9 @@ body::before {
 
 .ob-hero {
   position: relative;
+  display: flex;
   padding-top: 180px;
-  padding-bottom: 120px;
+  padding-bottom: 72px;
   background: var(--ob-void);
   overflow: clip;
 }
@@ -668,6 +669,14 @@ body::before {
 .ob-hero-content {
   position: relative;
   z-index: 2;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  width: 100%;
+}
+
+.ob-hero-content > :last-child {
+  margin-top: auto;
 }
 
 /* Split hero: claim on the left, product loop on the right. The columns are
