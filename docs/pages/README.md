@@ -50,6 +50,7 @@ Important component explorations should also have development-only routes such a
 
 - `/_experiments/shape`
 - `/_experiments/shape-conversation`
+- `/_experiments/shape-conversation_cards`
 - `/_experiments/idea-card`
 - `/_experiments/verdict-header`
 - `/_experiments/competitor-card`

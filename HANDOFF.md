@@ -81,7 +81,7 @@ The frontend prototype should be reusable production-oriented code, not a dispos
 
 The initial visual system and dashboard Idea card are approved and integrated on the production frontend foundation. The production card uses the **Signal edge** direction from `/_experiments/idea-card-6/`.
 
-The previous Shape page, Shape experiment, Shape-specific styles, and screenshots were removed at the user's request. A placeholder remains at `/idea/shape/new`, reached from **New idea**. Two from-scratch prototypes are available for comparison: `/_experiments/shape` uses a calmer, familiar SaaS direction, while `/_experiments/shape-conversation` explores a conversation-first workspace with a compact right-side Idea Brief and persistent composer. Both are awaiting desktop and mobile approval before any production integration.
+The previous Shape page, Shape experiment, Shape-specific styles, and screenshots were removed at the user's request. A placeholder remains at `/idea/shape/new`, reached from **New idea**. Two from-scratch prototypes are available for comparison: `/_experiments/shape` uses a calmer, familiar SaaS direction, while `/_experiments/shape-conversation` explores a conversation-first workspace with embedded Working Summary and Captured Details cards plus a persistent composer. Supporting card treatments are being compared at `/_experiments/shape-conversation_cards`. These explorations are awaiting desktop and mobile approval before any production integration.
 
 ## Important Prototype Requirements
 

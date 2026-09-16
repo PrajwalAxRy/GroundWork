@@ -10,6 +10,16 @@ export const metadata: Metadata = {
 
 const experiments = [
   {
+    href: '/_experiments/shape-conversation_cards',
+    title: 'Shape: Idea Brief card iterations',
+    description:
+      'Five visual directions for the Working Summary and collapsible Captured Details cards.',
+    area: 'Shape components',
+    status: 'Comparison study',
+    approved: false,
+    archived: false,
+  },
+  {
     href: '/_experiments/shape-conversation',
     title: 'Shape: conversation workspace',
     description:
