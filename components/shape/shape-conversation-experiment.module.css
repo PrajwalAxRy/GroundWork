@@ -445,7 +445,7 @@
 .summaryCard {
   padding: 20px 20px 22px;
   border-color: oklch(0.82 0.02 242);
-  box-shadow: 0 14px 32px oklch(0.255 0.028 242 / 0.085);
+  box-shadow: none;
 }
 
 .detailsCard {

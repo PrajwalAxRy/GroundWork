@@ -807,6 +807,10 @@
   border-color: oklch(0.84 0.017 242);
 }
 
+.quietdetails .conceptSummary {
+  box-shadow: none;
+}
+
 .quietdetails .conceptToggle {
   min-height: 58px;
   padding: 12px 16px;
