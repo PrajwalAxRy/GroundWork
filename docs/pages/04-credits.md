@@ -12,7 +12,7 @@ Credits lets users understand their available balance and purchase enough credit
 ## Entry Points
 
 - Credit balance in the global top bar
-- **Add credits and investigate** from Confirm Idea
+- **Add credits and investigate** from the paid Investigation-start action after Brief review
 - Insufficient-credit state when building a Roadmap
 - Insufficient-credit state for another paid follow-up analysis
 
@@ -139,4 +139,3 @@ Disable the affected package with a clear explanation while leaving other packag
 - Subscription plans
 - Coupons or referral programs
 - Detailed transaction history unless later approved
-

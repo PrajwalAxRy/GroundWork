@@ -168,8 +168,8 @@ function Composer() {
     const trimmed = value.trim();
     if (!trimmed || submitting) return;
     setSubmitting(true);
-    const idea = await mockProductService.createIdea(trimmed);
-    router.push(`/ideas/${idea.id}/shape`);
+    await mockProductService.createIdea(trimmed);
+    router.push('/ideas');
   }
 
   function onKeyDown(event: React.KeyboardEvent<HTMLTextAreaElement>) {

@@ -20,7 +20,6 @@ import {
   LockKeyhole,
   MoreHorizontal,
 } from 'lucide-react';
-import { useRouter } from 'next/navigation';
 import { type FormEvent, useEffect, useRef, useState } from 'react';
 
 type Preview = 'populated' | 'empty' | 'loading' | 'error';
@@ -59,7 +58,6 @@ function StageMarker({ stage, index }: { stage: Stage; index: number }) {
 }
 
 export function IdeasPageClient({ initialPreview = 'populated' }: { initialPreview?: Preview }) {
-  const router = useRouter();
   const [ideas, setIdeas] = useState<Idea[]>([]);
   const [preview, setPreview] = useState<Preview>(initialPreview);
   const [composerOpen, setComposerOpen] = useState(false);
@@ -92,7 +90,9 @@ export function IdeasPageClient({ initialPreview = 'populated' }: { initialPrevi
   function openStage(idea: Idea, stage: Stage) {
     if (stage.state === 'locked') return;
     if (stage.key === 'shape') {
-      router.push(`/ideas/${idea.id}/shape`);
+      setFeedback(
+        `Shape for “${idea.title}” is unavailable while that page is rebuilt from scratch.`,
+      );
       return;
     }
     setFeedback(`${stage.action} will connect when its page is built in the next prototype phase.`);
@@ -103,8 +103,11 @@ export function IdeasPageClient({ initialPreview = 'populated' }: { initialPrevi
     const form = new FormData(event.currentTarget);
     const thought = String(form.get('idea') ?? '').trim();
     if (!thought) return;
-    const idea = await mockProductService.createIdea(thought);
-    router.push(`/ideas/${idea.id}/shape`);
+    await mockProductService.createIdea(thought);
+    setIdeas(await mockProductService.listIdeas());
+    setPreview('populated');
+    setComposerOpen(false);
+    setFeedback('Idea saved. Shape will be available after its page is rebuilt.');
   }
 
   async function renameIdea(event: FormEvent<HTMLFormElement>, ideaId: string) {

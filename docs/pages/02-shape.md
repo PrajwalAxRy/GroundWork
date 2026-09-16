@@ -13,7 +13,7 @@ Shape is the free cofounder conversation where a rough thought becomes a clearer
 - **Start shaping** from Your Ideas
 - **Continue shaping** from an Idea card
 - Completed Shape control for a frozen Idea
-- **Continue shaping the idea** from Confirm Idea
+- Closing or returning from the in-page Idea Brief review modal
 
 ## Required Data
 
@@ -48,20 +48,9 @@ The cofounder should normally:
 2. Add a useful observation, suggestion, alternative, or constructive challenge.
 3. Ask no more than one main question.
 
-### Idea Summary
+### Supporting Idea Brief
 
-On desktop, show one floating or sticky summary panel containing:
-
-- One-sentence Idea
-- Target user
-- Problem
-- Proposed solution
-- Likely business model
-- Primary uncertainty
-
-Inferred or suggested information must be visibly distinguished from confirmed information.
-
-On mobile, use a collapsible **Current idea** panel rather than a permanently visible second column.
+The page must help the user understand the current Idea and distinguish confirmed information from inferred, suggested, unknown, or conflicting content. The exact desktop layout, mobile treatment, and component structure are intentionally open for the future from-scratch Shape redesign.
 
 ### Composer
 
@@ -80,7 +69,7 @@ The user may also end naturally by telling the assistant they are done.
 1. Preserve the user's text immediately in the conversation.
 2. Disable duplicate sends while the same request is pending.
 3. Show the cofounder response when ready.
-4. Update the Idea Summary after meaningful changes, normally every two or three turns.
+4. Update the supporting Idea Brief after meaningful changes, normally every two or three turns.
 
 ### Defer research questions
 
@@ -94,9 +83,11 @@ Shape itself has no internet access.
 
 ### Review the Idea
 
-Selecting **Review idea** opens Confirm Idea. It is always available and does not require every Brief field to be answered.
+Selecting **Review idea** opens a focused modal over Shape containing the Idea Brief. It does not navigate to another page. Review is always available and does not require every Brief field to be answered.
 
 When important information is missing, explain that the user may continue shaping or allow Investigation to explore the uncertainty.
+
+Confirming the Brief completes review but does not spend credits. Investigation start and its credit confirmation remain a separate explicit action.
 
 ### Correct an assistant misunderstanding
 
@@ -106,7 +97,7 @@ The user corrects misunderstandings through normal conversation. Groundwork then
 
 - Conversation composer is available.
 - **Review idea** is available.
-- Idea Summary can continue updating.
+- The supporting Brief can continue updating.
 - The AI may suggest that the Idea is ready, but cannot force the transition.
 
 ## Frozen State
@@ -115,7 +106,7 @@ After Investigation starts:
 
 - Show the full chat as a read-only transcript.
 - Remove the composer.
-- Disable Brief and Summary editing.
+- Disable Brief editing.
 - Show a notice: **This Idea was frozen when Investigation began.**
 - Allow navigation to Investigation and Roadmap through the appropriate stage controls or page links.
 - Material changes must start a new Idea rather than alter this one.
@@ -146,13 +137,13 @@ Use message and summary skeletons.
 ## Mobile Behavior
 
 - Keep the conversation as the primary surface.
-- Move Idea Summary into a collapsible panel.
+- Preserve the same information hierarchy selected during the future approved desktop and mobile experiments.
 - Keep the composer reachable when the on-screen keyboard is open.
 - Ensure **Review idea** remains available without obscuring messages.
 
 ## Prototype Scenarios
 
-1. Early conversation with a sparse Summary
+1. Early conversation with a sparse Brief
 2. Developed conversation with inferred and confirmed fields
 3. User asks for live competitor research and the assistant defers it
 4. Assistant response failure with retry
@@ -162,8 +153,6 @@ Use message and summary skeletons.
 
 - Internet search
 - Inline sources
-- Multiple summary cards
 - Answered and unanswered-question sidebars
 - Preliminary verdict
 - Voice or file uploads in the first prototype
-

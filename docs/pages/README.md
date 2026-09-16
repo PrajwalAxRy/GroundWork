@@ -21,7 +21,7 @@ An AI building the prototype should read, in order:
 
 1. [Your Ideas](01-your-ideas.md)
 2. [Shape](02-shape.md)
-3. [Confirm Idea](03-confirm-idea.md)
+3. [Review Idea modal](03-confirm-idea.md)
 4. [Credits](04-credits.md)
 5. [Investigation Progress](05-investigation-progress.md)
 6. [Investigation Report](06-investigation-report.md)
@@ -36,7 +36,6 @@ These routes are recommendations for a clickable prototype and may be adapted to
 |---|---|
 | Your Ideas | `/ideas` |
 | Shape | `/ideas/:ideaId/shape` |
-| Confirm Idea | `/ideas/:ideaId/confirm` |
 | Credits | `/credits` |
 | Contextual credit purchase | `/credits?for=investigation&idea=:ideaId` or `/credits?for=roadmap&idea=:ideaId` |
 | Investigation Progress | `/ideas/:ideaId/investigation/progress` |
@@ -44,10 +43,11 @@ These routes are recommendations for a clickable prototype and may be adapted to
 | Roadmap Progress | `/ideas/:ideaId/roadmap/progress` |
 | Roadmap | `/ideas/:ideaId/roadmap` |
 
+The Shape route above is reserved by the product specification but is intentionally not implemented. Its future design must begin with a new experiment.
+
 Important component explorations should also have development-only routes such as:
 
 - `/_experiments/idea-card`
-- `/_experiments/shape-summary`
 - `/_experiments/verdict-header`
 - `/_experiments/competitor-card`
 - `/_experiments/risk-matrix`

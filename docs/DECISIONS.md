@@ -21,14 +21,16 @@ This file separates locked product decisions from topics that still need discuss
 - Maximum one main question per response.
 - It uses prior answers and actively offers suggestions.
 - Users can finish early.
-- The UI has one Idea Summary card, not separate answered and open-question cards.
-- The summary updates after meaningful changes, normally every two or three turns.
+- The supporting Brief updates after meaningful changes, normally every two or three turns.
+- The previous Shape UI implementation was removed. Its layout, side-brief treatment, and responsive behavior are reopened for a future from-scratch design.
 - Shape has no internet access.
 - Questions requiring live facts are explicitly deferred to Investigation and recorded for research.
 
 ### Confirmation and freezing
 
-- A dedicated confirmation screen appears before Investigation.
+- **Review idea** opens a focused Idea Brief modal over Shape; there is no dedicated confirmation page.
+- The review modal contains the Idea Brief rather than Investigation scope, report previews, or credit-purchase content.
+- Confirming the Brief does not itself spend credits. Investigation start remains a separate explicit paid action.
 - Users can mark uncertain fields as **Investigate this for me**.
 - Investigation may proceed with unresolved questions, with appropriate confidence limitations.
 - The Brief freezes when Investigation starts.
@@ -111,10 +113,7 @@ This file separates locked product decisions from topics that still need discuss
 - Manrope is the approved heading and compact-title family. DM Sans is the approved body, label, and control family, with system sans-serif fallbacks.
 - Semantic states always combine color with copy, icons, disabled semantics, or progress indicators.
 - Important unapproved components must continue through development-only experiments before production integration.
-- The approved Shape direction is the cofounder workspace demonstrated at `/_experiments/shape-summary/`: open Groundwork prose and quieter right-aligned user messages keep the conversation primary, while one divided **Current idea** panel acts as a live working brief.
-- On desktop, the Current idea panel is sticky beside the conversation. On mobile, it becomes a collapsible panel above the conversation.
-- Shape field provenance is always explicit in both label and treatment: confirmed, Groundwork inferred, Groundwork suggested, unknown, or needs resolving.
-- **Review idea** remains visible beside the desktop composer and beneath it on mobile. Review readiness and recoverable failures use inline notices rather than modal interruptions.
+- Shape has no current approved visual direction or production page. A future implementation must begin with a new experiment and approval cycle.
 
 ### Production frontend foundation
 
@@ -128,7 +127,11 @@ This file separates locked product decisions from topics that still need discuss
 
 ## Superseded or Rejected Directions
 
+- A dedicated Confirm Idea page or `/ideas/:ideaId/confirm` production route
+- The former cofounder-workspace Shape page and its divided Current idea panel
+- The unapproved two-card Shape side-brief exploration
 - Multiple floating cards for answered and unanswered questions in Shape
+- One large divided Shape summary card showing confirmed, inferred, suggested, unknown, and conflicting fields together
 - A visible form-like questionnaire for Shape
 - Preliminary free verdict
 - Numeric potential score
@@ -167,6 +170,7 @@ This file separates locked product decisions from topics that still need discuss
 - Introductory credits or trial behavior
 - Exact discount amounts and eligibility rules for follow-up analyses
 - Free-chat abuse controls
+- Exact placement of the paid Investigation-start confirmation after the Brief review modal
 
 ### Onboarding
 
@@ -176,6 +180,7 @@ This file separates locked product decisions from topics that still need discuss
 
 ### Visual system
 
+- Shape page composition, conversation treatment, side brief, composer, and responsive behavior
 - Long-form report composition and responsive section rhythm
 - Verdict, competitor detail, risk visualization, and Roadmap overview treatments
 - Illustration and generated-media usage

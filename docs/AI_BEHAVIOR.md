@@ -116,7 +116,7 @@ The final schema should cover at least:
 - Critical assumptions
 - Questions to investigate
 
-Every field needs a controlled status. The confirmation screen changes uncertain fields to a deliberate **Investigate this for me** state.
+Every field needs a controlled status. The in-Shape Idea Brief review modal changes uncertain fields to a deliberate **Investigate this for me** state.
 
 Once Investigation begins, the Idea Brief is immutable.
 
@@ -277,4 +277,3 @@ The following are not yet locked:
 - [OpenAI Structured Outputs](https://developers.openai.com/api/docs/guides/structured-outputs)
 - [OpenAI web search](https://developers.openai.com/api/docs/guides/tools-web-search)
 - [OpenAI background mode](https://developers.openai.com/api/docs/guides/background)
-

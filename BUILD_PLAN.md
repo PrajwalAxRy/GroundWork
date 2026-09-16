@@ -15,7 +15,7 @@ This is the execution checklist for building the Groundwork website and product 
 
 ## Current Position
 
-The product foundations, approved visual system, production frontend foundation, **Your Ideas** page, and complete mock-data **Shape** experience are implemented. The next phase is the Confirm Idea experiment and approval.
+The product foundations, approved visual system, production frontend foundation, and **Your Ideas** page are implemented. The previous Shape page and its experiments were removed at the user's request so a future Shape experience can be designed from scratch.
 
 ## Phase 0: Product Foundation
 
@@ -75,34 +75,25 @@ The product foundations, approved visual system, production frontend foundation,
 - [x] The mock-data Your Ideas frontend page is complete and approved.
 - [ ] The Your Ideas page is connected to production services.
 
-## Phase 3: Shape Conversation and Idea Summary
+## Phase 3: Shape Conversation
 
-### Experiment
+### Current status
 
-- [x] Create `/_experiments/shape-summary/`.
-- [x] Build realistic user and assistant message variants.
-- [x] Design the composer, sending state, retry state, and preserved-draft behavior.
-- [x] Design the desktop floating Idea Summary.
-- [x] Design the mobile summary sheet or focused summary view.
-- [x] Show confirmed, inferred, suggested, unknown, and conflicting field states.
-- [x] Demonstrate summary updates without distracting from the conversation.
-- [x] Demonstrate current-fact questions being deferred to Investigation.
-- [x] Demonstrate the **Review idea** transition.
-- [x] Capture desktop and mobile screenshots.
-- [x] Obtain user approval.
-- [x] Record accepted additions in `DESIGN.md` and `docs/DECISIONS.md`.
+- [x] Remove the previous production Shape route, experiment route, component styling, and screenshots.
+- [x] Keep the functional product and AI requirements for a later rebuild.
+- [x] Prevent dashboard and marketing entry points from navigating to a missing page.
 
-### Integration
+### Future rebuild
 
-- [x] Build the `/ideas/:ideaId/shape` page with typed mock data.
-- [x] Restore the conversation and draft after reload in the prototype data layer.
-- [x] Remove the composer and make the transcript read-only for frozen Ideas.
-- [x] Add page-level navigation back to **Your ideas**.
-- [x] Verify keyboard navigation, long messages, narrow screens, and reduced motion.
+- [ ] Reopen Shape visual design from a blank implementation.
+- [ ] Create a new development-only Shape experiment.
+- [ ] Obtain desktop and mobile approval before production integration.
+- [ ] Rebuild `/ideas/:ideaId/shape` from the approved direction.
+- [ ] Restore conversation, draft, frozen-transcript, failure, and research-deferral states.
 
 ### Completion checkpoint
 
-- [x] A user can shape a mock Idea from the first message through review readiness.
+- [ ] A newly approved Shape experience is implemented and verified.
 
 ## Phase 4: Production Frontend Foundation
 
@@ -114,35 +105,37 @@ The product foundations, approved visual system, production frontend foundation,
 - [x] Add a replaceable mock service boundary for every page.
 - [x] Add route-level loading and recoverable error handling.
 - [x] Add automated formatting, linting, type checking, and tests.
-- [x] Migrate the approved Your Ideas and Shape surfaces without changing their accepted design.
+- [x] Migrate the approved Your Ideas surface; the former Shape migration was later removed.
 
 ### Completion checkpoint
 
 - [x] New pages can be assembled from shared components and typed contracts without duplicating prototype code.
 
-## Phase 5: Confirm Idea
+## Phase 5: Shape Brief Review (deferred)
 
 ### Experiment and approval
 
-- [x] Prototype the frozen Idea Brief review layout.
-- [x] Prototype editing for fields that are still allowed to change.
-- [x] Prototype confirmed, uncertain, conflicting, and **Investigate this for me** states.
-- [x] Prototype incomplete-but-allowed confirmation behavior.
-- [x] Prototype the Investigation credit confirmation area without inventing final prices.
-- [x] Capture desktop and mobile screenshots.
-- [ ] Obtain user approval.
-- [ ] Update `DESIGN.md` and the decision/specification files if approval changes behavior.
+- [x] Explore a dedicated Confirm Idea page; retain it only as a rejected development reference.
+- [x] Remove the unapproved side-brief experiment with the former Shape page.
+- [ ] Resume Brief review design only after the new Shape page direction is approved.
+- [ ] Prototype the focused Idea Brief review modal over Shape.
+- [ ] Prototype editing for fields that are still allowed to change.
+- [ ] Prototype confirmed, uncertain, conflicting, and **Investigate this for me** states.
+- [ ] Prototype incomplete-but-allowed review behavior.
+- [ ] Define the transition from confirmed Brief to the separate paid Investigation-start action.
+- [ ] Capture desktop and mobile modal screenshots and obtain approval.
+- [x] Record the rejection of a dedicated confirmation route in the product documents.
 
 ### Integration
 
-- [ ] Build `/ideas/:ideaId/confirm`.
+- [ ] Integrate the approved review modal into production Shape.
 - [ ] Preserve edits when a recoverable request fails.
 - [ ] Prevent duplicate paid-action submissions.
 - [ ] Freeze the Brief only when Investigation starts.
 
 ### Completion checkpoint
 
-- [ ] A user can review a mock Brief, resolve or defer uncertainties, and explicitly start Investigation.
+- [ ] A user can review a mock Brief without leaving Shape, resolve or defer uncertainties, and then explicitly start Investigation through a separate paid action.
 
 ## Phase 6: Credits and Purchase Context
 
@@ -300,4 +293,4 @@ The product foundations, approved visual system, production frontend foundation,
 
 ## Immediate Next Action
 
-- [ ] Review and approve the development-only Confirm Idea experiment before integrating `/ideas/:ideaId/confirm`.
+- [ ] Leave Shape unimplemented until the user explicitly begins the from-scratch rebuild.

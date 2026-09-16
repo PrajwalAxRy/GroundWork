@@ -221,8 +221,8 @@ function ResearchSummary({
           'Confirm and investigate'
         )}
       </button>
-      <Link className="confirm-secondary-action" href="/ideas/idea-01/shape">
-        Continue shaping the idea
+      <Link className="confirm-secondary-action" href="/ideas">
+        Return to your ideas
       </Link>
     </aside>
   );
@@ -289,9 +289,9 @@ export function ConfirmIdeaExperiment() {
     <ProductShell credits={scenario.balance}>
       <main className="confirm-page">
         <header className="confirm-page-header">
-          <Link href="/ideas/idea-01/shape" className="confirm-back-link">
+          <Link href="/ideas" className="confirm-back-link">
             <ChevronLeft aria-hidden="true" />
-            Back to Shape
+            Back to your ideas
           </Link>
           <div className="confirm-heading-row">
             <div>

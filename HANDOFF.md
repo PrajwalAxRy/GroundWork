@@ -40,8 +40,8 @@ The following have been discussed and recorded in detail:
 
 - Audience, positioning, and commercial intent
 - Shape conversation behavior
-- Hidden Idea Brief and Summary card
-- Idea confirmation screen
+- Hidden Idea Brief requirements
+- In-Shape Idea Brief review modal
 - Brief freezing and read-only Shape history
 - Investigation purchase and credit reservation
 - Background research progress
@@ -79,9 +79,9 @@ The frontend prototype should be reusable production-oriented code, not a dispos
 
 ## Immediate Next Topic
 
-The initial visual system, dashboard Idea card, and Shape conversation with Current idea summary are approved and integrated on the production frontend foundation. The production card uses the **Signal edge** direction from `/_experiments/idea-card-6/`. The approved Shape direction is demonstrated at `/_experiments/shape-summary/`. `DESIGN.md` records both component directions and their responsive behavior.
+The initial visual system and dashboard Idea card are approved and integrated on the production frontend foundation. The production card uses the **Signal edge** direction from `/_experiments/idea-card-6/`.
 
-Continue with Phase 5 in `BUILD_PLAN.md`: review the completed development-only Confirm Idea experiment at `/_experiments/confirm-idea`, including its desktop and mobile screenshots and alternate preview states. Obtain user approval before integrating the production route.
+The previous Shape page, Shape experiment, Shape-specific styles, and screenshots were removed at the user's request. Shape must remain unimplemented until the user explicitly starts a from-scratch redesign. Its functional product and AI requirements remain documented for that future work.
 
 ## Important Prototype Requirements
 
@@ -108,8 +108,8 @@ Consult `docs/DECISIONS.md` for the complete open-decision list.
 
 ## Repository State
 
-This repository is now the canonical Groundwork application. It uses a Next.js 16 App Router, React 19, strict TypeScript, Tailwind CSS 4, Radix primitives, Zod contracts, Biome, and Vitest. The copied marketing surface, integrated Your Ideas and Shape experiences, local mock-service boundary, persisted Ideas/conversations/drafts, and approved experiment routes all live here. `ARCHITECTURE.md` defines the production frontend boundaries. The sibling landing-page folder remains an untouched reference and is not the application workspace.
+This repository is now the canonical Groundwork application. It uses a Next.js 16 App Router, React 19, strict TypeScript, Tailwind CSS 4, Radix primitives, Zod contracts, Biome, and Vitest. The copied marketing surface, integrated Your Ideas experience, local mock-service boundary, and approved Idea-card experiment live here. Shape contracts and mock data remain, but no Shape page is implemented. `ARCHITECTURE.md` defines the production frontend boundaries. The sibling landing-page folder remains an untouched reference and is not the application workspace.
 
 ## Suggested Prompt for the New Chat
 
-> Read `AGENTS.md` and `HANDOFF.md`, then read every source-of-truth document they reference, including `DESIGN.md` and `BUILD_PLAN.md`. Do not reopen locked product decisions. Continue with Phase 5 by prototyping the Confirm Idea review experience at a development-only route and obtain approval before production integration.
+> Read `AGENTS.md` and `HANDOFF.md`, then read every source-of-truth document they reference, including `DESIGN.md` and `BUILD_PLAN.md`. Do not rebuild Shape until the user explicitly asks to begin its from-scratch design process.

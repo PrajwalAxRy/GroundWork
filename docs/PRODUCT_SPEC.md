@@ -176,20 +176,11 @@ When a user asks for current competitors, market sizes, revenue, pricing, curren
 
 It may discuss likely categories and conceptual possibilities if clearly framed as hypotheses.
 
-### Idea Summary card
+### Supporting Idea Brief
 
-Shape has one floating summary card on desktop. It contains only:
+Shape must help the user understand the current Idea and distinguish confirmed information from inference, suggestions, conflicts, and unknowns. The exact presentation, layout, and responsive treatment are intentionally open for the future from-scratch Shape redesign.
 
-- One-sentence Idea summary
-- Target user
-- Problem
-- Proposed solution
-- Likely business model
-- Primary uncertainty
-
-It updates after meaningful changes, normally every two or three turns. Inferred information is labeled until confirmed.
-
-On mobile, this becomes a collapsible **Current idea** panel.
+The supporting Brief updates after meaningful changes, normally every two or three turns. Groundwork must never promote inferred or suggested information into a confirmed state.
 
 ### Ending Shape
 
@@ -197,11 +188,11 @@ The persistent action is **Review idea**, not **Finish chat**.
 
 The assistant may suggest review when enough is known, but the user can select it at any time. Unanswered matters do not block Investigation. Groundwork explains that unresolved details may reduce confidence and can be explored during research.
 
-## 4. Idea Brief Confirmation
+## 4. Idea Brief Review
 
-Before credits are spent, show a dedicated, focused confirmation screen.
+Selecting **Review idea** opens a focused modal over Shape. It does not navigate to a dedicated confirmation page.
 
-The page contains:
+The modal contains the Idea Brief only:
 
 - Editable Idea summary
 - Problem
@@ -224,11 +215,13 @@ Suggested explanatory copy:
 
 > You do not need every answer yet. Mark anything you are unsure about, and Groundwork will investigate the possibilities before recommending a direction.
 
-Primary action: **Confirm and investigate**
+Primary action: **Confirm brief**
 
-Secondary action: **Continue shaping the idea**
+Secondary action: **Keep shaping**
 
-The screen also shows research scope, unresolved questions, credit cost, and current credit balance.
+Closing the modal returns to the unchanged Shape conversation. Confirming the Brief completes the review step but does not by itself spend credits.
+
+Research scope, credit cost, current balance, and failure protection belong to the separate paid Investigation-start action. That action still requires explicit confirmation before credits are reserved. Its exact in-page placement remains to be designed.
 
 ## 5. Brief Freeze
 

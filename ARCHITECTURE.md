@@ -47,12 +47,13 @@ Feature components may compose shared primitives, but shared primitives must not
 | --- | --- |
 | `/` | Groundwork marketing page and new-Idea entry |
 | `/ideas` | Your Ideas dashboard |
-| `/ideas/[ideaId]/shape` | Shape conversation and current Idea summary |
 | `/credits` | Intentional placeholder until commercial decisions are locked |
 | `/preview/[slug]` | Marketing media preview |
 | `/_experiments/*` | Development-only review surfaces; never a production product path |
 
 Future product routes follow `docs/pages/README.md` and live under `app/(product)/ideas/[ideaId]/`.
+
+The Shape production route and its experiment are intentionally absent. Its contracts, fixtures, and service methods remain available for a future from-scratch rebuild.
 
 ## Data and trust boundaries
 
