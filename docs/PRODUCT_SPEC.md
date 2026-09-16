@@ -57,13 +57,20 @@ Each card contains:
 
 - Editable Idea title
 - Brief limited to roughly two lines
-- Shape, Investigate, and Roadmap controls
-- One emphasized current action, with the other two stages presented as quieter secondary controls
+- One emphasized current action
 - Overflow actions for rename and delete
 
 The collapsed dashboard card does not show verdict or last-updated metadata. Those values may remain available in the underlying Idea data for report context and dashboard sorting.
 
 The card itself is not one large click target because it contains distinct stage controls.
+
+The dashboard deliberately collapses the detailed stage machinery into three user-facing actions:
+
+- **Continue shaping** for an editable Idea
+- **Review idea** when its Brief is ready or the Idea still needs attention before a Roadmap exists
+- **View roadmap** when its Roadmap is ready
+
+Research progress, failure recovery, credit status, and other granular job states belong on their relevant detail pages, not on the dashboard card.
 
 Example:
 
@@ -73,36 +80,16 @@ Eco-friendly cutlery for events
 Compostable branded cutlery kits for small event organizers
 and catering businesses.
 
-[Continue shaping]    [Investigation locked]    [Roadmap locked]
+[Continue shaping]
 ```
 
-### Stage states
+### Dashboard action states
 
-Do not communicate clickability through color alone.
-
-- **Current action:** Brand emphasis and clear action copy
-- **Completed:** Checkmark, quieter style, remains clickable where applicable
-- **Available next:** Clear enabled treatment
-- **Running:** Progress indicator and status label
-- **Ready:** Highlighted status such as **Report ready**
-- **Locked:** Muted treatment, lock icon, disabled semantics
-- **Failed:** Warning treatment and recovery action
-
-Typical actions include:
-
-- Continue shaping
-- Review idea
-- Start investigation
-- View research progress
-- Read report
-- Build roadmap
-- View roadmap progress
-- Open roadmap
-- Retry research
+Do not communicate clickability through color alone. Every card has one clear labeled action: **Continue shaping**, **Review idea**, or **View roadmap**. Detailed progress, completion, locked, and failed states remain part of the underlying product model and must render on the relevant stage page without leaking process copy into the dashboard.
 
 ### Mobile dashboard
 
-Idea cards remain vertically stacked. Their three stage controls may wrap cleanly when needed. The top bar remains compact, with credits and profile accessible without adding bottom navigation.
+Idea cards remain vertically stacked. Their single action stays adjacent to the Idea summary when space allows and moves below it when needed. The top bar remains compact, with credits and profile accessible without adding bottom navigation.
 
 ## 3. Stage One: Shape
 

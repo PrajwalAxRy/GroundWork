@@ -63,45 +63,28 @@ Do not create an Idea until the user submits non-empty content.
 
 Use a single-column stack of wide cards.
 
-Use the approved **Signal edge** direction from `/_experiments/idea-card-6/`: a slim semantic state rail, a compact body, two quiet secondary stage controls, and one emphasized current action.
+Use the approved, simplified **Signal edge** direction from `/_experiments/idea-card-6/`: a slim signal rail, a compact body, and one emphasized current action.
 
 Each card contains:
 
 - Idea title
 - Short Brief, limited to approximately two lines in the collapsed card
-- Shape control
-- Investigate control
-- Roadmap control
+- One current action
 - Overflow menu
 
 The whole card is not clickable because the stage controls have different destinations.
 
 Do not render verdict or last-updated metadata on the collapsed card.
 
-## Stage-Control Behavior
+## Dashboard Action Behavior
 
-### Shape
+The card exposes only one of these three actions:
 
 - Editable Idea: **Continue shaping**
-- Ready for confirmation: **Review idea**
-- Frozen Idea: Completed, opens the read-only Shape transcript
+- Brief ready or Idea still needs attention before a Roadmap exists: **Review idea**
+- Roadmap ready: **View roadmap**
 
-### Investigate
-
-- Before review: Locked
-- Ready to purchase: **Start investigation**
-- Running: **View research progress**
-- Completed and unread: **Report ready**
-- Completed and viewed: **Open investigation**
-- Failed: **Retry research** or open the failed progress state
-
-### Roadmap
-
-- Before Investigation completes: Locked
-- Available after report: **Build roadmap**
-- Running: **View roadmap progress**
-- Completed: **Open roadmap**
-- Failed: Open the failed Roadmap progress state
+Do not put research-phase copy, retry actions, report-ready labels, locked-stage controls, or background-job progress on the collapsed dashboard card. Those details belong on the relevant stage page.
 
 ## Interactions
 
@@ -163,20 +146,16 @@ Selecting Profile opens a compact account menu. Detailed settings and authentica
 - Maintain the compact global top bar.
 - Place **New idea** in the page header.
 - Stack Idea cards vertically.
-- Allow stage controls to wrap without losing their state labels.
+- Keep the single action readable beside or below the Idea summary.
 - Keep overflow actions keyboard and touch accessible.
 
 ## Prototype Scenarios
 
 Create mock cards demonstrating:
 
-1. Shape active, later stages locked
-2. Brief ready for confirmation
-3. Investigation running
-4. Investigation report ready
-5. Roadmap available but not generated
-6. Roadmap complete
-7. Research failed with credits restored
+1. **Continue shaping**
+2. **Review idea**
+3. **View roadmap**
 
 ## Out of Scope
 
