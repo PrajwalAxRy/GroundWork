@@ -28,7 +28,7 @@ type Variant = {
 };
 
 type ConceptVariant = {
-  id: 'memo' | 'sidepeek' | 'blocks' | 'ledger' | 'tucked';
+  id: 'memo' | 'sidepeek' | 'blocks' | 'ledger' | 'tucked' | 'quietdetails';
   number: string;
   name: string;
   description: string;
@@ -109,6 +109,13 @@ const conceptVariants: ConceptVariant[] = [
     name: 'Tucked stack',
     description: 'Captured details sits partly behind the summary until the user needs it.',
     note: 'Smallest resting footprint',
+  },
+  {
+    id: 'quietdetails',
+    number: '11',
+    name: 'Quiet details',
+    description: 'Canvas blocks with a calmer, more readable captured-details view.',
+    note: 'Least visual noise',
   },
 ];
 
@@ -256,7 +263,7 @@ function ConceptPair({ variant }: { variant: ConceptVariant }) {
             )}
             <span className={styles.conceptToggleCopy}>
               <strong>Captured details</strong>
-              {variant.id !== 'blocks' && <small>4 details</small>}
+              {variant.id !== 'blocks' && variant.id !== 'quietdetails' && <small>4 details</small>}
             </span>
             <ChevronDown className={styles.chevron} aria-hidden="true" />
           </button>
@@ -323,7 +330,7 @@ export function ShapeConversationCardsExperiment() {
 
           <header className={styles.conceptIntro}>
             <p className={styles.kicker}>From-scratch concepts</p>
-            <h2>Five different ways to structure the brief</h2>
+            <h2>Six different ways to structure the brief</h2>
             <p>
               These move beyond surface styling and reconsider how the two pieces relate to each
               other inside the chat workspace.
