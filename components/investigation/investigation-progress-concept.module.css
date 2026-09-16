@@ -1,0 +1,668 @@
+.page {
+  min-height: calc(100dvh - 68px);
+  background: var(--canvas);
+}
+
+.utilityBar {
+  min-height: 72px;
+  padding: 12px clamp(18px, 3vw, 44px);
+  border-bottom: 1px solid var(--rules);
+  background: var(--paper);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+.utilityLeft,
+.backLink,
+.previewControls,
+.statusLead,
+.sectionHeading,
+.railHeading,
+.creditNote,
+.pageFooter,
+.pageFooter a {
+  display: flex;
+  align-items: center;
+}
+
+.utilityLeft {
+  min-width: 0;
+  gap: 14px;
+}
+
+.backLink {
+  gap: 7px;
+  color: var(--secondary-ink);
+  font-weight: 650;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.backLink:hover,
+.pageFooter a:hover {
+  color: var(--cobalt);
+}
+
+.backLink svg,
+.pageFooter svg {
+  width: 17px;
+  height: 17px;
+}
+
+.divider {
+  width: 1px;
+  height: 32px;
+  background: var(--rules);
+}
+
+.ideaIcon {
+  width: 38px;
+  height: 38px;
+  border-radius: 9px;
+  background: var(--pale-cobalt);
+  color: var(--cobalt);
+  display: grid;
+  place-items: center;
+  flex: 0 0 auto;
+}
+
+.ideaIcon svg {
+  width: 19px;
+  height: 19px;
+}
+
+.ideaIdentity {
+  min-width: 0;
+  display: grid;
+  gap: 2px;
+}
+
+.ideaIdentity strong {
+  max-width: 38vw;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font: 700 15px var(--font-groundwork-heading), system-ui, sans-serif;
+}
+
+.ideaIdentity small {
+  color: var(--muted-ink);
+  font-size: 12px;
+}
+
+.previewControls {
+  padding: 4px;
+  border: 1px solid var(--rules);
+  border-radius: 9px;
+  background: var(--soft);
+  gap: 2px;
+}
+
+.previewControls > span {
+  padding: 0 8px;
+  color: var(--muted-ink);
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.previewControls button {
+  min-height: 30px;
+  padding: 0 10px;
+  border: 0;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--secondary-ink);
+  font: 650 12px inherit;
+  text-transform: capitalize;
+  cursor: pointer;
+}
+
+.previewControls button:hover {
+  color: var(--ink);
+}
+
+.previewControls .selectedPreview {
+  background: var(--paper);
+  color: var(--ink);
+  box-shadow: 0 1px 4px oklch(0.255 0.028 242 / 0.09);
+}
+
+.content {
+  width: min(960px, calc(100% - 40px));
+  margin: 0 auto;
+  padding: 54px 0 72px;
+}
+
+.statusLead {
+  min-height: 104px;
+  gap: 18px;
+  margin-bottom: 28px;
+}
+
+.statusIcon {
+  width: 58px;
+  height: 58px;
+  border-radius: 16px;
+  display: grid;
+  place-items: center;
+  flex: 0 0 auto;
+}
+
+.statusIcon svg {
+  width: 27px;
+  height: 27px;
+}
+
+.running .statusIcon {
+  background: var(--pale-amber);
+  color: var(--amber);
+  box-shadow: 0 0 0 7px oklch(0.94 0.035 75 / 0.56);
+}
+
+.ready .statusIcon {
+  background: var(--pale-cobalt);
+  color: var(--cobalt);
+}
+
+.failed .statusIcon {
+  background: var(--pale-rust);
+  color: var(--rust);
+}
+
+.statusLead > div {
+  min-width: 0;
+  flex: 1;
+}
+
+.statusLead p,
+.sectionHeading p {
+  margin: 0 0 5px;
+  color: var(--muted-ink);
+  font-size: 12px;
+  font-weight: 750;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.running > div > p {
+  color: var(--amber);
+}
+
+.ready > div > p {
+  color: var(--cobalt);
+}
+
+.failed > div > p {
+  color: var(--rust);
+}
+
+.statusLead h1 {
+  margin: 0;
+  color: var(--ink);
+  font: 700 clamp(29px, 4vw, 40px) / 1.08 var(--font-groundwork-heading), system-ui, sans-serif;
+  letter-spacing: -0.045em;
+}
+
+.statusLead > div > span {
+  display: block;
+  margin-top: 9px;
+  color: var(--secondary-ink);
+  font-size: 15px;
+  line-height: 1.55;
+}
+
+.primaryAction {
+  min-height: 42px;
+  padding: 0 15px;
+  border: 1px solid var(--cobalt);
+  border-radius: 8px;
+  background: var(--cobalt);
+  color: var(--paper);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font: 700 13px inherit;
+  cursor: pointer;
+  box-shadow: 0 5px 14px oklch(0.47 0.135 252 / 0.18);
+}
+
+.failed .primaryAction {
+  border-color: var(--rust);
+  background: var(--rust);
+}
+
+.primaryAction svg {
+  width: 17px;
+  height: 17px;
+}
+
+.progressSurface {
+  border: 1px solid var(--rules);
+  border-radius: 14px;
+  background: var(--paper);
+  box-shadow: var(--shadow);
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 282px;
+  overflow: hidden;
+}
+
+.progressMain {
+  min-width: 0;
+  padding: 28px 30px 22px;
+}
+
+.sectionHeading {
+  min-height: 48px;
+  justify-content: space-between;
+  gap: 20px;
+  margin-bottom: 18px;
+}
+
+.sectionHeading h2,
+.railHeading h2 {
+  margin: 0;
+  color: var(--ink);
+  font: 700 18px var(--font-groundwork-heading), system-ui, sans-serif;
+  letter-spacing: -0.025em;
+}
+
+.liveLabel {
+  padding: 6px 9px;
+  border-radius: 999px;
+  background: var(--pale-amber);
+  color: var(--amber);
+  font-size: 11px;
+  font-weight: 750;
+  white-space: nowrap;
+}
+
+.liveLabel::before {
+  width: 6px;
+  height: 6px;
+  margin-right: 6px;
+  border-radius: 50%;
+  background: currentColor;
+  display: inline-block;
+  content: "";
+  animation: pulse 1.8s ease-in-out infinite;
+}
+
+.phaseList {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.phaseList li {
+  min-height: 61px;
+  position: relative;
+  display: grid;
+  grid-template-columns: 30px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 13px;
+}
+
+.phaseList li:not(:last-child)::after {
+  width: 1px;
+  height: calc(100% - 28px);
+  position: absolute;
+  top: 44px;
+  left: 14px;
+  background: var(--rules);
+  content: "";
+}
+
+.marker {
+  width: 30px;
+  height: 30px;
+  z-index: 1;
+  border: 1px solid var(--rules);
+  border-radius: 50%;
+  background: var(--paper);
+  color: var(--muted-ink);
+  display: grid;
+  place-items: center;
+}
+
+.marker svg {
+  width: 15px;
+  height: 15px;
+}
+
+.complete .marker {
+  border-color: oklch(0.72 0.04 247);
+  background: var(--pale-cobalt);
+  color: var(--cobalt);
+}
+
+.active .marker {
+  border-color: oklch(0.72 0.08 68);
+  background: var(--pale-amber);
+  color: var(--amber);
+  box-shadow: 0 0 0 4px oklch(0.94 0.035 75 / 0.7);
+}
+
+.active .marker svg {
+  animation: spin 1.8s linear infinite;
+}
+
+.failed .marker {
+  border-color: oklch(0.7 0.08 31);
+  background: var(--pale-rust);
+  color: var(--rust);
+}
+
+.phaseCopy {
+  min-width: 0;
+  display: grid;
+  gap: 3px;
+}
+
+.phaseCopy strong {
+  color: var(--ink);
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.waiting .phaseCopy strong {
+  color: var(--secondary-ink);
+  font-weight: 600;
+}
+
+.phaseCopy small,
+.phaseState {
+  color: var(--muted-ink);
+  font-size: 12px;
+}
+
+.active .phaseCopy small,
+.active .phaseState {
+  color: var(--amber);
+}
+
+.failed .phaseCopy small,
+.failed .phaseState {
+  color: var(--rust);
+}
+
+.phaseState {
+  padding-left: 12px;
+  text-align: right;
+  white-space: nowrap;
+}
+
+.contextRail {
+  padding: 28px 24px;
+  border-left: 1px solid var(--rules);
+  background: oklch(0.978 0.006 238);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 36px;
+}
+
+.railHeading {
+  gap: 9px;
+}
+
+.railHeading svg {
+  width: 18px;
+  height: 18px;
+  color: var(--cobalt);
+}
+
+.railHeading h2 {
+  font-size: 15px;
+}
+
+.activityList {
+  margin: 18px 0 0;
+}
+
+.activityList div {
+  min-height: 38px;
+  border-bottom: 1px solid var(--rules);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+}
+
+.activityList dt {
+  color: var(--secondary-ink);
+  font-size: 12px;
+}
+
+.activityList dd {
+  margin: 0;
+  color: var(--ink);
+  font-size: 13px;
+  font-weight: 750;
+}
+
+.creditNote {
+  padding-top: 20px;
+  border-top: 1px solid var(--rules);
+  align-items: flex-start;
+  gap: 11px;
+}
+
+.creditNote > span {
+  width: 32px;
+  height: 32px;
+  border-radius: 9px;
+  background: var(--pale-cobalt);
+  color: var(--cobalt);
+  display: grid;
+  place-items: center;
+  flex: 0 0 auto;
+}
+
+.failed + .progressSurface .creditNote > span {
+  background: var(--pale-rust);
+  color: var(--rust);
+}
+
+.creditNote svg {
+  width: 16px;
+  height: 16px;
+}
+
+.creditNote strong {
+  color: var(--ink);
+  font-size: 13px;
+}
+
+.creditNote p {
+  margin: 5px 0 0;
+  color: var(--secondary-ink);
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.pageFooter {
+  min-height: 58px;
+  justify-content: space-between;
+  gap: 20px;
+  color: var(--muted-ink);
+  font-size: 12px;
+}
+
+.pageFooter a {
+  gap: 7px;
+  color: var(--secondary-ink);
+  font-weight: 650;
+  text-decoration: none;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes pulse {
+  50% {
+    opacity: 0.35;
+  }
+}
+
+@media (max-width: 760px) {
+  .utilityBar {
+    align-items: flex-start;
+  }
+
+  .previewControls > span {
+    display: none;
+  }
+
+  .content {
+    width: min(100% - 28px, 600px);
+    padding: 36px 0 56px;
+  }
+
+  .statusLead {
+    align-items: flex-start;
+    flex-wrap: wrap;
+  }
+
+  .statusLead > div {
+    width: calc(100% - 78px);
+  }
+
+  .statusLead .primaryAction {
+    margin-left: 76px;
+  }
+
+  .progressSurface {
+    grid-template-columns: 1fr;
+  }
+
+  .contextRail {
+    border-top: 1px solid var(--rules);
+    border-left: 0;
+  }
+}
+
+@media (max-width: 560px) {
+  .utilityBar {
+    min-height: 66px;
+    padding: 10px 14px;
+  }
+
+  .backLink {
+    width: 36px;
+    height: 36px;
+    border: 1px solid var(--rules);
+    border-radius: 8px;
+    justify-content: center;
+  }
+
+  .backLink span,
+  .divider,
+  .ideaIcon {
+    display: none;
+  }
+
+  .ideaIdentity strong {
+    max-width: 38vw;
+    font-size: 13px;
+  }
+
+  .previewControls button {
+    min-height: 34px;
+    width: 34px;
+    padding: 0;
+    overflow: hidden;
+    font-size: 0;
+  }
+
+  .previewControls button::first-letter {
+    font-size: 12px;
+  }
+
+  .content {
+    width: calc(100% - 24px);
+    padding-top: 28px;
+  }
+
+  .statusLead {
+    gap: 14px;
+    margin-bottom: 22px;
+  }
+
+  .statusIcon {
+    width: 48px;
+    height: 48px;
+    border-radius: 13px;
+  }
+
+  .statusIcon svg {
+    width: 22px;
+    height: 22px;
+  }
+
+  .statusLead > div {
+    width: calc(100% - 62px);
+  }
+
+  .statusLead h1 {
+    font-size: 27px;
+  }
+
+  .statusLead > div > span {
+    font-size: 13px;
+  }
+
+  .statusLead .primaryAction {
+    width: 100%;
+    margin: 4px 0 0;
+    justify-content: center;
+  }
+
+  .progressMain,
+  .contextRail {
+    padding: 22px 18px;
+  }
+
+  .sectionHeading {
+    align-items: flex-start;
+  }
+
+  .liveLabel {
+    font-size: 0;
+  }
+
+  .liveLabel::before {
+    width: 8px;
+    height: 8px;
+    margin: 0;
+  }
+
+  .phaseList li {
+    grid-template-columns: 30px minmax(0, 1fr);
+  }
+
+  .phaseState {
+    display: none;
+  }
+
+  .pageFooter {
+    justify-content: center;
+  }
+
+  .pageFooter > span {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .active .marker svg,
+  .liveLabel::before {
+    animation: none;
+  }
+}

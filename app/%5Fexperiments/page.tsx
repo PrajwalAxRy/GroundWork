@@ -10,6 +10,16 @@ export const metadata: Metadata = {
 
 const experiments = [
   {
+    href: '/_experiments/investigation-progress',
+    title: 'Investigation progress concept',
+    description:
+      'A low-copy layout study for research progress, background-safe navigation, activity, and credit outcomes.',
+    area: 'Investigation',
+    status: 'Concept for review',
+    approved: false,
+    archived: false,
+  },
+  {
     href: '/_experiments/shape-conversation_cards',
     title: 'Shape: Idea Brief card iterations',
     description:
