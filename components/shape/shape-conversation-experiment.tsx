@@ -330,9 +330,7 @@ export function ShapeConversationExperiment({
                       ))}
                     </div>
                   ) : (
-                    <p className={styles.emptyCaptured}>
-                      Confirmed details, suggestions, and open questions will appear here.
-                    </p>
+                    <p className={styles.emptyCaptured}>Continue chatting to capture details.</p>
                   )}
                 </div>
               )}

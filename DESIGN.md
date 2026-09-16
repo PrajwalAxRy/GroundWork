@@ -118,7 +118,7 @@ The approved Shape direction is the conversation-first workspace from `/_experim
 - Keep **Review idea** inside the composer.
 - Use two embedded supporting cards rather than a dedicated side panel: **Working summary** is always visible and **Captured details** is collapsed by default.
 - The Working summary card uses a 14-pixel radius, a defined cool-blue border, a restrained soft shadow, a pale-cobalt layered icon, a compact uppercase label, and one readable paragraph. Its empty state has no status metadata or mock summary; it uses one muted instruction to continue chatting.
-- Captured details uses the same 14-pixel shape and icon vocabulary with a quieter shadow so the summary remains primary. Its expanded view is a plain label-and-value list with sentence-case bold labels, 13-pixel values, comfortable line height, and no count, preview text, status icons, or row dividers.
+- Captured details uses the same 14-pixel shape and icon vocabulary with a quieter shadow so the summary remains primary. Its empty state uses one muted instruction to continue chatting. Its expanded populated view is a plain label-and-value list with sentence-case bold labels, 13-pixel values, comfortable line height, and no count, preview text, status icons, or row dividers.
 - On desktop the card stack sits beside the conversation. On narrower screens it follows the conversation without displacing the composer as the primary action.
 - Structured provenance remains part of the data model and belongs in the focused **Review idea** experience, not the compact supporting card.
 
