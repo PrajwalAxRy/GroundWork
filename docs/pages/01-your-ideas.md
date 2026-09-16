@@ -45,16 +45,16 @@ If an AI-generated title or Brief is temporarily missing, use the user's first m
 - Heading: **Your ideas**
 - Primary button: **New idea**
 
-### Inline new-Idea composer
+### New-Idea entry
 
-Hidden until **New idea** is selected, except in the empty state where it is immediately visible.
+Selecting **New idea** opens the dedicated Shape start route at `/idea/shape/new`.
 
-Contains:
+The Shape start page will contain:
 
 - Short prompt asking what the user is thinking about building
 - Multiline or expanding text input
 - Primary button: **Start shaping**
-- Secondary action: **Cancel**, when opened from a non-empty dashboard
+- A route back to **Your ideas**
 - Two or three example Idea starters may be shown as inspiration
 
 Do not create an Idea until the user submits non-empty content.
@@ -108,7 +108,7 @@ Do not render verdict or last-updated metadata on the collapsed card.
 ### Create an Idea
 
 1. Select **New idea**.
-2. Enter the initial thought.
+2. Enter the initial thought on the dedicated Shape page.
 3. Select **Start shaping**.
 4. Create the Idea and open Shape with the initial message already submitted.
 
@@ -136,7 +136,7 @@ Selecting Profile opens a compact account menu. Detailed settings and authentica
 
 ### Empty
 
-- Show the new-Idea composer immediately.
+- Keep **New idea** available as the primary route into Shape.
 - Explain what type of starting message is sufficient.
 - Do not show an empty card grid.
 

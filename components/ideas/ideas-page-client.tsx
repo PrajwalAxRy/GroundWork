@@ -7,7 +7,6 @@ import {
   Feedback,
   IconButton,
   Menu,
-  TextAreaField,
   TextField,
 } from '@/components/ui/product-primitives';
 import type { Idea, Stage, StageState } from '@/lib/contracts/product';
@@ -20,7 +19,8 @@ import {
   LockKeyhole,
   MoreHorizontal,
 } from 'lucide-react';
-import { type FormEvent, useEffect, useRef, useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { type FormEvent, useEffect, useState } from 'react';
 
 type Preview = 'populated' | 'empty' | 'loading' | 'error';
 
@@ -58,13 +58,12 @@ function StageMarker({ stage, index }: { stage: Stage; index: number }) {
 }
 
 export function IdeasPageClient({ initialPreview = 'populated' }: { initialPreview?: Preview }) {
+  const router = useRouter();
   const [ideas, setIdeas] = useState<Idea[]>([]);
   const [preview, setPreview] = useState<Preview>(initialPreview);
-  const [composerOpen, setComposerOpen] = useState(false);
   const [editing, setEditing] = useState<string | null>(null);
   const [deleting, setDeleting] = useState<Idea | null>(null);
   const [feedback, setFeedback] = useState('');
-  const composerRef = useRef<HTMLTextAreaElement>(null);
 
   useEffect(() => {
     if (initialPreview === 'loading') return;
@@ -83,10 +82,6 @@ export function IdeasPageClient({ initialPreview = 'populated' }: { initialPrevi
     setPreview('populated');
   }
 
-  useEffect(() => {
-    if (composerOpen) composerRef.current?.focus();
-  }, [composerOpen]);
-
   function openStage(idea: Idea, stage: Stage) {
     if (stage.state === 'locked') return;
     if (stage.key === 'shape') {
@@ -96,18 +91,6 @@ export function IdeasPageClient({ initialPreview = 'populated' }: { initialPrevi
       return;
     }
     setFeedback(`${stage.action} will connect when its page is built in the next prototype phase.`);
-  }
-
-  async function createIdea(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-    const form = new FormData(event.currentTarget);
-    const thought = String(form.get('idea') ?? '').trim();
-    if (!thought) return;
-    await mockProductService.createIdea(thought);
-    setIdeas(await mockProductService.listIdeas());
-    setPreview('populated');
-    setComposerOpen(false);
-    setFeedback('Idea saved. Shape will be available after its page is rebuilt.');
   }
 
   async function renameIdea(event: FormEvent<HTMLFormElement>, ideaId: string) {
@@ -126,56 +109,6 @@ export function IdeasPageClient({ initialPreview = 'populated' }: { initialPrevi
     setIdeas(await mockProductService.listIdeas());
     setDeleting(null);
     setFeedback('Idea removed from this prototype.');
-  }
-
-  function Composer() {
-    return (
-      <section className="composer" aria-labelledby="composer-title">
-        <div>
-          <h2 id="composer-title">What are you thinking about building?</h2>
-          <p>A sentence or a rough problem is enough to begin.</p>
-        </div>
-        <form onSubmit={createIdea}>
-          <TextAreaField
-            ref={composerRef}
-            label="Your initial idea"
-            visuallyHiddenLabel
-            name="idea"
-            rows={3}
-            placeholder="I keep noticing that…"
-            required
-          />
-          <div className="composer__actions">
-            {ideas.length > 0 && (
-              <Button variant="text" type="button" onClick={() => setComposerOpen(false)}>
-                Cancel
-              </Button>
-            )}
-            <Button type="submit">Start shaping</Button>
-          </div>
-        </form>
-        <div className="idea-starters" aria-label="Idea starters">
-          <span>Try a starting point:</span>
-          {[
-            'A simple way for independent cafés to reduce food waste at the end of each day.',
-            'A lightweight service that helps landlords manage recurring repairs.',
-          ].map((starter) => (
-            <button
-              type="button"
-              key={starter}
-              onClick={() => {
-                if (composerRef.current) {
-                  composerRef.current.value = starter;
-                  composerRef.current.focus();
-                }
-              }}
-            >
-              {starter.includes('cafés') ? 'Independent cafés' : 'Landlords'}
-            </button>
-          ))}
-        </div>
-      </section>
-    );
   }
 
   function IdeaCard({ idea }: { idea: Idea }) {
@@ -276,16 +209,10 @@ export function IdeasPageClient({ initialPreview = 'populated' }: { initialPrevi
               Pick up where you left off, or give a new thought room to become specific.
             </p>
           </div>
-          <Button
-            onClick={() => {
-              setPreview('populated');
-              setComposerOpen(true);
-            }}
-          >
+          <Button onClick={() => router.push('/idea/shape/new')}>
             New idea <span aria-hidden="true">＋</span>
           </Button>
         </section>
-        {(composerOpen || preview === 'empty') && <Composer />}
         {feedback && (
           <Feedback tone="info" title="Prototype route">
             {feedback}

@@ -6,7 +6,7 @@ The Investigation Report helps a user decide whether to pursue an Idea, understa
 
 ## Suggested Route
 
-`/ideas/:ideaId/investigation`
+`/idea/investigate/:ideaId`
 
 ## Entry Points
 

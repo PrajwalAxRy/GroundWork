@@ -43,7 +43,7 @@ There are no separate **Continue** and **Earlier ideas** sections.
 
 ### New Idea behavior
 
-Selecting **New idea** reveals a focused idea input inline. Submitting the first thought creates the Idea and opens Shape with that text already sent.
+Selecting **New idea** opens the dedicated Shape start route at `/idea/shape/new`. The initial idea input belongs on that page. Submitting the first thought creates the Idea, assigns its stable ID, and continues at `/idea/shape/:ideaId` with that text already sent.
 
 Do not create an empty Idea before the first message is submitted.
 

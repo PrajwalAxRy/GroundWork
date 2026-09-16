@@ -6,11 +6,12 @@ Shape is the free cofounder conversation where a rough thought becomes a clearer
 
 ## Suggested Route
 
-`/ideas/:ideaId/shape`
+- New Idea: `/idea/shape/new`
+- Existing Idea: `/idea/shape/:ideaId`
 
 ## Entry Points
 
-- **Start shaping** from Your Ideas
+- **New idea** from Your Ideas
 - **Continue shaping** from an Idea card
 - Completed Shape control for a frozen Idea
 - Closing or returning from the in-page Idea Brief review modal

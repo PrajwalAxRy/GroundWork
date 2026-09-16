@@ -6,7 +6,7 @@ Roadmap Progress communicates that a paid Roadmap is being generated from the fr
 
 ## Suggested Route
 
-`/ideas/:ideaId/roadmap/progress`
+`/idea/roadmap/:ideaId/progress`
 
 ## Entry Points
 

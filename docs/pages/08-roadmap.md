@@ -8,7 +8,7 @@ The main Roadmap should take roughly five to eight minutes to read.
 
 ## Suggested Route
 
-`/ideas/:ideaId/roadmap`
+`/idea/roadmap/:ideaId`
 
 ## Entry Points
 

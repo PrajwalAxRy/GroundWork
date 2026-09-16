@@ -81,7 +81,7 @@ The frontend prototype should be reusable production-oriented code, not a dispos
 
 The initial visual system and dashboard Idea card are approved and integrated on the production frontend foundation. The production card uses the **Signal edge** direction from `/_experiments/idea-card-6/`.
 
-The previous Shape page, Shape experiment, Shape-specific styles, and screenshots were removed at the user's request. Shape must remain unimplemented until the user explicitly starts a from-scratch redesign. Its functional product and AI requirements remain documented for that future work.
+The previous Shape page, Shape experiment, Shape-specific styles, and screenshots were removed at the user's request. A placeholder now exists at `/idea/shape/new`, reached from **New idea**. The full Shape experience remains unimplemented until the user explicitly starts a from-scratch redesign; its functional product and AI requirements remain documented for that future work.
 
 ## Important Prototype Requirements
 

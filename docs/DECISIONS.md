@@ -102,7 +102,8 @@ This file separates locked product decisions from topics that still need discuss
 - The approved dashboard card direction is **Signal edge** (`/_experiments/idea-card-6/`, evolved from experiment card 14): a compact horizontal card with a slim semantic status rail, two quiet secondary stage controls, and one emphasized current action. The collapsed card omits verdict and last-updated metadata.
 - The whole card is not one click target.
 - State is never communicated using color alone.
-- New Idea opens an inline idea input.
+- Idea-stage routes use a stage-first structure: `/idea/shape/new` before an Idea exists, then `/idea/shape/:ideaId`, `/idea/investigate/:ideaId`, and `/idea/roadmap/:ideaId` after creation.
+- New Idea opens the dedicated Shape start route at `/idea/shape/new`; the initial idea input belongs on that page.
 - Each modified or re-researched version is treated as a new Idea.
 - The main product does not need to inherit its visual direction from the existing landing page.
 
@@ -127,7 +128,7 @@ This file separates locked product decisions from topics that still need discuss
 
 ## Superseded or Rejected Directions
 
-- A dedicated Confirm Idea page or `/ideas/:ideaId/confirm` production route
+- A dedicated Confirm Idea page or production confirmation route (previously proposed as `/ideas/:ideaId/confirm`)
 - The former cofounder-workspace Shape page and its divided Current idea panel
 - The unapproved two-card Shape side-brief exploration
 - Multiple floating cards for answered and unanswered questions in Shape

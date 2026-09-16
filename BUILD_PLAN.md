@@ -88,7 +88,7 @@ The product foundations, approved visual system, production frontend foundation,
 - [ ] Reopen Shape visual design from a blank implementation.
 - [ ] Create a new development-only Shape experiment.
 - [ ] Obtain desktop and mobile approval before production integration.
-- [ ] Rebuild `/ideas/:ideaId/shape` from the approved direction.
+- [ ] Rebuild `/idea/shape/:ideaId` from the approved direction.
 - [ ] Restore conversation, draft, frozen-transcript, failure, and research-deferral states.
 
 ### Completion checkpoint
@@ -161,7 +161,7 @@ The product foundations, approved visual system, production frontend foundation,
 - [ ] Show ready, failed, retryable, and credits-released outcomes.
 - [ ] Verify duplicate actions cannot create duplicate visible jobs.
 - [ ] Obtain desktop and mobile approval.
-- [ ] Build `/ideas/:ideaId/investigation/progress` with typed mock jobs.
+- [ ] Build `/idea/investigate/:ideaId/progress` with typed mock jobs.
 
 ### Completion checkpoint
 
@@ -180,7 +180,7 @@ The product foundations, approved visual system, production frontend foundation,
 
 ### Page integration
 
-- [ ] Build `/ideas/:ideaId/investigation`.
+- [ ] Build `/idea/investigate/:ideaId`.
 - [ ] Render fixed core sections and approved playbook modules from typed data.
 - [ ] Ensure unknown component types fail safely.
 - [ ] Add the consolidated collapsed sources section.
@@ -198,7 +198,7 @@ The product foundations, approved visual system, production frontend foundation,
 - [ ] Reuse the proven background-job status vocabulary where appropriate.
 - [ ] Show credit reservation, generation stages, ready state, failure, retry, and credit release.
 - [ ] Obtain desktop and mobile approval.
-- [ ] Build `/ideas/:ideaId/roadmap/progress` with typed mock jobs.
+- [ ] Build `/idea/roadmap/:ideaId/progress` with typed mock jobs.
 
 ### Completion checkpoint
 
@@ -218,7 +218,7 @@ The product foundations, approved visual system, production frontend foundation,
 
 ### Integration
 
-- [ ] Build `/ideas/:ideaId/roadmap`.
+- [ ] Build `/idea/roadmap/:ideaId`.
 - [ ] Compute milestone geometry in the frontend rather than accepting AI-controlled coordinates.
 - [ ] Omit unsupported optional fields without empty UI.
 - [ ] Preserve the stored Roadmap when clarification advice changes.

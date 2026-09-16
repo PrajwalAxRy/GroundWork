@@ -6,7 +6,7 @@ Investigation Progress reassures the user that paid research is continuing in th
 
 ## Suggested Route
 
-`/ideas/:ideaId/investigation/progress`
+`/idea/investigate/:ideaId/progress`
 
 ## Entry Points
 

@@ -2,7 +2,7 @@
 
 ## Status
 
-This specification supersedes the former dedicated Confirm Idea page. There is no production `/ideas/:ideaId/confirm` route.
+This specification supersedes the former dedicated Confirm Idea page. There is no production confirmation route; review happens inside `/idea/shape/:ideaId`.
 
 ## Purpose
 

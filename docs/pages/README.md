@@ -35,15 +35,16 @@ These routes are recommendations for a clickable prototype and may be adapted to
 | Page | Suggested route |
 |---|---|
 | Your Ideas | `/ideas` |
-| Shape | `/ideas/:ideaId/shape` |
+| Start a new Idea in Shape | `/idea/shape/new` |
+| Shape | `/idea/shape/:ideaId` |
 | Credits | `/credits` |
 | Contextual credit purchase | `/credits?for=investigation&idea=:ideaId` or `/credits?for=roadmap&idea=:ideaId` |
-| Investigation Progress | `/ideas/:ideaId/investigation/progress` |
-| Investigation Report | `/ideas/:ideaId/investigation` |
-| Roadmap Progress | `/ideas/:ideaId/roadmap/progress` |
-| Roadmap | `/ideas/:ideaId/roadmap` |
+| Investigation Progress | `/idea/investigate/:ideaId/progress` |
+| Investigation Report | `/idea/investigate/:ideaId` |
+| Roadmap Progress | `/idea/roadmap/:ideaId/progress` |
+| Roadmap | `/idea/roadmap/:ideaId` |
 
-The Shape route above is reserved by the product specification but is intentionally not implemented. Its future design must begin with a new experiment.
+The new-Idea Shape route currently exists as a placeholder. The full Shape experience remains intentionally unimplemented, and its future design must begin with a new experiment.
 
 Important component explorations should also have development-only routes such as:
 
