@@ -13,7 +13,7 @@ const experiments = [
     href: '/_experiments/shape-conversation_cards',
     title: 'Shape: Idea Brief card iterations',
     description:
-      'Five visual directions for the Working Summary and collapsible Captured Details cards.',
+      'Ten directions for the Working Summary and collapsible Captured Details, including five from-scratch structures.',
     area: 'Shape components',
     status: 'Comparison study',
     approved: false,
