@@ -27,6 +27,18 @@
     font: inherit;
   }
 
+  .ob-site a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .ob-site button {
+    padding: 0;
+    border: 0;
+    background: none;
+    color: inherit;
+  }
+
   @media (prefers-reduced-motion: reduce) {
     html {
       scroll-behavior: auto;
@@ -40,16 +52,4 @@
   background: var(--ob-canvas);
   color: var(--ob-muted);
   font-family: var(--font-geist), system-ui, sans-serif;
-}
-
-.ob-site a {
-  color: inherit;
-  text-decoration: none;
-}
-
-.ob-site button {
-  padding: 0;
-  border: 0;
-  background: none;
-  color: inherit;
 }

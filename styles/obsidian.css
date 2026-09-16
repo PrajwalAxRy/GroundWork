@@ -328,6 +328,41 @@ body::before {
   color: var(--ob-text);
 }
 
+/* Media specifications intentionally remain visible until the final asset is
+   supplied. The hatch distinguishes a designed placeholder from missing UI. */
+.ob-slot {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  gap: 6px;
+  padding: 20px;
+  border: 1px dashed var(--ob-hairline-strong);
+  border-radius: var(--ob-r-card);
+  background-color: var(--ob-surface);
+  background-image: repeating-linear-gradient(45deg, var(--ob-hatch) 0 1px, transparent 1px 6px);
+}
+
+.ob-slot-kind {
+  color: var(--ob-dim);
+}
+
+.ob-slot-label {
+  font-size: var(--ob-sm);
+  color: var(--ob-text);
+  letter-spacing: var(--ob-tracking-snug);
+}
+
+.ob-slot-brief {
+  max-width: 52ch;
+  font-size: var(--ob-xs);
+  line-height: var(--ob-leading-lead);
+  color: var(--ob-muted);
+}
+
+.ob-slot-source {
+  color: var(--ob-dim);
+}
+
 /* ============================================================
    4. Buttons — exactly one filled per viewport.
    ============================================================ */
