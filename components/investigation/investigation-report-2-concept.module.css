@@ -1053,7 +1053,7 @@
 
 .continueActions button,
 .reportFooter button {
-  min-height: 40px;
+  min-height: 44px;
   padding: 0 13px;
   border: 1px solid var(--cobalt);
   border-radius: 8px;
@@ -1187,6 +1187,10 @@
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 2px 8px;
+  }
+
+  .mobileContents .navigationList a {
+    min-height: 44px;
   }
 
   .mobileContents .navigationList li + li {
@@ -1431,5 +1435,1346 @@
   .sourcesDisclosure summary svg,
   .riskList summary > svg {
     transition: none;
+  }
+}
+
+/* Report redesign: warmer field-guide rhythm, stronger competition, clearer paid continuations. */
+
+.page {
+  --report-violet: oklch(0.52 0.12 294);
+  --report-lilac: oklch(0.947 0.028 300);
+  --report-mint: oklch(0.94 0.038 165);
+  --report-mint-strong: oklch(0.47 0.09 165);
+  --report-peach: oklch(0.94 0.045 48);
+  --report-coral: oklch(0.49 0.12 38);
+  --report-sun: oklch(0.95 0.046 82);
+  --report-canvas: oklch(0.967 0.014 83);
+  padding-bottom: 1px;
+  background: radial-gradient(circle at 8% 8%, var(--report-mint) 0, transparent 24rem),
+    radial-gradient(circle at 94% 24%, var(--report-lilac) 0, transparent 26rem),
+    var(--report-canvas);
+  scroll-behavior: smooth;
+}
+
+.page a:focus-visible,
+.page button:focus-visible,
+.page summary:focus-visible,
+.document:focus-visible {
+  outline: 3px solid var(--cobalt);
+  outline-offset: 3px;
+}
+
+.skipLink {
+  position: fixed;
+  top: 10px;
+  left: 12px;
+  z-index: 80;
+  padding: 10px 13px;
+  border-radius: 8px;
+  background: var(--ink);
+  color: var(--paper);
+  font-size: 13px;
+  font-weight: 700;
+  text-decoration: none;
+  transform: translateY(-150%);
+  transition: transform 160ms ease;
+}
+
+.skipLink:focus {
+  transform: translateY(0);
+}
+
+.reportLayout {
+  grid-template-columns: 220px minmax(0, 850px);
+  gap: 34px;
+}
+
+.document {
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+  display: grid;
+  gap: 18px;
+  overflow: visible;
+}
+
+.hero,
+.reportSection,
+.variationStudio[data-placement="footer"],
+.continueSection {
+  border: 0;
+  border-radius: 22px;
+  background: var(--paper);
+  box-shadow: 0 18px 50px oklch(0.42 0.035 70 / 0.07);
+  overflow: clip;
+}
+
+.hero {
+  padding: 58px 64px 54px;
+}
+
+.hero h1 {
+  max-width: 16ch;
+  font-size: 46px;
+  line-height: 1.08;
+  text-wrap: balance;
+}
+
+.heroSummary {
+  max-width: 64ch;
+  font-size: 17px;
+  line-height: 1.72;
+  text-wrap: pretty;
+}
+
+.verdictLine {
+  min-height: 78px;
+  margin-top: 30px;
+  padding: 14px 16px;
+  border: 0;
+  border-radius: 14px;
+  background: var(--report-sun);
+}
+
+.verdictMark {
+  background: var(--paper);
+}
+
+.confidence {
+  background: color-mix(in oklch, var(--paper) 76%, var(--report-sun));
+  font-size: 12px;
+}
+
+.variationStudio {
+  position: relative;
+  margin-top: 22px;
+  padding: 24px;
+  border-radius: 18px;
+  background: var(--report-lilac);
+  overflow: hidden;
+}
+
+.variationStudio::after {
+  content: "";
+  position: absolute;
+  top: -68px;
+  right: -48px;
+  width: 170px;
+  height: 170px;
+  border: 34px solid color-mix(in oklch, var(--report-violet) 8%, transparent);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.variationStudio[data-placement="footer"] {
+  margin-top: 0;
+  padding: 36px 42px 40px;
+  background: var(--report-peach);
+}
+
+.variationLabel {
+  position: relative;
+  z-index: 1;
+  color: var(--report-violet);
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 12px;
+  font-weight: 750;
+}
+
+.variationLabel svg {
+  width: 16px;
+  height: 16px;
+}
+
+.variationMain {
+  position: relative;
+  z-index: 1;
+  margin-top: 15px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: end;
+  gap: 24px;
+}
+
+.variationMain h2 {
+  margin: 0;
+  color: var(--ink);
+  font: 700 23px / 1.3 var(--font-groundwork-heading), system-ui, sans-serif;
+  letter-spacing: -0.03em;
+  text-wrap: balance;
+}
+
+.variationMain p {
+  max-width: 58ch;
+  margin: 8px 0 0;
+  color: var(--secondary-ink);
+  font-size: 14px;
+  line-height: 1.6;
+  text-wrap: pretty;
+}
+
+.variationAction,
+.competitionUpsell > button {
+  min-height: 46px;
+  padding: 0 14px 0 16px;
+  border: 0;
+  border-radius: 10px;
+  background: var(--report-violet);
+  color: var(--paper);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font: 700 12px var(--font-groundwork-body), system-ui, sans-serif;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: transform 160ms ease, background 160ms ease;
+}
+
+.variationAction:hover,
+.competitionUpsell > button:hover {
+  background: color-mix(in oklch, var(--report-violet) 84%, var(--ink));
+  transform: translateY(-1px);
+}
+
+.variationAction:active,
+.competitionUpsell > button:active {
+  transform: translateY(1px);
+}
+
+.creditAmount {
+  padding-left: 10px;
+  border-left: 1px solid color-mix(in oklch, currentColor 24%, transparent);
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.creditAmount svg {
+  width: 15px;
+  height: 15px;
+}
+
+.variationChoices {
+  position: relative;
+  z-index: 1;
+  min-width: 0;
+  margin-top: 21px;
+  padding-top: 17px;
+  padding-right: 0;
+  padding-bottom: 0;
+  padding-left: 0;
+  border-top: 1px solid color-mix(in oklch, var(--report-violet) 18%, transparent);
+  border-right: 0;
+  border-bottom: 0;
+  border-left: 0;
+}
+
+.variationChoices > legend {
+  padding: 0;
+  color: var(--secondary-ink);
+  font-size: 12px;
+  font-weight: 650;
+}
+
+.variationChoices > div {
+  margin-top: 10px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+}
+
+.variationChoices button {
+  min-height: 36px;
+  padding: 0 11px;
+  border: 1px solid color-mix(in oklch, var(--report-violet) 22%, var(--rules));
+  border-radius: 8px;
+  background: color-mix(in oklch, var(--paper) 72%, transparent);
+  color: var(--secondary-ink);
+  font: 650 11px var(--font-groundwork-body), system-ui, sans-serif;
+  cursor: pointer;
+  transition: background 160ms ease, border-color 160ms ease, transform 160ms ease;
+}
+
+.variationChoices button:hover {
+  border-color: var(--report-violet);
+  transform: translateY(-1px);
+}
+
+.variationChoices button[aria-pressed="true"] {
+  border-color: var(--report-violet);
+  background: var(--paper);
+  color: var(--report-violet);
+  box-shadow: inset 0 0 0 1px var(--report-violet);
+}
+
+.oneThing {
+  margin-top: 24px;
+  padding: 21px 22px;
+  border-left: 0;
+  border-radius: 15px;
+  background: var(--report-peach);
+}
+
+.oneThing p {
+  color: var(--report-coral);
+  font-size: 12px;
+}
+
+.oneThing strong {
+  font-size: 17px;
+  line-height: 1.58;
+}
+
+.takeawayRows {
+  margin-top: 14px;
+  border: 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.takeawayRows > div {
+  min-height: 128px;
+  padding: 18px;
+  border: 0;
+  border-radius: 14px;
+  background: var(--soft);
+}
+
+.takeawayRows > div:first-child {
+  background: var(--report-mint);
+}
+
+.takeawayRows > div:nth-child(2) {
+  background: var(--report-peach);
+}
+
+.takeawayRows > .nextStepRow {
+  min-height: 88px;
+  grid-column: 1 / -1;
+  background: var(--pale-cobalt);
+}
+
+.takeawayRows p {
+  font-size: 14px;
+}
+
+.takeawayRows li,
+.takeawayRows div div > span {
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.evidenceNote {
+  margin-top: 14px;
+  background: color-mix(in oklch, var(--report-mint) 62%, var(--paper));
+  font-size: 13px;
+  line-height: 1.55;
+}
+
+.ideaDisclosure,
+.sourcesDisclosure {
+  background: color-mix(in oklch, var(--paper) 82%, var(--soft));
+}
+
+.reportSection {
+  padding: 60px 64px 66px;
+  border-top: 0;
+}
+
+.sectionHeading {
+  align-items: center;
+  gap: 12px;
+}
+
+.sectionHeading > span {
+  width: 34px;
+  height: 34px;
+  border-radius: 11px;
+  background: var(--pale-cobalt);
+  color: var(--cobalt);
+  display: grid;
+  place-items: center;
+  font-size: 11px;
+  font-variant-numeric: tabular-nums;
+}
+
+.sectionHeading[data-tone="violet"] > span {
+  background: color-mix(in oklch, var(--report-lilac) 72%, var(--paper));
+  color: var(--report-violet);
+}
+
+.sectionHeading[data-tone="mint"] > span {
+  background: var(--report-mint);
+  color: var(--report-mint-strong);
+}
+
+.sectionHeading[data-tone="coral"] > span {
+  background: var(--report-peach);
+  color: var(--report-coral);
+}
+
+.sectionHeading h2 {
+  font-size: 30px;
+  text-wrap: balance;
+}
+
+.sectionLead {
+  max-width: 64ch;
+  font-size: 16px;
+  line-height: 1.72;
+  text-wrap: pretty;
+}
+
+.reportSection > h3,
+.riskList + h3 {
+  font-size: 18px;
+}
+
+.customerFocus {
+  border: 0;
+  background: var(--report-mint);
+}
+
+.customerFocus > p,
+.customerFocus dt,
+.businessSummary dt,
+.rowLabel,
+.alternativeTitle > span {
+  font-size: 11px;
+}
+
+.customerFocus > p,
+.customerFocus dt,
+.refinementComparison span {
+  color: var(--secondary-ink);
+}
+
+.customerFocus dd,
+.businessSummary dd {
+  font-size: 14px;
+  line-height: 1.62;
+}
+
+.workflow strong {
+  font-size: 14px;
+}
+
+.workflow p {
+  font-size: 13px;
+  line-height: 1.55;
+}
+
+.competitionSection {
+  background: color-mix(in oklch, var(--report-lilac) 70%, var(--paper));
+}
+
+.competitionHeadingRow {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 112px;
+  align-items: start;
+  gap: 28px;
+}
+
+.competitionCount {
+  aspect-ratio: 1;
+  padding: 14px;
+  border: 1px solid color-mix(in oklch, var(--report-violet) 22%, var(--rules));
+  border-radius: 22px;
+  background: color-mix(in oklch, var(--paper) 72%, transparent);
+  color: var(--report-violet);
+  display: grid;
+  place-items: center;
+  align-content: center;
+  text-align: center;
+}
+
+.competitionCount svg {
+  width: 18px;
+  height: 18px;
+}
+
+.competitionCount strong {
+  margin-top: 3px;
+  font: 700 28px / 1 var(--font-groundwork-heading), system-ui, sans-serif;
+  font-variant-numeric: tabular-nums;
+}
+
+.competitionCount span {
+  margin-top: 4px;
+  color: var(--secondary-ink);
+  font-size: 10px;
+  line-height: 1.2;
+}
+
+.competitorStack {
+  margin-top: 30px;
+  display: grid;
+  gap: 10px;
+}
+
+.competitorCard {
+  border: 1px solid color-mix(in oklch, var(--report-violet) 15%, var(--rules));
+  border-radius: 15px;
+  background: var(--paper);
+  box-shadow: 0 7px 20px oklch(0.45 0.07 294 / 0.05);
+  overflow: hidden;
+  transition: border-color 180ms ease, box-shadow 180ms ease, transform 180ms ease;
+}
+
+.competitorCard:hover,
+.competitorCard[data-open="true"] {
+  border-color: color-mix(in oklch, var(--report-violet) 44%, var(--rules));
+  box-shadow: 0 12px 28px oklch(0.45 0.07 294 / 0.09);
+}
+
+.competitorTrigger {
+  width: 100%;
+  min-height: 108px;
+  padding: 18px 19px;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  display: grid;
+  grid-template-columns: 38px 175px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 15px;
+  text-align: left;
+  cursor: pointer;
+}
+
+.competitorIndex {
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
+  background: var(--report-lilac);
+  color: var(--report-violet);
+  display: grid;
+  place-items: center;
+  font-size: 11px;
+  font-weight: 750;
+  font-variant-numeric: tabular-nums;
+}
+
+.competitorIdentity {
+  min-width: 0;
+  display: grid;
+  gap: 3px;
+}
+
+.competitorIdentity > span {
+  overflow: hidden;
+  color: var(--muted-ink);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.025em;
+  text-overflow: ellipsis;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.competitorIdentity strong {
+  color: var(--ink);
+  font: 700 17px var(--font-groundwork-heading), system-ui, sans-serif;
+}
+
+.competitorIdentity small {
+  color: var(--muted-ink);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 11px;
+}
+
+.competitorIdentity small svg {
+  width: 12px;
+  height: 12px;
+}
+
+.competitorSummary {
+  color: var(--secondary-ink);
+  font-size: 14px;
+  line-height: 1.55;
+  text-wrap: pretty;
+}
+
+.expandCompetitor {
+  color: var(--report-violet);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.expandCompetitor svg {
+  width: 16px;
+  height: 16px;
+  transition: transform 180ms ease;
+}
+
+.competitorCard[data-open="true"] .expandCompetitor svg {
+  transform: rotate(180deg);
+}
+
+.competitorBody {
+  padding: 0 20px 22px 73px;
+  border-top: 1px solid color-mix(in oklch, var(--report-violet) 12%, var(--rules));
+}
+
+.competitorLeadFacts {
+  padding: 20px 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 26px;
+}
+
+.competitorLeadFacts span,
+.competitorFacts dt {
+  color: var(--report-violet);
+  font-size: 11px;
+  font-weight: 750;
+}
+
+.competitorLeadFacts p {
+  margin: 6px 0 0;
+  color: var(--secondary-ink);
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.competitorFacts {
+  margin: 0;
+  padding: 18px;
+  border-radius: 12px;
+  background: color-mix(in oklch, var(--report-lilac) 48%, var(--paper));
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px 24px;
+}
+
+.competitorFacts dd {
+  margin: 5px 0 0;
+  color: var(--secondary-ink);
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.competitorBody > a {
+  width: fit-content;
+  margin-top: 15px;
+  color: var(--report-violet);
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 12px;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.competitorBody > a:hover {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.competitorBody > a svg {
+  width: 14px;
+  height: 14px;
+}
+
+.competitionUpsell {
+  margin-top: 22px;
+  padding: 24px;
+  border: 1px solid color-mix(in oklch, var(--report-coral) 20%, var(--rules));
+  border-radius: 18px;
+  background: var(--report-peach);
+  display: grid;
+  grid-template-columns: 42px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 17px;
+}
+
+.competitionUpsellIcon {
+  width: 42px;
+  height: 42px;
+  border-radius: 13px;
+  background: var(--paper);
+  color: var(--report-coral);
+  display: grid;
+  place-items: center;
+}
+
+.competitionUpsellIcon svg {
+  width: 20px;
+  height: 20px;
+}
+
+.competitionUpsell p {
+  margin: 0 0 4px;
+  color: var(--report-coral);
+  font-size: 11px;
+  font-weight: 750;
+}
+
+.competitionUpsell h3 {
+  margin: 0;
+  color: var(--ink);
+  font: 700 17px / 1.35 var(--font-groundwork-heading), system-ui, sans-serif;
+}
+
+.competitionUpsell div > span {
+  max-width: 61ch;
+  margin-top: 7px;
+  color: var(--secondary-ink);
+  display: block;
+  font-size: 13px;
+  line-height: 1.55;
+}
+
+.competitionUpsell ul {
+  margin: 11px 0 0;
+  padding-left: 17px;
+  color: var(--secondary-ink);
+  font-size: 12px;
+  line-height: 1.55;
+}
+
+.competitionUpsell > button {
+  align-self: end;
+  background: var(--cobalt);
+}
+
+.signalList p,
+.feasibilityRows p,
+.riskBody > p,
+.riskBody div p,
+.keepChangeGrid li,
+.verdictChangers li {
+  font-size: 14px;
+  line-height: 1.62;
+}
+
+.signalList strong,
+.feasibilityRows strong,
+.riskList summary strong {
+  font-size: 14px;
+}
+
+.riskList summary small {
+  font-size: 13px;
+}
+
+.businessSummary {
+  border: 1px solid color-mix(in oklch, var(--report-coral) 12%, var(--rules));
+  background: color-mix(in oklch, var(--report-peach) 52%, var(--paper));
+}
+
+.refinementComparison > div:last-child {
+  background: var(--report-mint);
+}
+
+.sourcesDisclosure a {
+  font-size: 14px;
+}
+
+.sourcesDisclosure li > span,
+.reportFooter > span {
+  font-size: 12px;
+}
+
+.continueSection {
+  padding: 40px 48px;
+  border-top: 0;
+  background: var(--report-mint);
+}
+
+.continueSection > div > span {
+  font-size: 14px;
+  line-height: 1.65;
+}
+
+.reportFooter {
+  min-height: 58px;
+  padding: 10px 18px;
+  border: 0;
+}
+
+.railRoadmap {
+  margin-top: 18px;
+  padding: 14px;
+  border-radius: 14px;
+  background: var(--ink);
+  box-shadow: 0 12px 28px oklch(0.26 0.03 242 / 0.14);
+}
+
+.railRoadmap > span {
+  color: color-mix(in oklch, var(--paper) 72%, transparent);
+  font-size: 10px;
+  font-weight: 650;
+}
+
+.railRoadmap button {
+  width: 100%;
+  min-height: 42px;
+  margin-top: 8px;
+  padding: 0 10px 0 12px;
+  border: 0;
+  border-radius: 9px;
+  background: var(--paper);
+  color: var(--ink);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  font: 700 11px var(--font-groundwork-body), system-ui, sans-serif;
+  cursor: pointer;
+  transition: color 160ms ease, transform 160ms ease;
+}
+
+.railRoadmap button:hover {
+  color: var(--cobalt);
+  transform: translateY(-1px);
+}
+
+.railRoadmap svg {
+  width: 15px;
+  height: 15px;
+}
+
+.mobileRoadmap {
+  display: none;
+}
+
+.dialogOverlay {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  background: oklch(0.22 0.025 245 / 0.48);
+  backdrop-filter: blur(5px);
+  animation: report-fade-in 160ms ease both;
+}
+
+.roadmapDialog,
+.researchDialog {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  z-index: 60;
+  width: min(720px, calc(100% - 32px));
+  max-height: min(86dvh, 760px);
+  padding: 34px;
+  border: 1px solid color-mix(in oklch, var(--report-violet) 16%, var(--rules));
+  border-radius: 24px;
+  background: var(--paper);
+  box-shadow: 0 32px 90px oklch(0.22 0.04 260 / 0.28);
+  overflow-y: auto;
+  transform: translate(-50%, -50%);
+  animation: report-dialog-in 190ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.researchDialog {
+  width: min(560px, calc(100% - 32px));
+}
+
+.dialogClose {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  width: 40px;
+  height: 40px;
+  border: 0;
+  border-radius: 10px;
+  background: var(--soft);
+  color: var(--secondary-ink);
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+}
+
+.dialogClose:hover {
+  background: var(--pale-cobalt);
+  color: var(--cobalt);
+}
+
+.dialogClose svg {
+  width: 18px;
+  height: 18px;
+}
+
+.dialogEyebrow {
+  color: var(--report-violet);
+  font-size: 11px;
+  font-weight: 750;
+  letter-spacing: 0.035em;
+  text-transform: uppercase;
+}
+
+.roadmapDialog > h2,
+.researchDialog > h2 {
+  max-width: 18ch;
+  margin: 9px 48px 0 0;
+  color: var(--ink);
+  font: 700 29px / 1.22 var(--font-groundwork-heading), system-ui, sans-serif;
+  letter-spacing: -0.035em;
+  text-wrap: balance;
+}
+
+.roadmapDialog > p,
+.researchDialog > p {
+  max-width: 62ch;
+  margin: 12px 0 0;
+  color: var(--secondary-ink);
+  font-size: 14px;
+  line-height: 1.62;
+}
+
+.roadmapChoices {
+  margin-top: 25px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.roadmapChoices section {
+  min-height: 235px;
+  padding: 20px;
+  border: 1px solid var(--rules);
+  border-radius: 16px;
+  background: var(--paper);
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
+}
+
+.roadmapChoices .roadmapVariationChoice {
+  border-color: color-mix(in oklch, var(--report-violet) 25%, var(--rules));
+  background: var(--report-lilac);
+}
+
+.roadmapChoices section > span {
+  color: var(--muted-ink);
+  font-size: 10px;
+  font-weight: 750;
+  letter-spacing: 0.035em;
+  text-transform: uppercase;
+}
+
+.roadmapChoices h3 {
+  margin: 10px 0 0;
+  color: var(--ink);
+  font: 700 17px / 1.4 var(--font-groundwork-heading), system-ui, sans-serif;
+}
+
+.roadmapChoices p {
+  margin: 8px 0 20px;
+  color: var(--secondary-ink);
+  font-size: 13px;
+  line-height: 1.55;
+}
+
+.roadmapChoices section > button,
+.roadmapChoices section > a {
+  width: 100%;
+  min-height: 44px;
+  margin-top: auto;
+  padding: 0 12px;
+  border: 1px solid var(--cobalt);
+  border-radius: 9px;
+  background: var(--cobalt);
+  color: var(--paper);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  font: 700 11px var(--font-groundwork-body), system-ui, sans-serif;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.roadmapVariationChoice > button {
+  border-color: var(--report-violet);
+  background: var(--report-violet);
+}
+
+.roadmapChoices button > svg,
+.roadmapChoices a > svg {
+  width: 15px;
+  height: 15px;
+}
+
+.roadmapDialog .dialogNote,
+.researchDialog .dialogNote {
+  margin-top: 13px;
+  color: var(--muted-ink);
+  font-size: 11px;
+}
+
+.researchDialog > ul {
+  margin: 22px 0 0;
+  padding: 16px;
+  border-radius: 12px;
+  background: var(--report-lilac);
+  list-style: none;
+}
+
+.researchDialog > ul li {
+  color: var(--secondary-ink);
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.researchDialog > ul li + li {
+  margin-top: 9px;
+}
+
+.researchDialog > ul svg {
+  width: 15px;
+  height: 15px;
+  margin-top: 2px;
+  color: var(--report-violet);
+  flex: 0 0 auto;
+}
+
+.researchCreatesNewIdea {
+  padding: 13px 15px;
+  border-radius: 10px;
+  background: var(--report-mint);
+}
+
+.dialogActions {
+  margin-top: 24px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 9px;
+}
+
+.dialogActions button {
+  min-height: 44px;
+  padding: 0 15px;
+  border: 1px solid var(--rules);
+  border-radius: 9px;
+  background: var(--paper);
+  color: var(--secondary-ink);
+  font: 700 12px var(--font-groundwork-body), system-ui, sans-serif;
+  cursor: pointer;
+}
+
+.dialogActions button:last-child {
+  border-color: var(--cobalt);
+  background: var(--cobalt);
+  color: var(--paper);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+@keyframes report-fade-in {
+  from {
+    opacity: 0;
+  }
+}
+
+@keyframes report-dialog-in {
+  from {
+    opacity: 0;
+    transform: translate(-50%, calc(-50% + 14px)) scale(0.98);
+  }
+}
+
+@media (max-width: 1000px) {
+  .reportLayout {
+    grid-template-columns: 188px minmax(0, 760px);
+  }
+
+  .hero,
+  .reportSection {
+    padding-right: 48px;
+    padding-left: 48px;
+  }
+
+  .competitionUpsell {
+    grid-template-columns: 42px minmax(0, 1fr);
+  }
+
+  .competitionUpsell > button {
+    grid-column: 2;
+    justify-self: start;
+  }
+
+  .competitorTrigger {
+    grid-template-columns: 38px 160px minmax(0, 1fr);
+  }
+
+  .expandCompetitor {
+    grid-column: 3;
+    justify-self: start;
+  }
+}
+
+@media (max-width: 860px) {
+  .page {
+    padding-bottom: calc(92px + env(safe-area-inset-bottom));
+  }
+
+  .reportLayout {
+    padding-bottom: 18px;
+  }
+
+  .mobileContents {
+    border: 0;
+    border-radius: 14px;
+    background: var(--paper);
+    box-shadow: 0 8px 24px oklch(0.42 0.035 70 / 0.07);
+  }
+
+  .mobileRoadmap {
+    position: fixed;
+    right: 14px;
+    bottom: calc(12px + env(safe-area-inset-bottom));
+    z-index: 30;
+    min-height: 48px;
+    padding: 0 15px 0 17px;
+    border: 0;
+    border-radius: 13px;
+    background: var(--ink);
+    color: var(--paper);
+    box-shadow: 0 14px 34px oklch(0.22 0.035 245 / 0.24);
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    font: 700 12px var(--font-groundwork-body), system-ui, sans-serif;
+    cursor: pointer;
+  }
+
+  .mobileRoadmap svg {
+    width: 17px;
+    height: 17px;
+  }
+}
+
+@media (max-width: 640px) {
+  .reportLayout {
+    width: min(100% - 16px, 560px);
+    padding-top: 8px;
+  }
+
+  .document {
+    gap: 10px;
+  }
+
+  .hero,
+  .reportSection,
+  .variationStudio[data-placement="footer"],
+  .continueSection {
+    border-radius: 16px;
+  }
+
+  .hero {
+    padding: 36px 24px 40px;
+  }
+
+  .hero h1 {
+    max-width: none;
+    font-size: 35px;
+  }
+
+  .heroSummary {
+    font-size: 16px;
+  }
+
+  .variationStudio,
+  .variationStudio[data-placement="footer"] {
+    padding: 20px;
+  }
+
+  .variationMain {
+    grid-template-columns: 1fr;
+  }
+
+  .variationAction {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .variationChoices > div {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .variationChoices button {
+    min-height: 44px;
+    white-space: normal;
+  }
+
+  .takeawayRows {
+    grid-template-columns: 1fr;
+  }
+
+  .takeawayRows > div,
+  .takeawayRows > .nextStepRow {
+    min-height: 0;
+    grid-column: auto;
+  }
+
+  .reportSection {
+    padding: 42px 24px 48px;
+  }
+
+  .sectionHeading {
+    align-items: center;
+    flex-direction: row;
+    gap: 10px;
+  }
+
+  .sectionHeading h2 {
+    font-size: 27px;
+  }
+
+  .competitionHeadingRow {
+    grid-template-columns: 1fr;
+    gap: 18px;
+  }
+
+  .competitionCount {
+    width: fit-content;
+    aspect-ratio: auto;
+    padding: 9px 12px;
+    border-radius: 11px;
+    display: flex;
+    align-items: center;
+    gap: 7px;
+  }
+
+  .competitionCount strong {
+    margin: 0;
+    font-size: 17px;
+  }
+
+  .competitionCount span {
+    margin: 0;
+    font-size: 11px;
+  }
+
+  .competitorTrigger {
+    min-height: 0;
+    padding: 16px;
+    grid-template-columns: 34px minmax(0, 1fr) auto;
+    align-items: start;
+    gap: 11px;
+  }
+
+  .competitorIdentity {
+    padding-top: 1px;
+  }
+
+  .competitorSummary {
+    grid-column: 2 / -1;
+    font-size: 13px;
+  }
+
+  .expandCompetitor {
+    width: 32px;
+    height: 32px;
+    grid-column: 3;
+    grid-row: 1;
+    justify-content: center;
+    font-size: 0;
+  }
+
+  .competitorBody {
+    padding: 0 16px 18px;
+  }
+
+  .competitorLeadFacts,
+  .competitorFacts {
+    grid-template-columns: 1fr;
+    gap: 18px;
+  }
+
+  .competitionUpsell {
+    padding: 20px;
+    grid-template-columns: 38px minmax(0, 1fr);
+  }
+
+  .competitionUpsell > button {
+    width: 100%;
+    min-height: 48px;
+    grid-column: 1 / -1;
+    justify-content: space-between;
+  }
+
+  .continueSection {
+    padding: 32px 24px;
+  }
+
+  .roadmapDialog,
+  .researchDialog {
+    top: auto;
+    bottom: 0;
+    width: 100%;
+    max-height: 88dvh;
+    padding: 28px 20px calc(24px + env(safe-area-inset-bottom));
+    border-right: 0;
+    border-bottom: 0;
+    border-left: 0;
+    border-radius: 22px 22px 0 0;
+    transform: translateX(-50%);
+    animation-name: report-sheet-in;
+  }
+
+  .roadmapDialog > h2,
+  .researchDialog > h2 {
+    font-size: 26px;
+  }
+
+  .roadmapChoices {
+    grid-template-columns: 1fr;
+  }
+
+  .roadmapChoices section {
+    min-height: 0;
+  }
+
+  .dialogActions {
+    align-items: stretch;
+    flex-direction: column-reverse;
+  }
+
+  .dialogActions button {
+    width: 100%;
+  }
+}
+
+@keyframes report-sheet-in {
+  from {
+    opacity: 0;
+    transform: translate(-50%, 22px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .skipLink,
+  .variationAction,
+  .competitionUpsell > button,
+  .variationChoices button,
+  .competitorCard,
+  .expandCompetitor svg,
+  .mobileContents summary > svg {
+    transition: none;
+  }
+
+  .dialogOverlay,
+  .roadmapDialog,
+  .researchDialog {
+    animation: none;
   }
 }

@@ -6,11 +6,24 @@ export type ReportRisk = {
   cheapestTest: string;
 };
 
-export type ReportAlternative = {
+export type ReportCompetitor = {
   name: string;
   kind: string;
-  whyChosen: string;
-  opening: string;
+  website: string;
+  summary: string;
+  usp: string;
+  customer: string;
+  location?: string;
+  revenue?: string;
+  pricing?: string;
+  moat: string;
+  opportunity: string;
+};
+
+export type IdeaVariation = {
+  title: string;
+  shortLabel: string;
+  rationale: string;
 };
 
 export const investigationReport2 = {
@@ -44,6 +57,36 @@ export const investigationReport2 = {
     evidenceNote:
       'Evidence is strongest around the problem and current workarounds. Willingness to pay still needs a real-world test.',
   },
+  variations: {
+    recommended: {
+      title: 'Referral handoffs for independent clinics',
+      shortLabel: 'Referral handoffs',
+      rationale:
+        'This keeps the original insight but gives the product one urgent workflow, one clear buyer, and a much lighter first rollout.',
+    } satisfies IdeaVariation,
+    alternatives: [
+      {
+        title: 'Missed lab-result follow-ups',
+        shortLabel: 'Lab-result follow-ups',
+        rationale:
+          'A more clinical workflow with high urgency, but greater compliance and integration demands.',
+      },
+      {
+        title: 'Prior-authorization handoffs',
+        shortLabel: 'Prior authorizations',
+        rationale:
+          'A costly administrative bottleneck with a stronger ROI story and more specialized competition.',
+      },
+      {
+        title: 'Multi-location referral routing',
+        shortLabel: 'Multi-location routing',
+        rationale:
+          'A higher-value buyer and clearer coordination problem, with a smaller initial customer pool.',
+      },
+    ] satisfies IdeaVariation[],
+    actionId: 'investigate_idea_variation',
+    credits: 3,
+  },
   customer: {
     lead: 'The clearest starting customer is not every small clinic. It is an independent practice with enough staff for handoffs to break, but without an operations team to fix the process.',
     recommendedSegment: 'Independent clinics with 6–20 staff and two or more providers',
@@ -57,26 +100,80 @@ export const investigationReport2 = {
       { title: 'Ownership becomes unclear', detail: 'The follow-up depends on memory.' },
     ],
   },
-  alternatives: [
+  competitors: [
     {
-      name: 'Practice-management inboxes',
-      kind: 'Built-in software',
-      whyChosen: 'Already paid for and connected to patient records.',
-      opening: 'Often designed for receiving messages, not coordinating a handoff across staff.',
+      name: 'Klara',
+      kind: 'Patient communication platform',
+      website: 'klara.com',
+      summary:
+        'A broad patient-communication platform spanning messaging, scheduling, forms, and practice workflows.',
+      usp: 'Brings multiple patient conversations into one established healthcare communication layer.',
+      customer: 'Independent practices and multi-location provider groups',
+      location: 'New York, United States',
+      revenue: 'Private company; no reliable public revenue figure found',
+      pricing: 'Custom quote',
+      moat: 'Existing practice relationships, workflow breadth, and integrations',
+      opportunity:
+        'Its breadth can leave room for a lighter product built specifically around referral ownership and overdue handoffs.',
     },
     {
-      name: 'Secure messaging tools',
-      kind: 'Direct alternative',
-      whyChosen: 'Familiar conversations and faster staff communication.',
-      opening: 'Threads can become another place to search, with ownership still left implicit.',
+      name: 'Spruce Health',
+      kind: 'Healthcare communication suite',
+      website: 'sprucehealth.com',
+      summary:
+        'Secure team and patient communication across calls, texts, faxes, and internal messages.',
+      usp: 'A familiar all-in-one communications experience designed around healthcare privacy.',
+      customer: 'Small practices, behavioral health teams, and specialty clinics',
+      location: 'San Francisco, United States',
+      revenue: 'Private company; no reliable public revenue figure found',
+      pricing: 'Published plans plus custom options',
+      moat: 'Channel coverage and an established secure-communications product',
+      opportunity:
+        'Communication is central, while structured referral accountability can still require manual conventions.',
     },
     {
-      name: 'Spreadsheets and paper notes',
-      kind: 'Status quo',
-      whyChosen: 'Flexible, cheap, and requires no rollout.',
-      opening: 'No reliable reminder, audit trail, or shared view of what is overdue.',
+      name: 'Artera',
+      kind: 'Patient engagement platform',
+      website: 'artera.io',
+      summary:
+        'An enterprise-oriented patient communications platform used by health systems and larger provider groups.',
+      usp: 'Large-scale orchestration across channels, campaigns, and complex healthcare organizations.',
+      customer: 'Health systems, hospitals, and large ambulatory networks',
+      location: 'Santa Barbara, United States',
+      revenue: 'Private company; no reliable public revenue figure found',
+      pricing: 'Custom enterprise quote',
+      moat: 'Enterprise distribution, scale, and broad integration coverage',
+      opportunity:
+        'Its enterprise posture leaves smaller independent practices looking for a faster, lower-cost workflow tool.',
     },
-  ] satisfies ReportAlternative[],
+    {
+      name: 'NexHealth',
+      kind: 'Patient experience platform',
+      website: 'nexhealth.com',
+      summary:
+        'Scheduling, messaging, forms, and payments layered on top of practice-management systems.',
+      usp: 'Modern patient-facing experiences with deep practice-management integrations.',
+      customer: 'Dental, medical, and specialty practices',
+      location: 'San Francisco, United States',
+      revenue: 'Private company; no reliable public revenue figure found',
+      pricing: 'Custom quote',
+      moat: 'Integration infrastructure and a polished patient-facing product',
+      opportunity:
+        'The product focuses on the patient experience more than an internal queue for accountable referral handoffs.',
+    },
+  ] satisfies ReportCompetitor[],
+  competitionResearch: {
+    actionId: 'deeper_competition_research',
+    title: 'Find the competitors hiding outside the obvious shortlist',
+    description:
+      'Run a focused competition study across other countries, smaller operators, and narrow workflow products before you choose where to differentiate.',
+    includes: [
+      'Smaller competitors with early traction',
+      'Products succeeding in other countries',
+      'Their positioning, moat, pricing, and scale signals',
+    ],
+    credits: 3,
+  },
   demandAndBusiness: {
     demandSignals: [
       {
