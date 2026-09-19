@@ -81,9 +81,11 @@ export function InvestigationVerdictHeaderConcept() {
 
           <div className={styles.previewControls} aria-label="Experiment preview controls">
             <span className={styles.previewLabel}>Prototype states</span>
-            <label className={styles.selectControl}>
+            <label className={styles.selectControl} htmlFor="verdict-preview">
               <span>Verdict</span>
               <select
+                id="verdict-preview"
+                name="verdict-preview"
                 value={scenarioKey}
                 onChange={(event) => setScenarioKey(event.target.value as VerdictScenarioKey)}
               >
