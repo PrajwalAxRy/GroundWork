@@ -116,7 +116,9 @@ Consult `docs/DECISIONS.md` for the complete open-decision list.
 
 This repository is now the canonical Groundwork application. It uses a Next.js 16 App Router, React 19, strict TypeScript, Tailwind CSS 4, Radix primitives, Zod contracts, Biome, and Vitest. The copied marketing surface, integrated Your Ideas experience, local mock-service boundary, approved Idea-card experiment, complete mock service-backed Shape workflow, and approved service-backed Investigation Progress route live here. `ARCHITECTURE.md` defines the production frontend boundaries. The sibling landing-page folder remains an untouched reference and is not the application workspace.
 
-`README.md` documents setup, implemented routes, prototype limitations, and validation. Use Node.js 22.12 or newer within Node 22 and npm 10, install with `npm ci`, and run `npm run check` plus `npm audit --audit-level=high` before pushing. Type checking generates Next.js route types automatically; generated Next.js files, environment files, local credentials, logs, and temporary output are ignored. The GitHub Actions workflow runs the same checks. No Git remote is configured and nothing has been pushed as of this handoff; the GitHub destination remains to be supplied.
+`README.md` documents setup, implemented routes, prototype limitations, and validation. Use Node.js 22.12 or newer within Node 22 and npm 10, install with `npm ci`, and run `npm run check` plus `npm audit --audit-level=high` before pushing. Type checking generates Next.js route types automatically; generated Next.js files, environment files, local credentials, logs, and temporary output are ignored. The GitHub Actions workflow runs the same checks.
+
+The GitHub repository is [PrajwalAxRy/GroundWork](https://github.com/PrajwalAxRy/GroundWork), approved as public. `main` is the default branch and `origin` uses HTTPS. Preserve the full existing commit history.
 
 ## Suggested Prompt for the New Chat
 
