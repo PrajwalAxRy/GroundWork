@@ -1,6 +1,6 @@
 # Groundwork Website Build Plan
 
-Last updated: 2026-09-16
+Last updated: 2026-10-15
 
 ## How to Use This File
 
@@ -15,7 +15,7 @@ This is the execution checklist for building the Groundwork website and product 
 
 ## Current Position
 
-The product foundations, approved visual system, production frontend foundation, **Your Ideas**, complete service-backed Shape, and Investigation Progress are implemented with typed mock behavior. Investigation Report component experiments are next while final commercial credit decisions remain open.
+The product foundations, approved visual system, production frontend foundation, **Your Ideas**, complete service-backed Shape, and Investigation Progress are implemented with typed mock behavior. Two full-page Investigation Report concepts are available for review at `/_experiments/investigation-report` and `/_experiments/investigation-report-2`. Their approval and product integration remain outstanding, and final commercial credit decisions remain open.
 
 ## Phase 0: Product Foundation
 
@@ -300,4 +300,4 @@ The product foundations, approved visual system, production frontend foundation,
 
 ## Immediate Next Action
 
-- [ ] Begin the Investigation Report verdict-header experiment.
+- [ ] Review the existing Investigation Report experiments and approve the report direction and components before product integration.

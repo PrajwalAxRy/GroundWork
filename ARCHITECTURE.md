@@ -1,6 +1,6 @@
 # Groundwork Frontend Architecture
 
-Last updated: 2026-09-16
+Last updated: 2026-10-15
 
 This document defines the production frontend foundation. Product behavior remains governed by `docs/DECISIONS.md`, `docs/PRODUCT_SPEC.md`, and `docs/AI_BEHAVIOR.md`.
 
@@ -78,4 +78,6 @@ Investigation Progress uses the same thin-route pattern. Its client controller l
 
 ## Required checks
 
-Run `npm run format`, `npm run lint`, `npm run typecheck`, `npm test`, and `npm run build` before a coherent frontend change is committed. Verify affected routes in a browser at desktop and mobile widths.
+Run `npm run format` and `npm run check` before a coherent frontend change is committed. The aggregate check runs Biome, TypeScript, unit tests, and the production build. `npm run typecheck` first runs `next typegen` so it works without pre-existing generated files. Verify affected routes in a browser at desktop and mobile widths.
+
+Use Node.js 22.12 or newer within Node 22 and npm 10, and install locked dependencies with `npm ci`. GitHub Actions runs `npm run check` and `npm audit --audit-level=high` on pushes and pull requests. `README.md` documents setup, available routes, and the current frontend prototype limitations.

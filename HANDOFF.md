@@ -1,6 +1,6 @@
 # Groundwork Handoff
 
-Last updated: 2026-09-16
+Last updated: 2026-10-15
 
 ## Purpose of This File
 
@@ -87,7 +87,7 @@ The lightweight **Review your idea** modal, paused-review handoff, and paid Inve
 
 The Investigation Progress direction from `/_experiments/investigation-progress` is approved and integrated at `/idea/investigate/:ideaId/progress`. It uses a familiar tracking-page composition with one status lead, one continuous six-phase progress surface, and a compact credit-outcome footer. The user explicitly removed the activity-count panel. Running, ready, failed, retry, status-loading failure, and credit-release behavior run through typed mock jobs and the product-service boundary. Dashboard running and failed actions open this route, and a successful paid Investigation confirmation in Shape navigates to it.
 
-The next design topic is the Investigation Report, beginning with the verdict-header experiment described in Phase 8 of `BUILD_PLAN.md`.
+Two full-page Investigation Report concepts now exist at `/_experiments/investigation-report` and `/_experiments/investigation-report-2`. Review those experiments and obtain approval for the report direction and its components before integrating `/idea/investigate/:ideaId`. Phase 8 of `BUILD_PLAN.md` still tracks the outstanding approval, missing-data, interaction, and integration work.
 
 ## Important Prototype Requirements
 
@@ -115,6 +115,8 @@ Consult `docs/DECISIONS.md` for the complete open-decision list.
 ## Repository State
 
 This repository is now the canonical Groundwork application. It uses a Next.js 16 App Router, React 19, strict TypeScript, Tailwind CSS 4, Radix primitives, Zod contracts, Biome, and Vitest. The copied marketing surface, integrated Your Ideas experience, local mock-service boundary, approved Idea-card experiment, complete mock service-backed Shape workflow, and approved service-backed Investigation Progress route live here. `ARCHITECTURE.md` defines the production frontend boundaries. The sibling landing-page folder remains an untouched reference and is not the application workspace.
+
+`README.md` documents setup, implemented routes, prototype limitations, and validation. Use Node.js 22.12 or newer within Node 22 and npm 10, install with `npm ci`, and run `npm run check` plus `npm audit --audit-level=high` before pushing. Type checking generates Next.js route types automatically; generated Next.js files, environment files, local credentials, logs, and temporary output are ignored. The GitHub Actions workflow runs the same checks. No Git remote is configured and nothing has been pushed as of this handoff; the GitHub destination remains to be supplied.
 
 ## Suggested Prompt for the New Chat
 
