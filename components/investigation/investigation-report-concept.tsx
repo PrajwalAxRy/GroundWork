@@ -7,13 +7,12 @@ import {
   AlertTriangle,
   ArrowLeft,
   ArrowRight,
-  Building2,
   Check,
   CheckCircle2,
   ChevronDown,
   Coins,
   FileText,
-  List,
+  Menu as MenuIcon,
   Minus,
   ShieldCheck,
   SlidersHorizontal,
@@ -21,25 +20,49 @@ import {
   Users,
   X,
 } from 'lucide-react';
+import { Fraunces, JetBrains_Mono, Newsreader } from 'next/font/google';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import styles from './investigation-report-concept.module.css';
 
+const fraunces = Fraunces({
+  subsets: ['latin'],
+  weight: ['500', '600', '900'],
+  style: ['normal', 'italic'],
+  variable: '--font-dossier-display',
+  display: 'swap',
+});
+
+const newsreader = Newsreader({
+  subsets: ['latin'],
+  weight: ['400', '500'],
+  style: ['normal', 'italic'],
+  variable: '--font-dossier-body',
+  display: 'swap',
+});
+
+const jetbrainsMono = JetBrains_Mono({
+  subsets: ['latin'],
+  weight: ['400', '500', '700'],
+  variable: '--font-dossier-mono',
+  display: 'swap',
+});
+
 const data = investigationReport;
 
 const sections = [
-  { id: 'decision-drivers', label: 'Decision drivers' },
-  { id: 'customer-evidence', label: 'Customer and problem evidence' },
-  { id: 'competitive-landscape', label: 'Competitive landscape' },
-  { id: 'demand-signals', label: 'Demand and market signals' },
-  { id: 'business-model', label: 'Business model' },
-  { id: 'feasibility', label: 'Feasibility and difficulty' },
-  { id: 'risks', label: 'Critical assumptions and risks' },
-  { id: 'refinement', label: 'Recommended refinement' },
-  { id: 'verdict-changers', label: 'What would change the verdict' },
-  { id: 'optional-section', label: data.sections.optionalSection.title },
-  { id: 'sources', label: 'Research limitations and sources' },
-  { id: 'continue', label: 'Continue from here' },
+  { id: 'decision-drivers', letter: 'A', label: 'Decision drivers' },
+  { id: 'customer-evidence', letter: 'B', label: 'Customer and problem evidence' },
+  { id: 'competitive-landscape', letter: 'C', label: 'Competitive landscape' },
+  { id: 'demand-signals', letter: 'D', label: 'Demand and market signals' },
+  { id: 'business-model', letter: 'E', label: 'Business model' },
+  { id: 'feasibility', letter: 'F', label: 'Feasibility and difficulty' },
+  { id: 'risks', letter: 'G', label: 'Critical assumptions and risks' },
+  { id: 'refinement', letter: 'H', label: 'Recommended refinement' },
+  { id: 'verdict-changers', letter: 'I', label: 'What would change the verdict' },
+  { id: 'optional-section', letter: 'J', label: data.sections.optionalSection.title },
+  { id: 'sources', letter: 'K', label: 'Case references' },
+  { id: 'continue', letter: 'L', label: 'Continue from here' },
 ] as const;
 
 function VerdictIcon({ label }: { label: string }) {
@@ -50,10 +73,16 @@ function VerdictIcon({ label }: { label: string }) {
   return <X aria-hidden="true" />;
 }
 
-function verdictTone(label: string): 'cobalt' | 'amber' | 'rust' {
-  if (label === 'Test the critical assumption') return 'amber';
-  if (label === 'Major obstacles' || label === 'Reconsider this version') return 'rust';
-  return 'cobalt';
+function verdictTone(label: string): 'green' | 'amber' | 'red' {
+  if (label === 'Worth pursuing') return 'green';
+  if (label === 'Major obstacles' || label === 'Reconsider this version') return 'red';
+  return 'amber';
+}
+
+function ratingTone(rating: 'Low' | 'Moderate' | 'High'): 'green' | 'amber' | 'red' {
+  if (rating === 'Low') return 'green';
+  if (rating === 'Moderate') return 'amber';
+  return 'red';
 }
 
 function useReadingProgress() {
@@ -110,18 +139,9 @@ function useScrollSpy(ids: readonly string[]) {
   return active;
 }
 
-function SectionEyebrow({ id }: { id: (typeof sections)[number]['id'] }) {
-  const index = sections.findIndex((section) => section.id === id);
+function DocketLinks({ active, onNavigate }: { active: string; onNavigate?: () => void }) {
   return (
-    <span className={styles.sectionEyebrow}>
-      Section {index + 1} of {sections.length}
-    </span>
-  );
-}
-
-function SectionNavLinks({ active, onNavigate }: { active: string; onNavigate?: () => void }) {
-  return (
-    <ol className={styles.navList}>
+    <ol className={styles.docketList}>
       {sections.map((section) => (
         <li key={section.id}>
           <a
@@ -129,7 +149,8 @@ function SectionNavLinks({ active, onNavigate }: { active: string; onNavigate?: 
             aria-current={active === section.id ? 'true' : undefined}
             onClick={onNavigate}
           >
-            {section.label}
+            <span className={styles.docketLetter}>{section.letter}</span>
+            <span>{section.label}</span>
           </a>
         </li>
       ))}
@@ -137,28 +158,28 @@ function SectionNavLinks({ active, onNavigate }: { active: string; onNavigate?: 
   );
 }
 
-function MobileContents({ active }: { active: string }) {
+function MobileDocket({ active }: { active: string }) {
   const [open, setOpen] = useState(false);
   return (
     <Dialog.Root open={open} onOpenChange={setOpen}>
       <Dialog.Trigger asChild>
-        <button type="button" className={styles.contentsTrigger}>
-          <List aria-hidden="true" />
-          <span>Contents</span>
+        <button type="button" className={styles.docketTrigger}>
+          <MenuIcon aria-hidden="true" />
+          <span>Docket</span>
         </button>
       </Dialog.Trigger>
       <Dialog.Portal>
         <Dialog.Overlay className={styles.sheetOverlay} />
         <Dialog.Content className={styles.sheetContent} aria-describedby={undefined}>
           <div className={styles.sheetHeader}>
-            <Dialog.Title>Contents</Dialog.Title>
+            <Dialog.Title>Case docket</Dialog.Title>
             <Dialog.Close asChild>
-              <button type="button" aria-label="Close contents">
+              <button type="button" aria-label="Close docket">
                 <X aria-hidden="true" />
               </button>
             </Dialog.Close>
           </div>
-          <SectionNavLinks active={active} onNavigate={() => setOpen(false)} />
+          <DocketLinks active={active} onNavigate={() => setOpen(false)} />
         </Dialog.Content>
       </Dialog.Portal>
     </Dialog.Root>
@@ -167,9 +188,13 @@ function MobileContents({ active }: { active: string }) {
 
 function ExpandableRow({
   primary,
-  secondary,
+  rating,
   detail,
-}: { primary: string; secondary?: string; detail: string }) {
+}: {
+  primary: string;
+  rating?: 'Low' | 'Moderate' | 'High';
+  detail: string;
+}) {
   const [open, setOpen] = useState(false);
   return (
     <li className={styles.expandableRow}>
@@ -181,7 +206,11 @@ function ExpandableRow({
       >
         <span className={styles.expandableMain}>
           <strong>{primary}</strong>
-          {secondary ? <span className={styles.ratingPill}>{secondary}</span> : null}
+          {rating ? (
+            <span className={styles.ratingTag} data-tone={ratingTone(rating)}>
+              {rating}
+            </span>
+          ) : null}
         </span>
         <ChevronDown aria-hidden="true" className={open ? styles.chevronOpen : undefined} />
       </button>
@@ -193,7 +222,7 @@ function ExpandableRow({
 function RiskRow({ item }: { item: (typeof data.sections.risks.items)[number] }) {
   const [open, setOpen] = useState(false);
   return (
-    <li className={styles.riskRow}>
+    <li className={styles.expandableRow}>
       <button
         type="button"
         className={styles.expandableTrigger}
@@ -202,13 +231,8 @@ function RiskRow({ item }: { item: (typeof data.sections.risks.items)[number] })
       >
         <span className={styles.expandableMain}>
           <strong>{item.title}</strong>
-          <span className={styles.riskTags}>
-            <span
-              className={styles.ratingPill}
-              data-tone={
-                item.impact === 'High' ? 'rust' : item.impact === 'Moderate' ? 'amber' : 'neutral'
-              }
-            >
+          <span className={styles.rowTags}>
+            <span className={styles.ratingTag} data-tone={ratingTone(item.impact)}>
               {item.impact} impact
             </span>
             {item.blocksBuilding ? <span className={styles.blockTag}>Blocks building</span> : null}
@@ -230,27 +254,30 @@ function RiskRow({ item }: { item: (typeof data.sections.risks.items)[number] })
   );
 }
 
-function SourcesAccordion() {
+function CaseReferences() {
   const [open, setOpen] = useState(false);
   return (
-    <div className={styles.sourcesAccordion}>
+    <div className={styles.references}>
       <button type="button" aria-expanded={open} onClick={() => setOpen((v) => !v)}>
-        <span>Sources used in this investigation</span>
+        <span>Sources examined ({data.sources.length})</span>
         <ChevronDown aria-hidden="true" className={open ? styles.chevronOpen : undefined} />
       </button>
       {open ? (
-        <ul>
-          {data.sources.map((source) => (
+        <ol className={styles.referenceList}>
+          {data.sources.map((source, index) => (
             <li key={source.title}>
-              <a href={source.url} target="_blank" rel="noreferrer">
-                {source.title}
-              </a>
-              <span>
-                {source.publisher} · {source.section}
+              <span className={styles.referenceMark}>[{index + 1}]</span>
+              <span className={styles.referenceBody}>
+                <a href={source.url} target="_blank" rel="noreferrer">
+                  {source.title}
+                </a>
+                <span className={styles.referenceMeta}>
+                  {source.publisher} · {source.section}
+                </span>
               </span>
             </li>
           ))}
-        </ul>
+        </ol>
       ) : null}
     </div>
   );
@@ -264,7 +291,14 @@ export function InvestigationReportConcept() {
 
   return (
     <ProductShell credits={12}>
-      <div className={styles.page} data-tone={tone}>
+      <div
+        className={`${styles.page} ${fraunces.variable} ${newsreader.variable} ${jetbrainsMono.variable}`}
+        data-tone={tone}
+      >
+        <div className={styles.progressBar} aria-hidden="true">
+          <span style={{ width: `${progress}%` }} />
+        </div>
+
         <header className={styles.utilityBar}>
           <div className={styles.utilityLeft}>
             <Link className={styles.backLink} href="/ideas" aria-label="Return to Your ideas">
@@ -272,9 +306,8 @@ export function InvestigationReportConcept() {
               <span>Your ideas</span>
             </Link>
             <span className={styles.divider} aria-hidden="true" />
-            <span className={styles.ideaIdentity}>
-              <strong>{data.ideaTitle}</strong>
-              <small>Investigation</small>
+            <span className={styles.dossierNo}>
+              Dossier No. {data.ideaId.replace(/\D/g, '') || '01'}
             </span>
           </div>
           <div className={styles.utilityRight}>
@@ -282,37 +315,40 @@ export function InvestigationReportConcept() {
               <FileText aria-hidden="true" />
               <span>Read Shape transcript</span>
             </Link>
-            <MobileContents active={active} />
+            <MobileDocket active={active} />
           </div>
         </header>
 
         <div className={styles.layout}>
-          <nav className={styles.sideNav} aria-label="Report sections">
-            <span className={styles.caseThread} aria-hidden="true">
-              <span className={styles.caseThreadFill} style={{ height: `${progress}%` }} />
+          <nav className={styles.docket} aria-label="Case docket">
+            <span className={styles.docketMeta}>
+              {data.geography} · Filed {data.researchDate}
             </span>
-            <span className={styles.sideNavMeta}>
-              {data.geography} · Researched {data.researchDate}
-            </span>
-            <SectionNavLinks active={active} />
+            <DocketLinks active={active} />
           </nav>
 
           <main className={styles.content}>
-            {/* Hero: answer-first decision brief */}
+            {/* Hero: the verdict, stamped */}
             <section className={styles.hero} aria-labelledby="verdict-heading">
-              <p className={styles.heroKicker}>Investigation conclusion</p>
-              <div className={styles.verdictRow}>
-                <span className={styles.verdictIcon}>
-                  <VerdictIcon label={data.verdict} />
-                </span>
-                <div>
-                  <h1 id="verdict-heading">{data.verdict}</h1>
-                  <span className={styles.confidence}>{data.confidence}</span>
+              <p className={styles.heroEyebrow}>Investigation dossier</p>
+              <h2 className={styles.ideaTitle}>{data.ideaTitle}</h2>
+
+              <div className={styles.stampRow}>
+                <div className={styles.stamp}>
+                  <span className={styles.stampGrain} aria-hidden="true" />
+                  <span className={styles.stampIcon}>
+                    <VerdictIcon label={data.verdict} />
+                  </span>
+                  <h1 id="verdict-heading" className={styles.stampVerdict}>
+                    {data.verdict}
+                  </h1>
                 </div>
+                <p className={styles.confidence}>{data.confidence}</p>
               </div>
+
               <p className={styles.verdictReasoning}>{data.verdictReasoning}</p>
 
-              <ul className={styles.strongestReasons}>
+              <ul className={styles.reasonsList}>
                 {data.strongestReasons.map((reason) => (
                   <li key={reason}>
                     <Check aria-hidden="true" />
@@ -321,7 +357,7 @@ export function InvestigationReportConcept() {
                 ))}
               </ul>
 
-              <p className={styles.strongestConcern}>
+              <p className={styles.concernBox}>
                 <AlertTriangle aria-hidden="true" />
                 <span>{data.strongestConcern}</span>
               </p>
@@ -335,17 +371,17 @@ export function InvestigationReportConcept() {
                 </Link>
               </div>
 
-              <p className={styles.coverageSummary}>
-                {data.evidenceCoverage.complete} of {data.evidenceCoverage.total} sections complete
+              <p className={styles.coverageLine}>
+                {data.evidenceCoverage.complete} of {data.evidenceCoverage.total} exhibits complete
                 {data.evidenceCoverage.partial > 0
                   ? ` · ${data.evidenceCoverage.partial} partial`
                   : ''}
               </p>
             </section>
 
-            {/* 1. Decision drivers */}
+            {/* A. Decision drivers */}
             <section id="decision-drivers" className={styles.section}>
-              <SectionEyebrow id="decision-drivers" />
+              <p className={styles.exhibitTag}>Exhibit A</p>
               <h2>Decision drivers</h2>
               <div className={styles.twoColumn}>
                 <div>
@@ -369,7 +405,7 @@ export function InvestigationReportConcept() {
                   </ul>
                 </div>
               </div>
-              <blockquote className={styles.calloutRust}>
+              <blockquote className={styles.calloutRed}>
                 <strong>Strongest argument against</strong>
                 <p>{s.decisionDrivers.strongestArgumentAgainst}</p>
               </blockquote>
@@ -381,9 +417,9 @@ export function InvestigationReportConcept() {
               </p>
             </section>
 
-            {/* 2. Customer and problem evidence */}
+            {/* B. Customer and problem evidence */}
             <section id="customer-evidence" className={styles.section}>
-              <SectionEyebrow id="customer-evidence" />
+              <p className={styles.exhibitTag}>Exhibit B</p>
               <h2>Customer and problem evidence</h2>
               <p>{s.customerEvidence.problem}</p>
               <p className={styles.prose}>
@@ -407,30 +443,33 @@ export function InvestigationReportConcept() {
               <p className={styles.mutedNote}>{s.customerEvidence.uncertainties}</p>
             </section>
 
-            {/* 3. Competitive landscape */}
+            {/* C. Competitive landscape */}
             <section id="competitive-landscape" className={styles.section}>
-              <SectionEyebrow id="competitive-landscape" />
+              <p className={styles.exhibitTag}>Exhibit C</p>
               <h2>Competitive landscape</h2>
-              <div className={styles.competitorGrid}>
+              <ol className={styles.ledger}>
                 {s.competitiveLandscape.competitors.map((c) => (
-                  <button type="button" key={c.name} className={styles.competitorCard}>
-                    <span className={styles.competitorIcon}>
-                      <Building2 aria-hidden="true" />
-                    </span>
-                    <strong>{c.name}</strong>
-                    <p>{c.description}</p>
-                    <div className={styles.competitorFacts}>
-                      {c.pricing ? <span>{c.pricing}</span> : null}
-                      {c.traction ? <span>{c.traction}</span> : null}
+                  <li key={c.name} className={styles.ledgerRow}>
+                    <div className={styles.ledgerHead}>
+                      <strong>{c.name}</strong>
+                      <div className={styles.ledgerFacts}>
+                        {c.pricing ? <span>{c.pricing}</span> : null}
+                        {c.traction ? <span>{c.traction}</span> : null}
+                      </div>
                     </div>
-                  </button>
+                    <p>{c.description}</p>
+                    <div className={styles.ledgerTags}>
+                      <span className={styles.ledgerTagGood}>Strength — {c.strength}</span>
+                      <span className={styles.ledgerTagGap}>Gap — {c.gap}</span>
+                    </div>
+                  </li>
                 ))}
-              </div>
+              </ol>
             </section>
 
-            {/* 4. Demand and market signals */}
+            {/* D. Demand and market signals */}
             <section id="demand-signals" className={styles.section}>
-              <SectionEyebrow id="demand-signals" />
+              <p className={styles.exhibitTag}>Exhibit D</p>
               <h2>Demand and market signals</h2>
               {s.demandSignals.status === 'partial' ? (
                 <p className={styles.partialNote}>
@@ -449,9 +488,9 @@ export function InvestigationReportConcept() {
               <p className={styles.mutedNote}>{s.demandSignals.limitation}</p>
             </section>
 
-            {/* 5. Business model */}
+            {/* E. Business model */}
             <section id="business-model" className={styles.section}>
-              <SectionEyebrow id="business-model" />
+              <p className={styles.exhibitTag}>Exhibit E</p>
               <h2>Business model</h2>
               <dl className={styles.factRows}>
                 <div>
@@ -476,9 +515,9 @@ export function InvestigationReportConcept() {
               </p>
             </section>
 
-            {/* 6. Feasibility and difficulty */}
+            {/* F. Feasibility and difficulty */}
             <section id="feasibility" className={styles.section}>
-              <SectionEyebrow id="feasibility" />
+              <p className={styles.exhibitTag}>Exhibit F</p>
               <h2>Feasibility and difficulty</h2>
               <p className={styles.mutedNote}>{s.feasibility.playbook} playbook</p>
               <ul className={styles.expandableList}>
@@ -486,16 +525,16 @@ export function InvestigationReportConcept() {
                   <ExpandableRow
                     key={row.dimension}
                     primary={row.dimension}
-                    secondary={row.rating}
+                    rating={row.rating}
                     detail={row.reasoning}
                   />
                 ))}
               </ul>
             </section>
 
-            {/* 7. Critical assumptions and risks */}
+            {/* G. Critical assumptions and risks */}
             <section id="risks" className={styles.section}>
-              <SectionEyebrow id="risks" />
+              <p className={styles.exhibitTag}>Exhibit G</p>
               <h2>Critical assumptions and risks</h2>
               <ul className={styles.expandableList}>
                 {s.risks.items.map((item) => (
@@ -504,17 +543,17 @@ export function InvestigationReportConcept() {
               </ul>
             </section>
 
-            {/* 8. Recommended refinement */}
+            {/* H. Recommended refinement */}
             <section id="refinement" className={styles.section}>
-              <SectionEyebrow id="refinement" />
+              <p className={styles.exhibitTag}>Exhibit H</p>
               <h2>Recommended refinement</h2>
-              <div className={styles.refinementCompare}>
-                <div className={styles.refinementCol}>
-                  <p className={styles.refinementLabel}>{s.refinement.current.label}</p>
+              <div className={styles.compareGrid}>
+                <div className={styles.compareCol}>
+                  <p className={styles.compareLabel}>{s.refinement.current.label}</p>
                   <p>{s.refinement.current.description}</p>
                 </div>
-                <div className={`${styles.refinementCol} ${styles.refinementColRecommended}`}>
-                  <p className={styles.refinementLabel}>{s.refinement.recommended.label}</p>
+                <div className={`${styles.compareCol} ${styles.compareColRecommended}`}>
+                  <p className={styles.compareLabel}>{s.refinement.recommended.label}</p>
                   <p>{s.refinement.recommended.description}</p>
                 </div>
               </div>
@@ -538,9 +577,9 @@ export function InvestigationReportConcept() {
               </div>
             </section>
 
-            {/* 9. What would change the verdict */}
+            {/* I. What would change the verdict */}
             <section id="verdict-changers" className={styles.section}>
-              <SectionEyebrow id="verdict-changers" />
+              <p className={styles.exhibitTag}>Exhibit I</p>
               <h2>What would change the verdict</h2>
               <div className={styles.twoColumn}>
                 <div>
@@ -578,24 +617,24 @@ export function InvestigationReportConcept() {
               </ul>
             </section>
 
-            {/* 10. Optional controlled section */}
+            {/* J. Optional controlled section */}
             <section id="optional-section" className={styles.section}>
-              <SectionEyebrow id="optional-section" />
+              <p className={styles.exhibitTag}>Exhibit J</p>
               <h2>{s.optionalSection.title}</h2>
               <p>{s.optionalSection.body}</p>
             </section>
 
-            {/* 11. Research limitations and sources */}
+            {/* K. Case references */}
             <section id="sources" className={styles.section}>
-              <SectionEyebrow id="sources" />
-              <h2>Research limitations and sources</h2>
+              <p className={styles.exhibitTag}>Exhibit K</p>
+              <h2>Case references</h2>
               <p className={styles.mutedNote}>{s.limitations}</p>
-              <SourcesAccordion />
+              <CaseReferences />
             </section>
 
-            {/* 12. Continue from here */}
+            {/* L. Continue from here */}
             <section id="continue" className={styles.section}>
-              <SectionEyebrow id="continue" />
+              <p className={styles.exhibitTag}>Exhibit L</p>
               <h2>Continue from here</h2>
               <div className={styles.actionList}>
                 {data.followUpActions.map((action) => (
@@ -614,7 +653,7 @@ export function InvestigationReportConcept() {
                   </div>
                 ))}
               </div>
-              <button type="button" className={styles.reportIssueLink}>
+              <button type="button" className={styles.flagIssue}>
                 <ShieldCheck aria-hidden="true" />
                 <span>Report an issue with this investigation</span>
               </button>
