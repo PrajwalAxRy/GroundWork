@@ -1,8 +1,36 @@
+# Dependencies and generated output
 node_modules/
 .next/
+out/
 dist/
 dist-*/
 .vite/
+.turbo/
+coverage/
 *.tsbuildinfo
+next-env.d.ts
+
+# Local environment and credentials
+.env*
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+.claude/settings.local.json
+
+# Local tooling and deployment state
+.vercel/
+.netlify/
+.cache/
+.tmp/
 .playwright-mcp/
 current-browser-page.png
+*.log
+
+# Editor and operating-system files
+.DS_Store
+Thumbs.db
+Desktop.ini
+*.swp
+*.swo
